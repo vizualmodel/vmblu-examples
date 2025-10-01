@@ -1,0 +1,98 @@
+I am writing a javascript program to simulate the solar system. I use THREE.js as my 3D library.
+I want to show the orbits of the planets, or other objects,  as lines in space. Below you find the code I have so far.
+
+The 3D environment, the renderer, the lights etc. have been set up elsewhere. That part works just fine. 
+To add something to the display list of the renderer, I just have to 'send' a message with the object to add as a parameter.
+In the code below that happens at the line : "tx.send('scene.add', curve.linemesh)".
+
+Also the planets in my simulation are working fine. When a curve for a particular planet is requested, 
+the planet sends a message that invokes the handler "-> setup" with the name of the planet and the color for the curve as parameters.
+
+At regular intervals the planets send a message to the SpaceCurveManager to tell them their current position. 
+This information is used then to update the space curve for that particular planet or object.
+
+Can you complete my code with the required THREE.js functions to create and update the curves ?
+
+My style of programming prefers a line of comment before a statement and not after a statement on the same line.
+
+Let's continue in a canvas for this.
+
+My code so far is:
+
+import * as THREE from 'three'
+
+function SpaceCurve(name, color,size) {
+
+    this.name = name
+    this.color = color
+    this.points = []
+    this.max = 1024
+    this.recent = 0
+    this.lineMesh=null
+}
+SpaceCurve.prototype = {
+
+    newPosition(time, pos) {
+
+        // we only add a new position per day
+        if (time - this.recent < 1) return
+
+        // We do some check - for example based on the size of the points array or something else
+        if (this.isComplete(time, pos)) return
+
+        // add the new position
+        this.points.push(pos)
+
+        // update the time
+        this.recent = time
+        
+        // update the mesh ?
+    },
+
+    isComplete(time, pos) {
+        return (this.points.length < this.max) ? false : true
+    }
+
+}
+
+export function SpaceCurveManager(tx, sx) {
+
+    this.tx = tx
+    this.sx = sx
+
+    this.curves = new Map()
+
+}
+SpaceCurveManager.prototype = {
+
+    // Here we receive the objects to track
+    '-> setup'({name, color}) {
+
+        //check if we have the curve already
+        if (this.curves.has(name)) return
+
+        // create a new curve
+        const curve = new SpaceCurve(name, color)
+
+        // add the curve to the map
+        this.curves.set(name, curve)
+
+        // create the 3D curve line, color ...
+
+
+        // and add the curve to the scene list
+        this.tx.send('scene.add', curve.lineMesh)
+
+    },
+
+    // time is the julian time !
+    '-> position'({ name, time, pos }) {
+
+        // get the curve
+        const curve = this.curve.get(name)
+
+        // store the new position for the curve
+        curve?.newPosition(time, pos)
+    }
+
+}

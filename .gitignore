@@ -1,0 +1,23 @@
+# Not relevant for the project
+**/z-*
+**/zz-*
+**/zzz-*
+
+# System files
+.vscode/
+.github/
+
+# Logs
+logs
+**/*.log
+
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+
+
+# chat-application
+**/node_modules
+**/dist
+
