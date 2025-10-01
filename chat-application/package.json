@@ -12,5 +12,8 @@
     "dev:client": "npm run dev -w client",
     "dev:server": "npm run dev -w server",
     "start": "npm start -w server"
-  }
+  },
+   "dependencies": {
+    "@vizualmodel/vmblu" : "^0.0.3"
+   }
 }
