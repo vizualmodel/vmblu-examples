@@ -1,4 +1,4 @@
-![logo](../docs/logo/vmblu-512.png)
+![logo](vmblu-512.png)
 
 # Example Projects for vmblu
 
