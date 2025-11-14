@@ -2,8 +2,8 @@
     "header": {
         "version": "0.0.1",
         "created": "5/15/2024, 9:36:44 AM",
-        "saved": "9/24/2025, 7:16:42 PM",
-        "utc": "2025-09-24T17:16:42.357Z",
+        "saved": "11/14/2025, 3:46:03 PM",
+        "utc": "2025-11-14T14:46:03.677Z",
         "style": "#3e7467",
         "runtime": "c:/dev/vmblu/runtime"
     },
@@ -1262,9 +1262,9 @@
                 "editor": {
                     "rect": "x 1037 y 576 w 200 h 116",
                     "view": {
-                        "state": "open",
-                        "rect": "x 873 y 705 w 797 h 472",
-                        "transform": "sx 1.000 sy 1.000 dx 120.513 dy 360.816"
+                        "state": "closed",
+                        "rect": "x 624 y 627 w 797 h 472",
+                        "transform": "sx 1.000 sy 1.000 dx -128.487 dy 282.816"
                     },
                     "routes": [
                         {
@@ -1551,7 +1551,7 @@
                     {
                         "name": "width_full",
                         "help": "show/hide panels",
-                        "message": "panels.toggle"
+                        "message": "panels toggle"
                     }
                 ],
                 "editor": {
@@ -2381,21 +2381,21 @@
             "rect": "x 0 y 0 w 100 h 26",
             "view": {
                 "state": "open",
-                "rect": "x 0 y 0 w 1479 h 1326",
-                "transform": "sx 0.969 sy 0.969 dx -167.100 dy 157.327"
+                "rect": "x 0 y 0 w 1530 h 1326",
+                "transform": "sx 0.969 sy 0.969 dx -102.100 dy 154.327"
             },
             "buses": [
                 {
                     "kind": "cable",
                     "name": "scene bus",
-                    "start": "x 884.8623625774395 y -64.82776057791547",
-                    "wire": "y 1128.9"
+                    "start": "x 884.8623625774395 y 1064.0722394220845",
+                    "wire": "y -1113.4"
                 },
                 {
                     "kind": "busbar",
                     "name": "right side div",
                     "start": "x 511.65457413249203 y 1045.3",
-                    "wire": "y -1085.0"
+                    "wire": "y -1076.7"
                 }
             ],
             "routes": [

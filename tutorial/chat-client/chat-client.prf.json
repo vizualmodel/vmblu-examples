@@ -1,0 +1,441 @@
+{
+  "version": "0.2",
+  "generatedAt": "2025-11-13T14:10:30.524Z",
+  "entries": [
+    {
+      "node": "LoginView",
+      "handles": [
+        {
+          "pin": "session established",
+          "handler": "onSessionEstablished",
+          "file": "nodes/login-view.ts",
+          "line": 72,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "_payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/login-view\").SessionEstablishedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "login rejected",
+          "handler": "onLoginRejected",
+          "file": "nodes/login-view.ts",
+          "line": 75,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/login-view\").LoginRejectedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "session ended",
+          "handler": "onSessionEnded",
+          "file": "nodes/login-view.ts",
+          "line": 83,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/login-view\").SessionEndedPayload",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "loginSubmitted",
+          "file": "nodes/login-view.ts",
+          "line": 61
+        }
+      ]
+    },
+    {
+      "node": "MessageComposer",
+      "handles": [
+        {
+          "pin": "session established",
+          "handler": "onSessionEstablished",
+          "file": "nodes/message-composer.ts",
+          "line": 41,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "_payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/message-composer\").SessionEstablishedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "message dispatch failed",
+          "handler": "onMessageDispatchFailed",
+          "file": "nodes/message-composer.ts",
+          "line": 44,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/message-composer\").MessageDispatchFailedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "session ended",
+          "handler": "onSessionEnded",
+          "file": "nodes/message-composer.ts",
+          "line": 50,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": []
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "messageComposed",
+          "file": "nodes/message-composer.ts",
+          "line": 36
+        }
+      ]
+    },
+    {
+      "node": "MessageStore",
+      "handles": [
+        {
+          "pin": "history loaded",
+          "handler": "onHistoryLoaded",
+          "file": "nodes/message-store.ts",
+          "line": 53,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/message-store\").HistoryLoadedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "message appended",
+          "handler": "onMessageAppended",
+          "file": "nodes/message-store.ts",
+          "line": 66,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/message-store\").MessageAppendedPayload",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "messagesUpdated",
+          "file": "nodes/message-store.ts",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "node": "MessageTimeline",
+      "handles": [
+        {
+          "pin": "messages updated",
+          "handler": "onMessagesUpdated",
+          "file": "nodes/message-timeline.ts",
+          "line": 50,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/message-timeline\").MessagesUpdatedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "session established",
+          "handler": "onSessionEstablished",
+          "file": "nodes/message-timeline.ts",
+          "line": 54,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/message-timeline\").SessionEstablishedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "session ended",
+          "handler": "onSessionEnded",
+          "file": "nodes/message-timeline.ts",
+          "line": 62,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "import(\"c:/dev/vmblu/examples/tutorial/chat-client/nodes/message-timeline\").SessionEndedPayload",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "logoutRequested",
+          "file": "nodes/message-timeline.ts",
+          "line": 46
+        }
+      ]
+    },
+    {
+      "node": "ServerConnection",
+      "handles": [
+        {
+          "pin": "authenticate user",
+          "handler": "onAuthenticateUser",
+          "file": "nodes/server-connection.ts",
+          "line": 177,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "LoginRequestPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "send chat message",
+          "handler": "onSendChatMessage",
+          "file": "nodes/server-connection.ts",
+          "line": 235,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "SendChatMessagePayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "end session",
+          "handler": "onEndSession",
+          "file": "nodes/server-connection.ts",
+          "line": 280,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "EndSessionPayload",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "connectionError",
+          "file": "nodes/server-connection.ts",
+          "line": 97
+        },
+        {
+          "pin": "incomingBroadcast",
+          "file": "nodes/server-connection.ts",
+          "line": 105
+        }
+      ]
+    },
+    {
+      "node": "SessionController",
+      "handles": [
+        {
+          "pin": "login submitted",
+          "handler": "onLoginSubmitted",
+          "file": "nodes/session-controller.ts",
+          "line": 72,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "LoginSubmittedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "message composed",
+          "handler": "onMessageComposed",
+          "file": "nodes/session-controller.ts",
+          "line": 117,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "MessageComposedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "incoming broadcast",
+          "handler": "onIncomingBroadcast",
+          "file": "nodes/session-controller.ts",
+          "line": 142,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "message",
+              "type": "ChatMessage",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "logout requested",
+          "handler": "onLogoutRequested",
+          "file": "nodes/session-controller.ts",
+          "line": 149,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "LogoutRequestedPayload",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "connection error",
+          "handler": "onConnectionError",
+          "file": "nodes/session-controller.ts",
+          "line": 169,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "ConnectionErrorPayload",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "sessionEnded",
+          "file": "nodes/session-controller.ts",
+          "line": 67
+        },
+        {
+          "pin": "historyLoaded",
+          "file": "nodes/session-controller.ts",
+          "line": 68
+        },
+        {
+          "pin": "loginRejected",
+          "file": "nodes/session-controller.ts",
+          "line": 79
+        },
+        {
+          "pin": "sessionEstablished",
+          "file": "nodes/session-controller.ts",
+          "line": 96
+        },
+        {
+          "pin": "historyLoaded",
+          "file": "nodes/session-controller.ts",
+          "line": 102
+        },
+        {
+          "pin": "historyLoaded",
+          "file": "nodes/session-controller.ts",
+          "line": 104
+        },
+        {
+          "pin": "loginRejected",
+          "file": "nodes/session-controller.ts",
+          "line": 111
+        },
+        {
+          "pin": "messageDispatchFailed",
+          "file": "nodes/session-controller.ts",
+          "line": 120
+        },
+        {
+          "pin": "messageDispatchFailed",
+          "file": "nodes/session-controller.ts",
+          "line": 138
+        },
+        {
+          "pin": "messageAppended",
+          "file": "nodes/session-controller.ts",
+          "line": 146
+        },
+        {
+          "pin": "messageDispatchFailed",
+          "file": "nodes/session-controller.ts",
+          "line": 163
+        },
+        {
+          "pin": "loginRejected",
+          "file": "nodes/session-controller.ts",
+          "line": 171
+        },
+        {
+          "pin": "messageDispatchFailed",
+          "file": "nodes/session-controller.ts",
+          "line": 182
+        }
+      ]
+    }
+  ]
+}

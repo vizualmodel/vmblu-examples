@@ -1,12 +1,12 @@
 {
-  "version": "0.2",
-  "generatedAt": "2025-10-14T09:01:18.823Z",
+  "version": "0.3.2",
+  "generatedAt": "2025-11-14T14:46:19.016Z",
   "entries": [
     {
       "node": "McpClientOpenAI",
       "handles": [
         {
-          "pin": "handle key",
+          "pin": null,
           "handler": "onHandleKey",
           "file": "../../../core/ai/mcp-client-in-browser.js",
           "line": 47,
@@ -16,7 +16,7 @@
           "params": []
         },
         {
-          "pin": "new prompt",
+          "pin": null,
           "handler": "onNewPrompt",
           "file": "../../../core/ai/mcp-client-in-browser.js",
           "line": 170,
@@ -32,7 +32,7 @@
           ]
         },
         {
-          "pin": "tool result",
+          "pin": null,
           "handler": "onToolResult",
           "file": "../../../core/ai/mcp-client-in-browser.js",
           "line": 256,
@@ -80,7 +80,7 @@
       "node": "McpServerInBrowser",
       "handles": [
         {
-          "pin": "get manifest",
+          "pin": null,
           "handler": "onGetManifest",
           "file": "../../../core/ai/mcp-server-in-browser.js",
           "line": 49,
@@ -96,7 +96,7 @@
           ]
         },
         {
-          "pin": "get tools",
+          "pin": null,
           "handler": "onGetTools",
           "file": "../../../core/ai/mcp-server-in-browser.js",
           "line": 63,
@@ -112,7 +112,7 @@
           ]
         },
         {
-          "pin": "call tool",
+          "pin": null,
           "handler": "onCallTool",
           "file": "../../../core/ai/mcp-server-in-browser.js",
           "line": 72,
@@ -140,7 +140,7 @@
       "node": "McpServerInBrowser",
       "handles": [
         {
-          "pin": "get manifest",
+          "pin": null,
           "handler": "onGetManifest",
           "file": "mcp-server.js",
           "line": 51,
@@ -156,7 +156,7 @@
           ]
         },
         {
-          "pin": "get tools",
+          "pin": null,
           "handler": "onGetTools",
           "file": "mcp-server.js",
           "line": 65,
@@ -172,7 +172,7 @@
           ]
         },
         {
-          "pin": "call tool",
+          "pin": null,
           "handler": "onCallTool",
           "file": "mcp-server.js",
           "line": 74,

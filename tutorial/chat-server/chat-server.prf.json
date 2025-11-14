@@ -1,0 +1,127 @@
+{
+  "version": "0.2",
+  "generatedAt": "2025-11-13T14:10:31.369Z",
+  "entries": [
+    {
+      "node": "MessageService",
+      "handles": [
+        {
+          "pin": "message received",
+          "handler": "onMessageReceived",
+          "file": "nodes/message-service.ts",
+          "line": 27,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "ChatMessage",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "broadcastMessage",
+          "file": "nodes/message-service.ts",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "node": "MessageStore",
+      "handles": [
+        {
+          "pin": "load history",
+          "handler": "onLoadHistory",
+          "file": "nodes/message-store.ts",
+          "line": 53,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "LoadHistoryRequest",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "persist message",
+          "handler": "onPersistMessage",
+          "file": "nodes/message-store.ts",
+          "line": 62,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "PersistMessageRequest",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": []
+    },
+    {
+      "node": "SessionService",
+      "handles": [
+        {
+          "pin": "authenticate user",
+          "handler": "onAuthenticateUser",
+          "file": "nodes/session-service.ts",
+          "line": 55,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "AuthenticateUserRequest",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": []
+    },
+    {
+      "node": "TransportHub",
+      "handles": [
+        {
+          "pin": "broadcast message",
+          "handler": "onBroadcastMessage",
+          "file": "nodes/transport-hub.ts",
+          "line": 354,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "message",
+              "type": "ChatMessage",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "messageReceived",
+          "file": "nodes/transport-hub.ts",
+          "line": 199
+        },
+        {
+          "pin": "messageReceived",
+          "file": "nodes/transport-hub.ts",
+          "line": 303
+        }
+      ]
+    }
+  ]
+}

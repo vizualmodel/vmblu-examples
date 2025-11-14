@@ -30,26 +30,31 @@
     });
 
     export const handlers = {
-        "-> menu"(div) {
+        
+        onMenu(div) {
             menu.append(div)
         },
 
-        "-> timeline"(div) {
+        onTimeline(div) {
         },
 
-        "-> modal div"(div) {
+        onModalDiv(div) {
             main.append(div);
         },
 
-        "-> right side add div"(div) {
+        onRightSideAddDiv(div) {
             io.append(div);
         },
 
-        "-> right side toggle"() {
+        onRightSideToggle() {
             show.right = !show.right
         },
 
-        "-> left side canvas"(div) {
+        onLeftSideToggle() {
+            show.left = !show.left
+        },
+
+        onLeftSideCanvas(div) {
 
             // add the div that contains a canvas
             leftSide.append(div);
@@ -57,15 +62,9 @@
             // reply to the request 
             tx.reply()
         },
-        "-> left side chart"(div) {
+        onLeftSideChart(div) {
             chart.append(div);
         },
-
-        "-> left side toggle"() {
-            show.left = !show.left
-        },
-
-
     };
 
     function adjustLayout() {

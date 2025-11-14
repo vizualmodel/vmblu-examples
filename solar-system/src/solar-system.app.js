@@ -1,11 +1,12 @@
 // ------------------------------------------------------------------
 // Model: 
-// Path: solar-system-app.js
-// Creation date 9/22/2025, 8:57:19 AM
+// Path: solar-system.app.js
+// Creation date 11/14/2025, 3:46:15 PM
 // ------------------------------------------------------------------
 
 // import the runtime code
-import * as RT from "c:/dev/vmblu/runtime"
+import * as VMBLU from "c:/dev/vmblu/runtime"
+
 
 //Imports
 import { ScreenLayout,
@@ -37,7 +38,7 @@ const nodeList = [
 	//_______________________________________________SCREEN LAYOUT
 	{
 	name: "screen layout", 
-	uid: "PzOB", 
+	uid: "WoLD", 
 	factory: ScreenLayout,
 	inputs: [
 		"-> menu",
@@ -50,26 +51,26 @@ const nodeList = [
 		"-> right side add div"
 		],
 	outputs: [
-		"visible start -> update start @ renderer (imdr)",
-		"visible stop -> update stop @ renderer (imdr)",
-		"canvas -> canvas add @ camera manager (LDdW)"
+		"visible start -> update start @ renderer (FjpN)",
+		"visible stop -> update stop @ renderer (FjpN)",
+		"canvas -> canvas add @ camera manager (acqd)"
 		]
 	},
 	//________________________________________________HELPER TOOLS
 	{
 	name: "helper tools", 
-	uid: "whha", 
+	uid: "GeBV", 
 	factory: HelperTools,
 	inputs: [
 		"-> grid change",
 		"-> axes change"
 		],
 	outputs: [
-		"grid show -> grid set @ helper settings (zBFx)",
-		"axes show -> axes set @ helper settings (zBFx)",
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)"
+		"grid show -> grid set @ helper settings (IzjV)",
+		"axes show -> axes set @ helper settings (IzjV)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)"
 		],
 	sx:	{
 		    "grid": {
@@ -97,22 +98,22 @@ const nodeList = [
 	//_____________________________________________HELPER SETTINGS
 	{
 	name: "helper settings", 
-	uid: "zBFx", 
+	uid: "IzjV", 
 	factory: HelpersSettings,
 	inputs: [
 		"-> grid set",
 		"-> axes set"
 		],
 	outputs: [
-		"div -> right side add div @ screen layout (PzOB)",
-		"grid change -> grid change @ helper tools (whha)",
-		"axes change -> axes change @ helper tools (whha)"
+		"div -> right side add div @ screen layout (WoLD)",
+		"grid change -> grid change @ helper tools (GeBV)",
+		"axes change -> axes change @ helper tools (GeBV)"
 		]
 	},
 	//____________________________________________________RENDERER
 	{
 	name: "renderer", 
-	uid: "imdr", 
+	uid: "FjpN", 
 	factory: Renderer,
 	inputs: [
 		"-> camera",
@@ -128,7 +129,7 @@ const nodeList = [
 	//_______________________________________________SCENE MANAGER
 	{
 	name: "scene manager", 
-	uid: "tKKg", 
+	uid: "NjOF", 
 	factory: SceneManager,
 	inputs: [
 		"-> scene add",
@@ -138,32 +139,32 @@ const nodeList = [
 		"-> actor remove"
 		],
 	outputs: [
-		"actors -> actors @ renderer (imdr)",
-		"scene -> scene @ renderer (imdr)"
+		"actors -> actors @ renderer (FjpN)",
+		"scene -> scene @ renderer (FjpN)"
 		]
 	},
 	//_________________________________________________________SUN
 	{
 	name: "sun", 
-	uid: "fKqO", 
+	uid: "RHjs", 
 	factory: Star,
 	inputs: [
 		"-> presentation user change",
 		"-> simulation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)",
-		"current date -> current date @ simulation settings (debw)"
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)",
+		"current date -> current date @ simulation settings (nWcu)"
 		],
 	sx:	{
 		    "name": "Sun",
@@ -183,7 +184,7 @@ const nodeList = [
 	//_____________________________________________________MERCURY
 	{
 	name: "mercury", 
-	uid: "YXpN", 
+	uid: "ATaA", 
 	factory: Planet,
 	inputs: [
 		"-> moon add",
@@ -194,20 +195,20 @@ const nodeList = [
 		"-> simulation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)"
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)"
 		],
 	sx:	{
 		    "name": "Mercury",
@@ -218,7 +219,7 @@ const nodeList = [
 	//________________________________________________________MARS
 	{
 	name: "mars", 
-	uid: "Dgou", 
+	uid: "trxc", 
 	factory: Planet,
 	inputs: [
 		"-> moon add",
@@ -229,20 +230,20 @@ const nodeList = [
 		"-> simulation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)"
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)"
 		],
 	sx:	{
 		    "name": "Mars",
@@ -253,7 +254,7 @@ const nodeList = [
 	//______________________________________________________SATURN
 	{
 	name: "saturn", 
-	uid: "DWIr", 
+	uid: "vprC", 
 	factory: Saturn,
 	inputs: [
 		"-> moon add",
@@ -264,20 +265,20 @@ const nodeList = [
 		"-> simulation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)"
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)"
 		],
 	sx:	{
 		    "name": "Saturn",
@@ -289,7 +290,7 @@ const nodeList = [
 	//______________________________________________________URANUS
 	{
 	name: "uranus", 
-	uid: "IKeo", 
+	uid: "vVuq", 
 	factory: Planet,
 	inputs: [
 		"-> moon add",
@@ -300,20 +301,20 @@ const nodeList = [
 		"-> simulation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)"
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)"
 		],
 	sx:	{
 		    "name": "Uranus",
@@ -324,7 +325,7 @@ const nodeList = [
 	//_____________________________________________________NEPTUNE
 	{
 	name: "neptune", 
-	uid: "pTDp", 
+	uid: "AkPj", 
 	factory: Planet,
 	inputs: [
 		"-> moon add",
@@ -335,20 +336,20 @@ const nodeList = [
 		"-> simulation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)"
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)"
 		],
 	sx:	{
 		    "name": "Neptune",
@@ -359,7 +360,7 @@ const nodeList = [
 	//_______________________________________________________VENUS
 	{
 	name: "venus", 
-	uid: "oeFm", 
+	uid: "eUwR", 
 	factory: Planet,
 	inputs: [
 		"-> moon add",
@@ -370,20 +371,20 @@ const nodeList = [
 		"-> simulation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)"
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)"
 		],
 	sx:	{
 		    "name": "Venus",
@@ -394,7 +395,7 @@ const nodeList = [
 	//_______________________________________________________EARTH
 	{
 	name: "earth", 
-	uid: "hEXZ", 
+	uid: "SjVU", 
 	factory: Planet,
 	inputs: [
 		"-> place local camera",
@@ -405,20 +406,20 @@ const nodeList = [
 		"-> presentation user change"
 		],
 	outputs: [
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)",
-		"simulation get user settings => simulation get @ simulation settings (debw)",
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)",
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`
 		],
 	sx:	{
 		    "name": "Earth",
@@ -429,27 +430,27 @@ const nodeList = [
 	//____________________________________________________THE MOON
 	{
 	name: "the moon", 
-	uid: "xTcR", 
+	uid: "dEyu", 
 	factory: Moon,
 	inputs: [
 		"-> simulation user change",
 		"-> presentation user change"
 		],
 	outputs: [
-		"simulation get user settings => simulation get @ simulation settings (debw)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"scene add -> moon add @ earth (hEXZ)",
-		"scene remove -> moon remove @ earth (hEXZ)",
-		"scene dispose -> moon dispose @ earth (hEXZ)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"scene add -> moon add @ earth (SjVU)",
+		"scene remove -> moon remove @ earth (SjVU)",
+		"scene dispose -> moon dispose @ earth (SjVU)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`
 		],
 	sx:	{
 		    "name": "Moon",
@@ -460,7 +461,7 @@ const nodeList = [
 	//_____________________________________________________JUPITER
 	{
 	name: "jupiter", 
-	uid: "Wzci", 
+	uid: "BhVQ", 
 	factory: Planet,
 	inputs: [
 		"-> moon add",
@@ -471,20 +472,20 @@ const nodeList = [
 		"-> place local camera"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`,
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)"
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`,
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)"
 		],
 	sx:	{
 		    "name": "Jupiter",
@@ -495,27 +496,27 @@ const nodeList = [
 	//__________________________________________________________IO
 	{
 	name: "Io", 
-	uid: "DdLG", 
+	uid: "lKJu", 
 	factory: Moon,
 	inputs: [
 		"-> presentation user change",
 		"-> simulation user change"
 		],
 	outputs: [
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"scene add -> moon add @ jupiter (Wzci)",
-		"scene remove -> moon remove @ jupiter (Wzci)",
-		"scene dispose -> moon dispose @ jupiter (Wzci)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"scene add -> moon add @ jupiter (BhVQ)",
+		"scene remove -> moon remove @ jupiter (BhVQ)",
+		"scene dispose -> moon dispose @ jupiter (BhVQ)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`
 		],
 	sx:	{
 		    "name": "Io",
@@ -526,27 +527,27 @@ const nodeList = [
 	//______________________________________________________EUROPA
 	{
 	name: "Europa", 
-	uid: "ooEx", 
+	uid: "oqnr", 
 	factory: Moon,
 	inputs: [
 		"-> presentation user change",
 		"-> simulation user change"
 		],
 	outputs: [
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"scene add -> moon add @ jupiter (Wzci)",
-		"scene remove -> moon remove @ jupiter (Wzci)",
-		"scene dispose -> moon dispose @ jupiter (Wzci)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"scene add -> moon add @ jupiter (BhVQ)",
+		"scene remove -> moon remove @ jupiter (BhVQ)",
+		"scene dispose -> moon dispose @ jupiter (BhVQ)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`
 		],
 	sx:	{
 		    "name": "Europa",
@@ -557,27 +558,27 @@ const nodeList = [
 	//____________________________________________________CALLISTO
 	{
 	name: "Callisto", 
-	uid: "aXQS", 
+	uid: "RgBI", 
 	factory: Moon,
 	inputs: [
 		"-> presentation user change",
 		"-> simulation user change"
 		],
 	outputs: [
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"scene add -> moon add @ jupiter (Wzci)",
-		"scene remove -> moon remove @ jupiter (Wzci)",
-		"scene dispose -> moon dispose @ jupiter (Wzci)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"scene add -> moon add @ jupiter (BhVQ)",
+		"scene remove -> moon remove @ jupiter (BhVQ)",
+		"scene dispose -> moon dispose @ jupiter (BhVQ)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`
 		],
 	sx:	{
 		    "name": "Callisto",
@@ -588,27 +589,27 @@ const nodeList = [
 	//____________________________________________________GANYMEDE
 	{
 	name: "Ganymede", 
-	uid: "OxiF", 
+	uid: "GFSz", 
 	factory: Moon,
 	inputs: [
 		"-> presentation user change",
 		"-> simulation user change"
 		],
 	outputs: [
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"scene add -> moon add @ jupiter (Wzci)",
-		"scene remove -> moon remove @ jupiter (Wzci)",
-		"scene dispose -> moon dispose @ jupiter (Wzci)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"scene add -> moon add @ jupiter (BhVQ)",
+		"scene remove -> moon remove @ jupiter (BhVQ)",
+		"scene dispose -> moon dispose @ jupiter (BhVQ)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)",
 		`presentation chart and output settings -> [ 
-			"setup @ planetary distance (VsgU)",
-			"setup @ space curve manager (mKHX)" ]`,
-		"simulation get user settings => simulation get @ simulation settings (debw)",
-		"ephemeris => ephemeris @ Ephemerides(1) (ircs)",
+			"setup @ planetary distance (gWUJ)",
+			"setup @ space curve manager (OWbb)" ]`,
+		"simulation get user settings => simulation get @ simulation settings (nWcu)",
+		"ephemeris => ephemeris @ Ephemerides(1) (JFWs)",
 		`orbit position -> [ 
-			"position @ planetary distance (VsgU)",
-			"position @ space curve manager (mKHX)" ]`
+			"position @ planetary distance (gWUJ)",
+			"position @ space curve manager (OWbb)" ]`
 		],
 	sx:	{
 		    "name": "Ganymede",
@@ -619,7 +620,7 @@ const nodeList = [
 	//______________________________________________EPHEMERIDES(1)
 	{
 	name: "Ephemerides(1)", 
-	uid: "ircs", 
+	uid: "JFWs", 
 	factory: Ephemerides,
 	inputs: [
 		"=> ephemeris"
@@ -629,7 +630,7 @@ const nodeList = [
 	//______________________________________________CAMERA MANAGER
 	{
 	name: "camera manager", 
-	uid: "LDdW", 
+	uid: "acqd", 
 	factory: CameraManager,
 	inputs: [
 		"-> canvas add",
@@ -642,14 +643,14 @@ const nodeList = [
 		"-> camera update"
 		],
 	outputs: [
-		"canvas set -> canvas @ renderer (imdr)",
-		"active camera -> camera @ renderer (imdr)",
-		"camera list -> list @ camera settings (gGiy)",
-		"camera settings -> settings @ camera settings (gGiy)",
-		"actor add -> actor add @ scene manager (tKKg)",
-		"actor remove -> actor remove @ scene manager (tKKg)",
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)"
+		"canvas set -> canvas @ renderer (FjpN)",
+		"active camera -> camera @ renderer (FjpN)",
+		"camera list -> list @ camera settings (lEDy)",
+		"camera settings -> settings @ camera settings (lEDy)",
+		"actor add -> actor add @ scene manager (NjOF)",
+		"actor remove -> actor remove @ scene manager (NjOF)",
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)"
 		],
 	sx:	[
 		    {
@@ -707,17 +708,17 @@ const nodeList = [
 	//_______________________________________SOLAR SYSTEM SETTINGS
 	{
 	name: "solar system settings", 
-	uid: "Yjyc", 
+	uid: "elOS", 
 	factory: SolarSystemSettings,
 	inputs: [
 		"=> presentation get",
 		"-> presentation override"
 		],
 	outputs: [
-		"div -> right side add div @ screen layout (PzOB)",
+		"div -> right side add div @ screen layout (WoLD)",
 		`presentation user change -> [ 
-			"presentation user change @ planet router (KAbB)",
-			"presentation user change @ star sphere (GEfc)" ]`
+			"presentation user change @ planet router (sOSV)",
+			"presentation user change @ star sphere (fHfg)" ]`
 		],
 	sx:	{
 		    "labels": {
@@ -773,7 +774,7 @@ const nodeList = [
 	//_________________________________________SIMULATION SETTINGS
 	{
 	name: "simulation settings", 
-	uid: "debw", 
+	uid: "nWcu", 
 	factory: SimulationSettings,
 	inputs: [
 		"-> current date",
@@ -781,15 +782,15 @@ const nodeList = [
 		"=> simulation get"
 		],
 	outputs: [
-		"div -> right side add div @ screen layout (PzOB)",
-		"orbit show -> curve show @ space curve manager (mKHX)",
-		"orbit hide -> curve hide @ space curve manager (mKHX)",
-		"update start -> update start @ renderer (imdr)",
-		"update stop -> update stop @ renderer (imdr)",
-		"update step -> update step @ renderer (imdr)",
+		"div -> right side add div @ screen layout (WoLD)",
+		"orbit show -> curve show @ space curve manager (OWbb)",
+		"orbit hide -> curve hide @ space curve manager (OWbb)",
+		"update start -> update start @ renderer (FjpN)",
+		"update stop -> update stop @ renderer (FjpN)",
+		"update step -> update step @ renderer (FjpN)",
 		`simulation user change -> [ 
-			"simulation user change @ planet router (KAbB)",
-			"user change @ planetary distance (VsgU)" ]`
+			"simulation user change @ planet router (sOSV)",
+			"user change @ planetary distance (gWUJ)" ]`
 		],
 	sx:	{
 		    "running": true,
@@ -820,7 +821,7 @@ const nodeList = [
 	//__________________________________________PLANETARY DISTANCE
 	{
 	name: "planetary distance", 
-	uid: "VsgU", 
+	uid: "gWUJ", 
 	factory: PlanetaryDistance,
 	inputs: [
 		"-> setup",
@@ -828,7 +829,7 @@ const nodeList = [
 		"-> user change"
 		],
 	outputs: [
-		"div -> left side chart @ screen layout (PzOB)"
+		"div -> left side chart @ screen layout (WoLD)"
 		],
 	sx:	{
 		    "planets": [
@@ -842,7 +843,7 @@ const nodeList = [
 	//_________________________________________SPACE CURVE MANAGER
 	{
 	name: "space curve manager", 
-	uid: "mKHX", 
+	uid: "OWbb", 
 	factory: SpaceCurveManager,
 	inputs: [
 		"-> setup",
@@ -851,41 +852,41 @@ const nodeList = [
 		"-> curve hide"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"scene remove -> scene remove @ scene manager (tKKg)",
-		"scene dispose -> scene dispose @ scene manager (tKKg)"
+		"scene add -> scene add @ scene manager (NjOF)",
+		"scene remove -> scene remove @ scene manager (NjOF)",
+		"scene dispose -> scene dispose @ scene manager (NjOF)"
 		]
 	},
 	//_____________________________________________CAMERA SETTINGS
 	{
 	name: "camera settings", 
-	uid: "gGiy", 
+	uid: "lEDy", 
 	factory: CamerasSettings,
 	inputs: [
 		"-> list",
 		"-> settings"
 		],
 	outputs: [
-		"div -> right side add div @ screen layout (PzOB)",
-		"show helpers -> helpers show @ camera manager (LDdW)",
-		"hide helpers -> helpers hide @ camera manager (LDdW)",
-		"user add -> camera add @ camera manager (LDdW)",
-		"user delete -> camera delete @ camera manager (LDdW)",
-		"user update -> camera update @ camera manager (LDdW)",
-		"user select -> camera select @ camera manager (LDdW)"
+		"div -> right side add div @ screen layout (WoLD)",
+		"show helpers -> helpers show @ camera manager (acqd)",
+		"hide helpers -> helpers hide @ camera manager (acqd)",
+		"user add -> camera add @ camera manager (acqd)",
+		"user delete -> camera delete @ camera manager (acqd)",
+		"user update -> camera update @ camera manager (acqd)",
+		"user select -> camera select @ camera manager (acqd)"
 		]
 	},
 	//_________________________________________________STAR SPHERE
 	{
 	name: "star sphere", 
-	uid: "GEfc", 
+	uid: "fHfg", 
 	factory: StarSphere,
 	inputs: [
 		"-> presentation user change"
 		],
 	outputs: [
-		"scene add -> scene add @ scene manager (tKKg)",
-		"presentation get user settings => presentation get @ solar system settings (Yjyc)"
+		"scene add -> scene add @ scene manager (NjOF)",
+		"presentation get user settings => presentation get @ solar system settings (elOS)"
 		],
 	sx:	{
 		    "starFile": "/assets/starmap_2020_8k.jpg",
@@ -896,13 +897,13 @@ const nodeList = [
 	//_____________________________________________SELECT ON EARTH
 	{
 	name: "select on earth", 
-	uid: "nflH", 
+	uid: "kGtq", 
 	factory: SelectOnEarth,
 	inputs: [],
 	outputs: [
-		"place camera -> place local camera @ planet router (KAbB)",
-		"add canvas => left side canvas @ screen layout (PzOB)",
-		"get camera => get camera @ camera manager (LDdW)"
+		"place camera -> place local camera @ planet router (sOSV)",
+		"add canvas => left side canvas @ screen layout (WoLD)",
+		"get camera => get camera @ camera manager (acqd)"
 		],
 	sx:	{
 		    "earth": {
@@ -938,27 +939,27 @@ const nodeList = [
 	//____________________________________________________TOP MENU
 	{
 	name: "top menu", 
-	uid: "ZSld", 
+	uid: "iMGA", 
 	factory: IconMenuHorizontal,
 	inputs: [],
 	outputs: [
 		`panels toggle -> [ 
-			"right side toggle @ screen layout (PzOB)",
-			"left side toggle @ screen layout (PzOB)" ]`,
-		"div -> menu @ screen layout (PzOB)"
+			"right side toggle @ screen layout (WoLD)",
+			"left side toggle @ screen layout (WoLD)" ]`,
+		"div -> menu @ screen layout (WoLD)"
 		],
 	sx:	[
 		    {
 		        "name": "width_full",
 		        "help": "show/hide panels",
-		        "message": "panels.toggle"
+		        "message": "panels toggle"
 		    }
 		]
 	},
 	//__________________________________________________MCP CLIENT
 	{
 	name: "MCP Client", 
-	uid: "AutD", 
+	uid: "PQNC", 
 	factory: McpClientOpenAI,
 	inputs: [
 		"-> new prompt",
@@ -966,10 +967,10 @@ const nodeList = [
 		"-> tool result"
 		],
 	outputs: [
-		"update chat -> update chat @ LLM Chat Window (bLwZ)",
-		"get manifest => get manifest @ MCP Server (NssK)",
-		"get tools => get tools @ MCP Server (NssK)",
-		"call tool -> call tool @ MCP Server (NssK)"
+		"update chat -> update chat @ LLM Chat Window (CTRT)",
+		"get manifest => get manifest @ MCP Server (xBvE)",
+		"get tools => get tools @ MCP Server (xBvE)",
+		"call tool -> call tool @ MCP Server (xBvE)"
 		],
 	dx:	{
 		    "logMessages": false,
@@ -982,7 +983,7 @@ const nodeList = [
 	//__________________________________________________MCP SERVER
 	{
 	name: "MCP Server", 
-	uid: "NssK", 
+	uid: "xBvE", 
 	factory: McpServerInBrowser,
 	inputs: [
 		"-> call tool",
@@ -990,7 +991,7 @@ const nodeList = [
 		"=> get manifest"
 		],
 	outputs: [
-		"tool result -> tool result @ MCP Client (AutD)"
+		"tool result -> tool result @ MCP Client (PQNC)"
 		],
 	dx:	{
 		    "logMessages": false,
@@ -1003,15 +1004,15 @@ const nodeList = [
 	//_____________________________________________LLM CHAT WINDOW
 	{
 	name: "LLM Chat Window", 
-	uid: "bLwZ", 
+	uid: "CTRT", 
 	factory: LLMChatWindow,
 	inputs: [
 		"-> update chat"
 		],
 	outputs: [
-		"div -> right side add div @ screen layout (PzOB)",
-		"new prompt -> new prompt @ MCP Client (AutD)",
-		"handle key -> handle key @ MCP Client (AutD)"
+		"div -> right side add div @ screen layout (WoLD)",
+		"new prompt -> new prompt @ MCP Client (PQNC)",
+		"handle key -> handle key @ MCP Client (PQNC)"
 		]
 	},
 ]
@@ -1021,52 +1022,52 @@ const filterList = [
 	//________________________________________PLANET ROUTER FILTER
 	{
 	name: "planet router", 
-	uid: "KAbB", 
+	uid: "sOSV", 
 	filter: PlanetRouter,
 	table: [
 		`place local camera : [
-			"place local camera @ earth (hEXZ)",
-			"place local camera @ mercury (YXpN)",
-			"place local camera @ uranus (IKeo)",
-			"place local camera @ neptune (pTDp)",
-			"place local camera @ saturn (DWIr)",
-			"place local camera @ mars (Dgou)",
-			"place local camera @ venus (oeFm)" ]`,
+			"place local camera @ earth (SjVU)",
+			"place local camera @ mercury (ATaA)",
+			"place local camera @ uranus (vVuq)",
+			"place local camera @ neptune (AkPj)",
+			"place local camera @ saturn (vprC)",
+			"place local camera @ mars (trxc)",
+			"place local camera @ venus (eUwR)" ]`,
 		`presentation user change : [
-			"presentation user change @ mercury (YXpN)",
-			"presentation user change @ earth (hEXZ)",
-			"presentation user change @ the moon (xTcR)",
-			"presentation user change @ uranus (IKeo)",
-			"presentation user change @ sun (fKqO)",
-			"presentation user change @ venus (oeFm)",
-			"presentation user change @ mars (Dgou)",
-			"presentation user change @ saturn (DWIr)",
-			"presentation user change @ neptune (pTDp)",
-			"presentation user change @ Io (DdLG)",
-			"presentation user change @ Europa (ooEx)",
-			"presentation user change @ Ganymede (OxiF)",
-			"presentation user change @ Callisto (aXQS)",
-			"presentation user change @ jupiter (Wzci)" ]`,
+			"presentation user change @ mercury (ATaA)",
+			"presentation user change @ earth (SjVU)",
+			"presentation user change @ the moon (dEyu)",
+			"presentation user change @ uranus (vVuq)",
+			"presentation user change @ sun (RHjs)",
+			"presentation user change @ venus (eUwR)",
+			"presentation user change @ mars (trxc)",
+			"presentation user change @ saturn (vprC)",
+			"presentation user change @ neptune (AkPj)",
+			"presentation user change @ Io (lKJu)",
+			"presentation user change @ Europa (oqnr)",
+			"presentation user change @ Ganymede (GFSz)",
+			"presentation user change @ Callisto (RgBI)",
+			"presentation user change @ jupiter (BhVQ)" ]`,
 		`simulation user change : [
-			"simulation user change @ uranus (IKeo)",
-			"simulation user change @ mercury (YXpN)",
-			"simulation user change @ earth (hEXZ)",
-			"simulation user change @ the moon (xTcR)",
-			"simulation user change @ sun (fKqO)",
-			"simulation user change @ venus (oeFm)",
-			"simulation user change @ mars (Dgou)",
-			"simulation user change @ saturn (DWIr)",
-			"simulation user change @ neptune (pTDp)",
-			"simulation user change @ Io (DdLG)",
-			"simulation user change @ Europa (ooEx)",
-			"simulation user change @ Ganymede (OxiF)",
-			"simulation user change @ Callisto (aXQS)",
-			"simulation user change @ jupiter (Wzci)" ]`,]
+			"simulation user change @ uranus (vVuq)",
+			"simulation user change @ mercury (ATaA)",
+			"simulation user change @ earth (SjVU)",
+			"simulation user change @ the moon (dEyu)",
+			"simulation user change @ sun (RHjs)",
+			"simulation user change @ venus (eUwR)",
+			"simulation user change @ mars (trxc)",
+			"simulation user change @ saturn (vprC)",
+			"simulation user change @ neptune (AkPj)",
+			"simulation user change @ Io (lKJu)",
+			"simulation user change @ Europa (oqnr)",
+			"simulation user change @ Ganymede (GFSz)",
+			"simulation user change @ Callisto (RgBI)",
+			"simulation user change @ jupiter (BhVQ)" ]`,]
 	},
 ]
 
 // prepare the runtime
-const runtime = RT.scaffold(nodeList, filterList)
+const runtime = VMBLU.scaffold(nodeList, filterList)
 
 // and start the app
 runtime.start()
