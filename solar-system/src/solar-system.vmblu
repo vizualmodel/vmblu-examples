@@ -2,8 +2,8 @@
     "header": {
         "version": "0.0.1",
         "created": "5/15/2024, 9:36:44 AM",
-        "saved": "11/14/2025, 3:46:03 PM",
-        "utc": "2025-11-14T14:46:03.677Z",
+        "saved": "11/14/2025, 3:54:13 PM",
+        "utc": "2025-11-14T14:54:13.746Z",
         "style": "#3e7467",
         "runtime": "c:/dev/vmblu/runtime"
     },
@@ -2389,13 +2389,13 @@
                     "kind": "cable",
                     "name": "scene bus",
                     "start": "x 884.8623625774395 y 1064.0722394220845",
-                    "wire": "y -1113.4"
+                    "wire": "y -1106.2"
                 },
                 {
                     "kind": "busbar",
                     "name": "right side div",
                     "start": "x 511.65457413249203 y 1045.3",
-                    "wire": "y -1076.7"
+                    "wire": "y -1072.6"
                 }
             ],
             "routes": [
