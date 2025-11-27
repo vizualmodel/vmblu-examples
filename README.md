@@ -1,12 +1,12 @@
 ![logo](vmblu-header.png)
 
-<span style="font-size:2em; color:#0066ff;"><b>Examples of vmblu apps</b></span><br>
+# Examples of vmblu apps
 
 This repository contains **example projects** that demonstrate how to build applications with [vmblu](https://github.com/vizualmodel/vmblu).  
 Each example is a self-contained project (with its own `package.json`) and can be run independently.
 
 ---
-<span style="font-size:1.4em; color:#0066ff;"><b>■   Structure</b></span><br>
+## ■   Structure
 
 ```
 vmblu-examples/
@@ -14,9 +14,9 @@ vmblu-examples/
       solar-system-human/     # Three.js-based solar system simulation - hand-crafed architecture
       solar-system-LLM/       # Three.js-based solar system simulation - fully made by an LLM
       chat/                   # Simple chat-style app
-````
+```
 
-<span style="font-size:1.4em; color:#0066ff;"><b>■   Getting started</b></span><br>
+## ■   Getting started
 
 ### 1. Clone the repo
 
@@ -39,19 +39,6 @@ If you use **pnpm**:
 pnpm install
 ```
 
-> ⚠️ All examples require the **vmblu runtime**.
-> Make sure you install it:
->
-> ```bash
-> npm install @vizualmodel/vmblu
-> ```
->
-> or add it with pnpm:
->
-> ```bash
-> pnpm add @vizualmodel/vmblu
-> ```
-
 ### 3. Run an example
 
 ```bash
@@ -69,7 +56,7 @@ pnpm dev:min
 Each example starts a local development server (default port: `5173`).
 
 ---
-<span style="font-size:1.4em; color:#0066ff;"><b>■ Proposing a new example</b></span><br>
+## ■ Proposing a new example
 
 1. Create a new folder under `examples/`, e.g. `examples/my-demo/`.
 2. Add a `package.json` with `"private": true`, a name, and scripts (`dev`, `build`, …).
@@ -86,13 +73,10 @@ Each example starts a local development server (default port: `5173`).
    ```
 4. Run `npm install` (or `pnpm install`) at the root to link it into the workspace.
 5. Add a script alias in the root `package.json` for easy dev commands.
-
 ---
 
-<span style="font-size:1.4em; color:#0066ff;"><b>■ License</b></span><br>
+## ■ License
 
 The examples are licensed under the [MIT License](./LICENSE.txt).
-This allows you to freely copy and adapt them into your own projects.
-
 The main [vmblu](https://github.com/vizualmodel/vmblu) repository is licensed under **Apache 2.0**.
 
