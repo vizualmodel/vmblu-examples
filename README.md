@@ -1,39 +1,25 @@
-![logo](vmblu-512.png)
+![logo](vmblu-header.png)
 
-# Example Projects for vmblu
+<span style="font-size:2em; color:#0066ff;"><b>Examples of vmblu apps</b></span><br>
 
 This repository contains **example projects** that demonstrate how to build applications with [vmblu](https://github.com/vizualmodel/vmblu).  
 Each example is a self-contained project (with its own `package.json`) and can be run independently.
 
 ---
-
-## 📂 Structure
+<span style="font-size:1.4em; color:#0066ff;"><b>■   Structure</b></span><br>
 
 ```
-
 vmblu-examples/
-examples/
-solar-system/   # Three.js-based solar system simulation
-chat/           # Simple chat-style app
-minimal/        # Smallest possible vmblu demo
-
+   examples/
+      solar-system-human/     # Three.js-based solar system simulation - hand-crafed architecture
+      solar-system-LLM/       # Three.js-based solar system simulation - fully made by an LLM
+      chat/                   # Simple chat-style app
 ````
 
----
-
-## 🌟 Example Showcase
-
-| Example        | Description                                                        |
-|----------------|--------------------------------------------------------------------|
-| **Solar System** | Interactive [Three.js](https://threejs.org/) demo showing planets, orbits, and camera switching with vmblu. |
-| **Chat**         | A minimal message-passing chat UI built entirely as vmblu nodes.   |
-| **Minimal**      | The simplest possible vmblu setup — just enough to see the runtime in action. |
-
----
-
-## 🚀 Getting Started
+<span style="font-size:1.4em; color:#0066ff;"><b>■   Getting started</b></span><br>
 
 ### 1. Clone the repo
+
 ```bash
 git clone https://github.com/vizualmodel/vmblu-examples.git
 cd vmblu-examples
@@ -83,8 +69,7 @@ pnpm dev:min
 Each example starts a local development server (default port: `5173`).
 
 ---
-
-## 🛠 Adding a New Example
+<span style="font-size:1.4em; color:#0066ff;"><b>■ Proposing a new example</b></span><br>
 
 1. Create a new folder under `examples/`, e.g. `examples/my-demo/`.
 2. Add a `package.json` with `"private": true`, a name, and scripts (`dev`, `build`, …).
@@ -104,14 +89,7 @@ Each example starts a local development server (default port: `5173`).
 
 ---
 
-## 📖 Related Repositories
-
-* [vmblu](https://github.com/vizualmodel/vmblu) — the main editor and runtime.
-* [vmblu-examples](https://github.com/vizualmodel/vmblu-examples) — this repo with examples.
-
----
-
-## 📜 License
+<span style="font-size:1.4em; color:#0066ff;"><b>■ License</b></span><br>
 
 The examples are licensed under the [MIT License](./LICENSE.txt).
 This allows you to freely copy and adapt them into your own projects.
