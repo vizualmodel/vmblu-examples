@@ -1,0 +1,17 @@
+{
+  "provider": "openai",
+  "mode": "local-bridge",
+  "publicBaseUrl": "http://127.0.0.1:8080/v1",
+  "proxy": {
+    "bindHost": "127.0.0.1",
+    "port": 8080,
+    "allowedOrigin": "http://localhost:5173",
+    "upstreamBaseUrl": "https://api.openai.com",
+    "apiKeyEnv": "OPENAI_API_KEY",
+    "allowedPaths": [
+      "/v1/responses",
+      "/v1/chat/completions",
+      "/v1/models"
+    ]
+  }
+}

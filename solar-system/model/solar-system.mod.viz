@@ -1,0 +1,701 @@
+{
+  "header": {
+    "version": "0.9.5",
+    "utc": "2026-02-26T14:11:29.381Z",
+    "style": "#00aaff"
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "rect": "x 90 y 30 w 150 h 26",
+    "view": {
+      "state": "open",
+      "rect": "x 0 y 0 w 1285 h 1326",
+      "transform": "sx 1.000 sy 1.000 dx 0.000 dy 20.000"
+    },
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "SimulationClock",
+        "rect": "x 54 y 410 w 165 h 101",
+        "interfaces": [
+          {
+            "interface": "(11) clock",
+            "pins": [
+              "(7 R)clock.configure",
+              "(8 R)clock.control",
+              "(10 R)clock.state",
+              "(9 R)clock.tick"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "CommandRouter",
+        "rect": "x 381 y 30 w 165 h 221",
+        "interfaces": [
+          {
+            "interface": "(33) ui",
+            "pins": [
+              "(19 L)ui.command",
+              "(32 L)ui.panel"
+            ]
+          },
+          {
+            "interface": "(34) render",
+            "pins": [
+              "(28 R)render.view",
+              "(27 R)render.camera"
+            ]
+          },
+          {
+            "interface": "(35) chart",
+            "pins": [
+              "(30 R)chart.command"
+            ]
+          },
+          {
+            "interface": "(36) solar",
+            "pins": [
+              "(25 R)solar.command"
+            ]
+          },
+          {
+            "interface": "(37) clock",
+            "pins": [
+              "(22 L)clock.config",
+              "(23 L)clock.control"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Rendering",
+        "rect": "x 751 y 30 w 150 h 221",
+        "view": {
+          "state": "closed",
+          "rect": "x 74 y 126 w 1109 h 562",
+          "transform": "sx 1.000 sy 1.000 dx -16.000 dy 248.000"
+        },
+        "interfaces": [
+          {
+            "interface": "(27) scene",
+            "pins": [
+              "(17 L)scene.updates",
+              "(18 L)scene.animatables",
+              "(19 L)scene.body-poses"
+            ]
+          },
+          {
+            "interface": "(28) render",
+            "pins": [
+              "(24 L)render.command"
+            ]
+          },
+          {
+            "interface": "(29) camera",
+            "pins": [
+              "(21 L)camera.command",
+              "(22 L)camera.active"
+            ]
+          },
+          {
+            "interface": "(30) sim",
+            "pins": [
+              "(15 L)sim.tick"
+            ]
+          },
+          {
+            "interface": "(31) overlay",
+            "pins": [
+              "(26 R)overlay.chart"
+            ]
+          }
+        ],
+        "pads": [
+          "(17 R)x 1020 y 6 w 95 h 15|scene.updates",
+          "(18 R)x 1020 y 178 w 113 h 15|scene.animatables",
+          "(19 R)x 1020 y 198 w 111 h 15|scene.body-poses",
+          "(24 R)x 1020 y 65 w 105 h 15|render.command",
+          "(21 R)x 1021 y 281 w 110 h 15|camera.command",
+          "(22 R)x 1023 y 341 w 92 h 15|camera.active",
+          "(15 R)x 1020 y 158 w 63 h 15|sim.tick",
+          "(26 R)x 1020 y 80 w 87 h 15|overlay.chart"
+        ],
+        "nodes": [
+          {
+            "kind": "source",
+            "name": "ScreenLayout",
+            "rect": "x 810 y 30 w 150 h 86",
+            "interfaces": [
+              {
+                "interface": "(9) layout",
+                "pins": [
+                  "(6 R)layout.command",
+                  "(7 R)layout.chart-overlay",
+                  "(8 L)layout.state"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "Renderer",
+            "rect": "x 511 y -29 w 150 h 86",
+            "interfaces": [
+              {
+                "interface": "(9) render",
+                "pins": [
+                  "(6 R)render.scene-patches",
+                  "(7 R)render.layout",
+                  "(8 L)render.camera"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "Animator",
+            "rect": "x 169 y 29 w 150 h 101",
+            "interfaces": [
+              {
+                "interface": "(11) anim",
+                "pins": [
+                  "(10 R)anim.scene-patches",
+                  "(7 R)anim.tick",
+                  "(8 R)anim.registry",
+                  "(9 R)anim.body-poses"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "CameraManager",
+            "rect": "x 168 y 246 w 165 h 131",
+            "interfaces": [
+              {
+                "interface": "(15) camera",
+                "pins": [
+                  "(7 R)camera.command",
+                  "(14 R)ol/",
+                  "(8 R)camera.body-poses",
+                  "(9 R)camera.layout",
+                  "(10 R)camera.active",
+                  "(12 R)camera.event"
+                ]
+              }
+            ]
+          }
+        ],
+        "cables": [
+          {
+            "start": "x 810 y 102.5",
+            "wire": "x -113.0 y 231.0 x -364.0"
+          },
+          {
+            "start": "x 1020 y 13.5",
+            "wire": "x -359.0"
+          },
+          {
+            "start": "x 333 y 348.5",
+            "wire": "x 690.0"
+          },
+          {
+            "start": "x 1020 y 205.5",
+            "wire": "x -667.0 y -89.0 x -34.0"
+          }
+        ],
+        "routes": [
+          {
+            "from": "(pin 8) layout.state @ ScreenLayout",
+            "to": "(cable 0 endpoint nonselective)",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(pin 10) anim.scene-patches @ Animator",
+            "to": "(cable 1 nonselective)",
+            "wire": "x 59.0 y -121.5 x 339.0 y 63.5"
+          },
+          {
+            "from": "(pin 10) camera.active @ CameraManager",
+            "to": "(cable 2 endpoint nonselective)",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(cable 1 endpoint nonselective)",
+            "to": "(pad 17) scene.updates",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(pad 18) scene.animatables",
+            "to": "(pin 8) anim.registry @ Animator",
+            "wire": "x -656.0 y -84.0 x -45.0"
+          },
+          {
+            "from": "(cable 3 endpoint nonselective)",
+            "to": "(pad 19) scene.body-poses",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(pad 24) render.command",
+            "to": "(pin 6) layout.command @ ScreenLayout",
+            "wire": "x -60.0"
+          },
+          {
+            "from": "(pad 21) camera.command",
+            "to": "(pin 7) camera.command @ CameraManager",
+            "wire": "x -688.0"
+          },
+          {
+            "from": "(pad 15) sim.tick",
+            "to": "(pin 7) anim.tick @ Animator",
+            "wire": "x -641.0 y -79.0 x -60.0"
+          },
+          {
+            "from": "(pad 26) overlay.chart",
+            "to": "(pin 7) layout.chart-overlay @ ScreenLayout",
+            "wire": "x -60.0"
+          },
+          {
+            "from": "(cable 0 endpoint nonselective)",
+            "to": "(pin 9) camera.layout @ CameraManager",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(cable 0 nonselective)",
+            "to": "(pin 7) render.layout @ Renderer",
+            "wire": "y -74.0 x -79.0"
+          },
+          {
+            "from": "(cable 1 endpoint nonselective)",
+            "to": "(pin 6) render.scene-patches @ Renderer",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(pad 22) camera.active",
+            "to": "(cable 2 endpoint nonselective)",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(cable 2 nonselective)",
+            "to": "(pin 8) render.camera @ Renderer",
+            "wire": "y -305.0 x 93.0"
+          },
+          {
+            "from": "(cable 3 endpoint nonselective)",
+            "to": "(pin 9) anim.body-poses @ Animator",
+            "wire": "y 0.0"
+          },
+          {
+            "from": "(cable 3 nonselective)",
+            "to": "(pin 8) camera.body-poses @ CameraManager",
+            "wire": "y 113.0 x -548.0"
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "SolarSystem",
+        "rect": "x 390 y 411 w 150 h 191",
+        "view": {
+          "state": "closed",
+          "rect": "x 96 y 716 w 948 h 434",
+          "transform": "sx 1.000 sy 1.000 dx -224.305 dy 814.039"
+        },
+        "interfaces": [
+          {
+            "interface": "(23) solar",
+            "pins": [
+              "(13 R)solar.command"
+            ]
+          },
+          {
+            "interface": "(24) camera",
+            "pins": [
+              "(17 R)camera.state"
+            ]
+          },
+          {
+            "interface": "(25) scene",
+            "pins": [
+              "(19 R)scene.updates",
+              "(20 R)scene.animatables",
+              "(21 R)scene.body-poses",
+              "(22 L)scene.body-catalog"
+            ]
+          },
+          {
+            "interface": "(26) sim",
+            "pins": [
+              "(15 L)sim.tick"
+            ]
+          }
+        ],
+        "pads": [
+          "(13 R)x 1079 y 68 w 98 h 15|solar.command",
+          "(17 R)x 1079 y 83 w 88 h 15|camera.state",
+          "(19 R)x 1079 y 98 w 95 h 15|scene.updates",
+          "(20 R)x 1079 y 113 w 113 h 15|scene.animatables",
+          "(21 R)x 1079 y 176 w 111 h 15|scene.body-poses",
+          "(22 R)x 1079 y 191 w 117 h 15|scene.body-catalog",
+          "(15 R)x 1079 y -18 w 63 h 15|sim.tick"
+        ],
+        "nodes": [
+          {
+            "kind": "source",
+            "name": "EphemerisEngine",
+            "rect": "x 350 y 81 w 165 h 131",
+            "interfaces": [
+              {
+                "interface": "(15) sim",
+                "pins": [
+                  "(9 R)sim.tick"
+                ]
+              },
+              {
+                "interface": "(16) solar",
+                "pins": [
+                  "(11 R)solar.command"
+                ]
+              },
+              {
+                "interface": "(17) orb",
+                "pins": [
+                  "(13 R)orb.body-poses",
+                  "(14 R)orb.body-catalog"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "BodyVisuals",
+            "rect": "x 687 y 18 w 150 h 116",
+            "interfaces": [
+              {
+                "interface": "(13) scene",
+                "pins": [
+                  "(8 L)scene.body-poses",
+                  "(9 R)scene.command",
+                  "(10 R)scene.camera",
+                  "(11 R)scene.updates",
+                  "(12 R)scene.animatables"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "CelestialSphere",
+            "rect": "x 675 y 220 w 150 h 86",
+            "interfaces": [
+              {
+                "interface": "(9) sky",
+                "pins": [
+                  "(6 R)sky.command",
+                  "(7 R)sky.camera",
+                  "(8 R)sky.scene-updates"
+                ]
+              }
+            ]
+          }
+        ],
+        "routes": [
+          {
+            "from": "(pin 13) orb.body-poses @ EphemerisEngine",
+            "to": "(pin 8) scene.body-poses @ BodyVisuals",
+            "wire": "x 91.0 y -123.0 x 81.0"
+          },
+          {
+            "from": "(pin 13) orb.body-poses @ EphemerisEngine",
+            "to": "(pad 21) scene.body-poses",
+            "wire": "x 200.0 y 0.0 x 364.0"
+          },
+          {
+            "from": "(pin 14) orb.body-catalog @ EphemerisEngine",
+            "to": "(pad 22) scene.body-catalog",
+            "wire": "x 202.0 y 0.0 x 362.0"
+          },
+          {
+            "from": "(pin 11) scene.updates @ BodyVisuals",
+            "to": "(pad 19) scene.updates",
+            "wire": "x 115.0 y 0.0 x 127.0"
+          },
+          {
+            "from": "(pin 12) scene.animatables @ BodyVisuals",
+            "to": "(pad 20) scene.animatables",
+            "wire": "x 115.0 y 0.0 x 127.0"
+          },
+          {
+            "from": "(pin 8) sky.scene-updates @ CelestialSphere",
+            "to": "(pad 19) scene.updates",
+            "wire": "x 170.0 y -187.0 x 84.0"
+          },
+          {
+            "from": "(pad 13) solar.command",
+            "to": "(pin 11) solar.command @ EphemerisEngine",
+            "wire": "x -120.0 y 78.0 x -444.0"
+          },
+          {
+            "from": "(pad 13) solar.command",
+            "to": "(pin 9) scene.command @ BodyVisuals",
+            "wire": "x -121.0 y 0.0 x -121.0"
+          },
+          {
+            "from": "(pad 13) solar.command",
+            "to": "(pin 6) sky.command @ CelestialSphere",
+            "wire": "x -121.0 y 187.0 x -133.0"
+          },
+          {
+            "from": "(pad 17) camera.state",
+            "to": "(pin 10) scene.camera @ BodyVisuals",
+            "wire": "x -116.0 y 0.0 x -126.0"
+          },
+          {
+            "from": "(pad 17) camera.state",
+            "to": "(pin 7) sky.camera @ CelestialSphere",
+            "wire": "x -94.0 y 187.0 x -160.0"
+          },
+          {
+            "from": "(pad 15) sim.tick",
+            "to": "(pin 9) sim.tick @ EphemerisEngine",
+            "wire": "x -487.0 y 134.0 x -77.0"
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Charts",
+        "rect": "x 813 y 394 w 150 h 116",
+        "view": {
+          "state": "closed",
+          "rect": "x 209 y 495 w 871 h 500",
+          "transform": "sx 1.000 sy 1.000 dx 209.000 dy 516.000"
+        },
+        "interfaces": [
+          {
+            "interface": "(13) chart",
+            "pins": [
+              "(8 L)chart.command",
+              "(9 R)chart.overlay"
+            ]
+          },
+          {
+            "interface": "(14) sim",
+            "pins": [
+              "(11 L)sim.body-poses",
+              "(12 L)sim.tick"
+            ]
+          }
+        ],
+        "pads": [
+          "(8 R)x 488 y 65 w 99 h 15|chart.command",
+          "(9 R)x 488 y 110 w 87 h 15|chart.overlay",
+          "(11 R)x 488 y 80 w 100 h 15|sim.body-poses",
+          "(12 R)x 488 y 95 w 63 h 15|sim.tick"
+        ],
+        "nodes": [
+          {
+            "kind": "source",
+            "name": "DistanceChart",
+            "rect": "x 210 y 30 w 150 h 101",
+            "interfaces": [
+              {
+                "interface": "(11) chart",
+                "pins": [
+                  "(7 R)chart.command",
+                  "(8 R)chart.body-poses",
+                  "(9 R)chart.tick",
+                  "(10 R)chart.overlay"
+                ]
+              }
+            ]
+          }
+        ],
+        "routes": [
+          {
+            "from": "(pin 10) chart.overlay @ DistanceChart",
+            "to": "(pad 9) chart.overlay",
+            "wire": "x 128.0"
+          },
+          {
+            "from": "(pad 8) chart.command",
+            "to": "(pin 7) chart.command @ DistanceChart",
+            "wire": "x -128.0"
+          },
+          {
+            "from": "(pad 11) sim.body-poses",
+            "to": "(pin 8) chart.body-poses @ DistanceChart",
+            "wire": "x -64.0 y 0.0 x -64.0"
+          },
+          {
+            "from": "(pad 12) sim.tick",
+            "to": "(pin 9) chart.tick @ DistanceChart",
+            "wire": "x -128.0"
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "IconMenu",
+        "rect": "x 76 y 30 w 150 h 131",
+        "interfaces": [
+          {
+            "interface": "(15) ui",
+            "pins": [
+              "(8 R)ui.command",
+              "(7 R)ui.panel"
+            ]
+          },
+          {
+            "interface": "(16) camera",
+            "pins": [
+              "(10 R)camera.state"
+            ]
+          },
+          {
+            "interface": "(17) sim",
+            "pins": [
+              "(14 R)sim.state"
+            ]
+          }
+        ]
+      }
+    ],
+    "cables": [
+      {
+        "start": "x 648.67710154452 y 36.43260018170814",
+        "wire": "y 562.5",
+        "floating": true
+      },
+      {
+        "start": "x 219 y 497.5",
+        "wire": "x 46.0 y 156.5 x 451.0 y -446.5 x 35.0"
+      },
+      {
+        "start": "x 751 y 177.5",
+        "wire": "x -65.0 y 118.5 x -377.0 y -178.5 x -83.0"
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 10) clock.state @ SimulationClock",
+        "to": "(pin 14) sim.state @ IconMenu",
+        "wire": "x 62.0 y -335.0 x -55.0"
+      },
+      {
+        "from": "(pin 9) clock.tick @ SimulationClock",
+        "to": "(cable 1 endpoint nonselective)",
+        "wire": "y 0.0"
+      },
+      {
+        "from": "(pin 32) ui.panel @ CommandRouter",
+        "to": "(pin 7) ui.panel @ IconMenu",
+        "wire": "x -64.0 y 0.0 x -91.0"
+      },
+      {
+        "from": "(pin 28) render.view @ CommandRouter",
+        "to": "(pin 24) render.command @ Rendering",
+        "wire": "x 169.4 y 15.0 x 35.6"
+      },
+      {
+        "from": "(pin 27) render.camera @ CommandRouter",
+        "to": "(pin 21) camera.command @ Rendering",
+        "wire": "x 167.2 y 30.0 x 37.8"
+      },
+      {
+        "from": "(pin 30) chart.command @ CommandRouter",
+        "to": "(pin 8) chart.command @ Charts",
+        "wire": "x 55.8 y 274.0 x 211.2"
+      },
+      {
+        "from": "(pin 25) solar.command @ CommandRouter",
+        "to": "(pin 13) solar.command @ SolarSystem",
+        "wire": "x 40.0 y 261.0 x -46.0"
+      },
+      {
+        "from": "(pin 22) clock.config @ CommandRouter",
+        "to": "(pin 7) clock.configure @ SimulationClock",
+        "wire": "x -36.0 y 230.0 x -126.0"
+      },
+      {
+        "from": "(pin 23) clock.control @ CommandRouter",
+        "to": "(pin 8) clock.control @ SimulationClock",
+        "wire": "x -25.0 y 230.0 x -137.0"
+      },
+      {
+        "from": "(pin 22) camera.active @ Rendering",
+        "to": "(cable 2 endpoint nonselective)",
+        "wire": "y 0.0"
+      },
+      {
+        "from": "(pin 19) scene.updates @ SolarSystem",
+        "to": "(cable 0 nonselective)",
+        "wire": "x 65.0 y 0.0 x 43.7"
+      },
+      {
+        "from": "(pin 20) scene.animatables @ SolarSystem",
+        "to": "(cable 0 nonselective)",
+        "wire": "x 55.0 y 0.0 x 53.7"
+      },
+      {
+        "from": "(pin 21) scene.body-poses @ SolarSystem",
+        "to": "(cable 0 nonselective)",
+        "wire": "x 45.0 y 0.0 x 63.7"
+      },
+      {
+        "from": "(pin 9) chart.overlay @ Charts",
+        "to": "(pin 26) overlay.chart @ Rendering",
+        "wire": "x 56.6 y -214.0 x -118.6"
+      },
+      {
+        "from": "(pin 8) ui.command @ IconMenu",
+        "to": "(pin 19) ui.command @ CommandRouter",
+        "wire": "x 20.0 y 0.0 x 135.0"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 17) scene.updates @ Rendering",
+        "wire": "x 29.0 y 0.0 x 73.3"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 18) scene.animatables @ Rendering",
+        "wire": "x 29.0 y 0.0 x 73.3"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 19) scene.body-poses @ Rendering",
+        "wire": "x 29.0 y 0.0 x 73.3"
+      },
+      {
+        "from": "(cable 1 endpoint nonselective)",
+        "to": "(pin 15) sim.tick @ Rendering",
+        "wire": "y 0.0"
+      },
+      {
+        "from": "(cable 1 nonselective)",
+        "to": "(pin 15) sim.tick @ SolarSystem",
+        "wire": "y -65.5 x 57.3"
+      },
+      {
+        "from": "(cable 1 nonselective)",
+        "to": "(pin 12) sim.tick @ Charts",
+        "wire": "x 97.0"
+      },
+      {
+        "from": "(cable 2 endpoint nonselective)",
+        "to": "(pin 10) camera.state @ IconMenu",
+        "wire": "y 0.0"
+      },
+      {
+        "from": "(cable 2 nonselective)",
+        "to": "(pin 17) camera.state @ SolarSystem",
+        "wire": "y 187.5 x -22.0"
+      }
+    ]
+  }
+}

@@ -1,39 +1,27 @@
 {
-  "name": "solar",
+  "name": "solar-system",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite --open index.html",
-    "build": "vite build",
-    "preview": "vite preview",
-    "doc": "node /dev/vmblu/browser/docgen/vmblu-docgen ./src/solar-system.vmblu"
+  "dependencies": {
+    "@vizualmodel/vmblu-runtime": "file:../../runtime",
+    "d3": "^7.9.0",
+    "three": "^0.180.0"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "svelte": "^4.2.12",
-    "vite": "^5.2.0"
+    "@vizualmodel/vmblu-cli": "file:../../cli",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
   },
- "dependencies": {
-    "@vizualmodel/vmblu" : "^0.0.3",
-    "@babel/core": "^7.24.5",
-    "@babel/preset-env": "^7.24.5",
-    "@modelcontextprotocol/sdk": "^1.12.3",
-    "@observablehq/plot": "^0.6.16",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "axios": "^1.8.4",
-    "documentation": "^14.0.3",
-    "marked": "^15.0.7",
-    "openai": "^4.90.0",
-    "rollup": "^2.79.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-serve": "^1.1.1",
-    "svelte": "^4.2.12",
-    "three": "^0.164.1",
-    "vite": "^5.2.0"
+  "scripts": {
+    "vm:init": "vmblu init .",
+    "vm:profile": "vmblu profile solar-system.blu",
+    "vm:app": "vmblu make-app solar-system.blu",
+    "vm:capabilities": "vmblu make-capabilities solar-system.blu",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "bridge": "node ./.vmblu/llm-bridge/proxy.js",
+    "llm-bridge": "node ./.vmblu/llm-bridge/proxy.js"
   }
 }

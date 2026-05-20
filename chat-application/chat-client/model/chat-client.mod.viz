@@ -1,0 +1,256 @@
+{
+  "header": {
+    "version": "0.9.3",
+    "utc": "2026-02-11T15:05:00.000Z",
+    "style": "#0066ff"
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "rect": "x 90 y 30 w 150 h 26",
+    "view": {
+      "state": "open",
+      "rect": "x 0 y 0 w 1526 h 1326",
+      "transform": "sx 1.000 sy 1.000 dx 388.000 dy 201.000"
+    },
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "login popup",
+        "rect": "x -252 y 163 w 180 h 86",
+        "interfaces": [
+          {
+            "interface": "(0) auth",
+            "pins": [
+              "(0 R)auth.login-submitted"
+            ]
+          },
+          {
+            "interface": "(0) ui",
+            "pins": [
+              "(0 R)ui.get-view"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "message history",
+        "rect": "x 494 y 195 w 180 h 161",
+        "interfaces": [
+          {
+            "interface": "(0) auth",
+            "pins": [
+              "(0 R)auth.logout-request"
+            ]
+          },
+          {
+            "interface": "(0) chat",
+            "pins": [
+              "(0 L)chat.connection-state",
+              "(0 L)chat.message-list",
+              "(0 L)chat.append-message",
+              "(0 L)chat.current-user"
+            ]
+          },
+          {
+            "interface": "(0) ui",
+            "pins": [
+              "(0 L)ui.get-view"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "message composer",
+        "rect": "x 491 y 439 w 180 h 101",
+        "interfaces": [
+          {
+            "interface": "(0) chat",
+            "pins": [
+              "(0 L)chat.send-message",
+              "(0 L)chat.connection-state"
+            ]
+          },
+          {
+            "interface": "(0) ui",
+            "pins": [
+              "(0 L)ui.get-view"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "client controller",
+        "rect": "x 90 y 30 w 150 h 356",
+        "interfaces": [
+          {
+            "interface": "(0) auth",
+            "pins": [
+              "(0 R)auth.connect-request",
+              "(0 R)auth.connected",
+              "(0 R)auth.disconnect-request",
+              "(0 L)auth.logout-request",
+              "(0 L)auth.login-submitted"
+            ]
+          },
+          {
+            "interface": "(0) chat",
+            "pins": [
+              "(0 R)chat.outgoing-message",
+              "(0 R)chat.history-received",
+              "(0 R)chat.incoming-message",
+              "(0 R)chat.send-message"
+            ]
+          },
+          {
+            "interface": "(0) net",
+            "pins": [
+              "(0 R)net.connection-state",
+              "(0 R)net.connection-state"
+            ]
+          },
+          {
+            "interface": "(0) history",
+            "pins": [
+              "(0 R)history.message-list",
+              "(0 R)history.append-message",
+              "(0 R)history.current-user"
+            ]
+          },
+          {
+            "interface": "(0) ui",
+            "pins": [
+              "(0 R)ui.get-history-view",
+              "(0 L)ui.get-login-view",
+              "(0 R)ui.get-composer-view"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "ws transport",
+        "rect": "x 491 y -63 w 180 h 176",
+        "interfaces": [
+          {
+            "interface": "(0) auth",
+            "pins": [
+              "(0 L)auth.connect-request",
+              "(0 L)auth.connected",
+              "(0 L)auth.disconnect-request"
+            ]
+          },
+          {
+            "interface": "(0) chat",
+            "pins": [
+              "(0 L)chat.outgoing-message",
+              "(0 L)chat.history-received",
+              "(0 L)chat.incoming-message"
+            ]
+          },
+          {
+            "interface": "(0) net",
+            "pins": [
+              "(0 L)net.connection-state"
+            ]
+          }
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 0) auth.login-submitted @ login popup",
+        "to": "(pin 0) auth.login-submitted @ client controller",
+        "wire": "x 121.0 y -73.0 x 41.0"
+      },
+      {
+        "from": "(pin 0) auth.logout-request @ message history",
+        "to": "(pin 0) auth.logout-request @ client controller",
+        "wire": "x 64.0 y -347.5 x -690.0 y 227.5 x 42.0"
+      },
+      {
+        "from": "(pin 0) chat.send-message @ message composer",
+        "to": "(pin 0) chat.send-message @ client controller",
+        "wire": "x -188.5 y -274.0 x -62.5"
+      },
+      {
+        "from": "(pin 0) auth.connect-request @ client controller",
+        "to": "(pin 0) auth.connect-request @ ws transport",
+        "wire": "x 64.0 y -93.0 x 187.0"
+      },
+      {
+        "from": "(pin 0) auth.disconnect-request @ client controller",
+        "to": "(pin 0) auth.disconnect-request @ ws transport",
+        "wire": "x 83.0 y -93.0 x 168.0"
+      },
+      {
+        "from": "(pin 0) chat.outgoing-message @ client controller",
+        "to": "(pin 0) chat.outgoing-message @ ws transport",
+        "wire": "x 140.0 y -123.0 x 111.0"
+      },
+      {
+        "from": "(pin 0) net.connection-state @ client controller",
+        "to": "(pin 0) chat.connection-state @ message history",
+        "wire": "x 162.5 y 15.0 x 91.5"
+      },
+      {
+        "from": "(pin 0) net.connection-state @ client controller",
+        "to": "(pin 0) chat.connection-state @ message composer",
+        "wire": "x 50.5 y 244.0 x 200.5"
+      },
+      {
+        "from": "(pin 0) history.message-list @ client controller",
+        "to": "(pin 0) chat.message-list @ message history",
+        "wire": "x 125.5 y 0.0 x 128.5"
+      },
+      {
+        "from": "(pin 0) history.append-message @ client controller",
+        "to": "(pin 0) chat.append-message @ message history",
+        "wire": "x 125.5 y 0.0 x 128.5"
+      },
+      {
+        "from": "(pin 0) history.current-user @ client controller",
+        "to": "(pin 0) chat.current-user @ message history",
+        "wire": "x 125.5 y 0.0 x 128.5"
+      },
+      {
+        "from": "(pin 0) ui.get-history-view @ client controller",
+        "to": "(pin 0) ui.get-view @ message history",
+        "wire": "x 193.0 y 0.0 x 61.0"
+      },
+      {
+        "from": "(pin 0) ui.get-login-view @ client controller",
+        "to": "(pin 0) ui.get-view @ login popup",
+        "wire": "x -42.0 y -122.0 x -120.0"
+      },
+      {
+        "from": "(pin 0) ui.get-composer-view @ client controller",
+        "to": "(pin 0) ui.get-view @ message composer",
+        "wire": "x 37.5 y 154.0 x 213.5"
+      },
+      {
+        "from": "(pin 0) auth.connected @ ws transport",
+        "to": "(pin 0) auth.connected @ client controller",
+        "wire": "x -176.0 y 93.0 x -75.0"
+      },
+      {
+        "from": "(pin 0) chat.history-received @ ws transport",
+        "to": "(pin 0) chat.history-received @ client controller",
+        "wire": "x -101.0 y 123.0 x -150.0"
+      },
+      {
+        "from": "(pin 0) chat.incoming-message @ ws transport",
+        "to": "(pin 0) chat.incoming-message @ client controller",
+        "wire": "x -92.0 y 123.0 x -159.0"
+      },
+      {
+        "from": "(pin 0) net.connection-state @ ws transport",
+        "to": "(pin 0) net.connection-state @ client controller",
+        "wire": "x -86.0 y 138.0 x -165.0"
+      }
+    ]
+  }
+}

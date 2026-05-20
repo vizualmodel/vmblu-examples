@@ -1,0 +1,792 @@
+{
+  "header": {
+    "version": "0.9.3",
+    "created": "2026-02-11T11:09:28.315Z",
+    "saved": "2026-02-11T15:05:00.000Z",
+    "utc": "2026-02-11T15:05:00.000Z",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base"
+  },
+  "factories": [
+    {
+      "path": "../nodes/login popup/index.js",
+      "function": "createLoginPopupNode"
+    },
+    {
+      "path": "../nodes/message history/index.js",
+      "function": "createMessageHistoryNode"
+    },
+    {
+      "path": "../nodes/message composer/index.js",
+      "function": "createMessageComposerNode"
+    },
+    {
+      "path": "../nodes/client-controller.js",
+      "function": "createClientControllerNode"
+    },
+    {
+      "path": "../nodes/ws-transport.js",
+      "function": "createWsTransportNode"
+    }
+  ],
+  "types": {
+    "UserName": {
+      "kind": "object",
+      "summary": "The entered user name.",
+      "fields": {
+        "name": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "LoginEvent": {
+      "kind": "object",
+      "summary": "Successful login/session information from the server.",
+      "fields": {
+        "userId": {
+          "vmbluType": "string"
+        },
+        "userName": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "userId",
+        "userName"
+      ]
+    },
+    "ChatMessage": {
+      "kind": "object",
+      "summary": "One chat message shown in the client.",
+      "fields": {
+        "id": {
+          "vmbluType": "string"
+        },
+        "userId": {
+          "vmbluType": "string"
+        },
+        "userName": {
+          "vmbluType": "string"
+        },
+        "text": {
+          "vmbluType": "string"
+        },
+        "sentAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "userName",
+        "text",
+        "sentAt"
+      ]
+    },
+    "ChatMessageList": {
+      "kind": "array",
+      "summary": "Ordered list of chat messages.",
+      "items": {
+        "vmbluType": "ChatMessage"
+      }
+    },
+    "ChatHistory": {
+      "kind": "object",
+      "summary": "Message history delivered at login time.",
+      "fields": {
+        "messages": {
+          "vmbluType": "ChatMessageList"
+        }
+      },
+      "required": [
+        "messages"
+      ]
+    },
+    "OutgoingChatMessage": {
+      "kind": "object",
+      "summary": "User message emitted by the client.",
+      "fields": {
+        "userId": {
+          "vmbluType": "string"
+        },
+        "text": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "userId",
+        "text"
+      ]
+    },
+    "UiView": {
+      "kind": "object",
+      "summary": "A UI view element exposed by a node.",
+      "fields": {
+        "slot": {
+          "vmbluType": "string"
+        },
+        "element": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "slot",
+        "element"
+      ]
+    }
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "prompt": "Client-side chat application composition.",
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "login popup",
+        "prompt": "Renders the login popup and emits login requests.",
+        "factory": {
+          "path": "../nodes/login popup/index.js",
+          "function": "createLoginPopupNode"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.login-submitted",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "UserName"
+                },
+                "prompt": "Emits when the login form is submitted."
+              }
+            ]
+          },
+          {
+            "interface": "ui",
+            "pins": [
+              {
+                "name": "ui.get-view",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "any",
+                    "reply": "UiView"
+                  }
+                },
+                "prompt": "Returns the UI element managed by this node."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "message history",
+        "prompt": "Renders the message history panel and incoming updates.",
+        "factory": {
+          "path": "../nodes/message history/index.js",
+          "function": "createMessageHistoryNode"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.logout-request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "any"
+                },
+                "prompt": "Emits when the user clicks logout."
+              }
+            ]
+          },
+          {
+            "interface": "chat",
+            "pins": [
+              {
+                "name": "chat.connection-state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "string"
+                },
+                "prompt": "Updates visible connection status in the history panel."
+              },
+              {
+                "name": "chat.message-list",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ChatHistory"
+                },
+                "prompt": "Updates the visible message list for the chat history panel."
+              },
+              {
+                "name": "chat.append-message",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ChatMessage"
+                },
+                "prompt": "Adds one new message to the displayed history."
+              },
+              {
+                "name": "chat.current-user",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "string"
+                },
+                "prompt": "Sets the current user so own messages can be aligned right."
+              }
+            ]
+          },
+          {
+            "interface": "ui",
+            "pins": [
+              {
+                "name": "ui.get-view",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "any",
+                    "reply": "UiView"
+                  }
+                },
+                "prompt": "Returns the UI element managed by this node."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "message composer",
+        "prompt": "Renders the message input area and emits send events.",
+        "factory": {
+          "path": "../nodes/message composer/index.js",
+          "function": "createMessageComposerNode"
+        },
+        "interfaces": [
+          {
+            "interface": "chat",
+            "pins": [
+              {
+                "name": "chat.send-message",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "string"
+                },
+                "prompt": "Emits when the user sends a message from the composer."
+              },
+              {
+                "name": "chat.connection-state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "string"
+                },
+                "prompt": "Updates composer enabled state based on connection state."
+              }
+            ]
+          },
+          {
+            "interface": "ui",
+            "pins": [
+              {
+                "name": "ui.get-view",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "any",
+                    "reply": "UiView"
+                  }
+                },
+                "prompt": "Returns the UI element managed by this node."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "client controller",
+        "prompt": "Coordinates login flow, session state, and manages what UI is mounted on screen.",
+        "factory": {
+          "path": "../nodes/client-controller.js",
+          "function": "createClientControllerNode"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.connect-request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "UserName"
+                },
+                "prompt": "Requests transport to log in with the provided user name."
+              },
+              {
+                "name": "auth.connected",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "LoginEvent"
+                },
+                "prompt": "Handles successful login/session information from transport."
+              },
+              {
+                "name": "auth.disconnect-request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "any"
+                },
+                "prompt": "Requests transport to disconnect the active session."
+              },
+              {
+                "name": "auth.logout-request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "any"
+                },
+                "prompt": "Handles user logout requests from the UI."
+              },
+              {
+                "name": "auth.login-submitted",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "UserName"
+                },
+                "prompt": "Starts login processing for the submitted user name."
+              }
+            ]
+          },
+          {
+            "interface": "chat",
+            "pins": [
+              {
+                "name": "chat.outgoing-message",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "OutgoingChatMessage"
+                },
+                "prompt": "Emits outbound message payload to transport."
+              },
+              {
+                "name": "chat.history-received",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ChatHistory"
+                },
+                "prompt": "Receives chat history and prepares the UI state."
+              },
+              {
+                "name": "chat.incoming-message",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ChatMessage"
+                },
+                "prompt": "Handles new messages coming from the server."
+              },
+              {
+                "name": "chat.send-message",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "string"
+                },
+                "prompt": "Handles a message typed by the current user."
+              }
+            ]
+          },
+          {
+            "interface": "net",
+            "pins": [
+              {
+                "name": "net.connection-state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "string"
+                },
+                "prompt": "Handles transport connection state updates."
+              },
+              {
+                "name": "net.connection-state",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "string"
+                },
+                "prompt": "Broadcasts connection status to UI-facing nodes."
+              }
+            ]
+          },
+          {
+            "interface": "history",
+            "pins": [
+              {
+                "name": "history.message-list",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ChatHistory"
+                },
+                "prompt": "Sends the full message list state to the history node."
+              },
+              {
+                "name": "history.append-message",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ChatMessage"
+                },
+                "prompt": "Requests the history node to append one message."
+              },
+              {
+                "name": "history.current-user",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "string"
+                },
+                "prompt": "Updates the history node with the current user id."
+              }
+            ]
+          },
+          {
+            "interface": "ui",
+            "pins": [
+              {
+                "name": "ui.get-history-view",
+                "kind": "request",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "any",
+                    "reply": "UiView"
+                  }
+                },
+                "prompt": "Requests the history view so the controller can mount it."
+              },
+              {
+                "name": "ui.get-login-view",
+                "kind": "request",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "any",
+                    "reply": "UiView"
+                  }
+                },
+                "prompt": "Requests the login view so the controller can mount it."
+              },
+              {
+                "name": "ui.get-composer-view",
+                "kind": "request",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "any",
+                    "reply": "UiView"
+                  }
+                },
+                "prompt": "Requests the composer view so the controller can mount it."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "ws transport",
+        "prompt": "Handles websocket connection to the chat server and maps protocol events to node pins.",
+        "factory": {
+          "path": "../nodes/ws-transport.js",
+          "function": "createWsTransportNode"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.connect-request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "UserName"
+                },
+                "prompt": "Starts connection and login handshake with the server."
+              },
+              {
+                "name": "auth.connected",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "LoginEvent"
+                },
+                "prompt": "Emits when server confirms login success."
+              },
+              {
+                "name": "auth.disconnect-request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "any"
+                },
+                "prompt": "Disconnects the websocket session on logout."
+              }
+            ]
+          },
+          {
+            "interface": "chat",
+            "pins": [
+              {
+                "name": "chat.outgoing-message",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "OutgoingChatMessage"
+                },
+                "prompt": "Sends a chat message from the client to the server."
+              },
+              {
+                "name": "chat.history-received",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ChatHistory"
+                },
+                "prompt": "Emits initial chat history from the server."
+              },
+              {
+                "name": "chat.incoming-message",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ChatMessage"
+                },
+                "prompt": "Emits new message events from the server."
+              }
+            ]
+          },
+          {
+            "interface": "net",
+            "pins": [
+              {
+                "name": "net.connection-state",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "string"
+                },
+                "prompt": "Emits transport lifecycle state changes."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "src": {
+          "pin": "auth.login-submitted",
+          "node": "login popup"
+        },
+        "dst": {
+          "pin": "auth.login-submitted",
+          "node": "client controller"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.logout-request",
+          "node": "message history"
+        },
+        "dst": {
+          "pin": "auth.logout-request",
+          "node": "client controller"
+        }
+      },
+      {
+        "src": {
+          "pin": "chat.send-message",
+          "node": "message composer"
+        },
+        "dst": {
+          "pin": "chat.send-message",
+          "node": "client controller"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.connect-request",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "auth.connect-request",
+          "node": "ws transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.disconnect-request",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "auth.disconnect-request",
+          "node": "ws transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "chat.outgoing-message",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "chat.outgoing-message",
+          "node": "ws transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "net.connection-state",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "chat.connection-state",
+          "node": "message history"
+        }
+      },
+      {
+        "src": {
+          "pin": "net.connection-state",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "chat.connection-state",
+          "node": "message composer"
+        }
+      },
+      {
+        "src": {
+          "pin": "history.message-list",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "chat.message-list",
+          "node": "message history"
+        }
+      },
+      {
+        "src": {
+          "pin": "history.append-message",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "chat.append-message",
+          "node": "message history"
+        }
+      },
+      {
+        "src": {
+          "pin": "history.current-user",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "chat.current-user",
+          "node": "message history"
+        }
+      },
+      {
+        "src": {
+          "pin": "ui.get-history-view",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "ui.get-view",
+          "node": "message history"
+        }
+      },
+      {
+        "src": {
+          "pin": "ui.get-login-view",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "ui.get-view",
+          "node": "login popup"
+        }
+      },
+      {
+        "src": {
+          "pin": "ui.get-composer-view",
+          "node": "client controller"
+        },
+        "dst": {
+          "pin": "ui.get-view",
+          "node": "message composer"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.connected",
+          "node": "ws transport"
+        },
+        "dst": {
+          "pin": "auth.connected",
+          "node": "client controller"
+        }
+      },
+      {
+        "src": {
+          "pin": "chat.history-received",
+          "node": "ws transport"
+        },
+        "dst": {
+          "pin": "chat.history-received",
+          "node": "client controller"
+        }
+      },
+      {
+        "src": {
+          "pin": "chat.incoming-message",
+          "node": "ws transport"
+        },
+        "dst": {
+          "pin": "chat.incoming-message",
+          "node": "client controller"
+        }
+      },
+      {
+        "src": {
+          "pin": "net.connection-state",
+          "node": "ws transport"
+        },
+        "dst": {
+          "pin": "net.connection-state",
+          "node": "client controller"
+        }
+      }
+    ]
+  }
+}

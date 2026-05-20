@@ -1,0 +1,1799 @@
+{
+  "header": {
+    "version": "0.9.5",
+    "created": "2026-02-26T14:11:29.381Z",
+    "saved": "2026-02-26T14:11:29.381Z",
+    "utc": "2026-02-26T14:11:29.381Z",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-agent",
+    "agent": {
+      "path": "./solar-system.agent.json"
+    }
+  },
+  "factories": [
+    {
+      "path": "../nodes/simulation-clock.js",
+      "function": "createSimulationClock"
+    },
+    {
+      "path": "../nodes/command-router.js",
+      "function": "createCommandRouter"
+    },
+    {
+      "path": "../nodes/rendering/screen-layout.js",
+      "function": "createScreenLayout"
+    },
+    {
+      "path": "../nodes/rendering/renderer.js",
+      "function": "createRenderer"
+    },
+    {
+      "path": "../nodes/rendering/animator.js",
+      "function": "createAnimator"
+    },
+    {
+      "path": "../nodes/rendering/camera-manager.js",
+      "function": "createCameraManager"
+    },
+    {
+      "path": "../nodes/solar-system/ephemeris-engine.js",
+      "function": "createEphemerisEngine"
+    },
+    {
+      "path": "../nodes/solar-system/body-visuals.js",
+      "function": "createBodyVisuals"
+    },
+    {
+      "path": "../nodes/solar-system/celestial-sphere.js",
+      "function": "createCelestialSphere"
+    },
+    {
+      "path": "../nodes/charts/distance-chart.js",
+      "function": "createDistanceChart"
+    },
+    {
+      "path": "../nodes/user-interface/icon-menu.js",
+      "function": "createIconMenu"
+    }
+  ],
+  "types": {
+    "ClockConfig": {
+      "kind": "object",
+      "fields": {
+        "startIsoUtc": {
+          "vmbluType": "string"
+        },
+        "timeScale": {
+          "vmbluType": "number"
+        }
+      },
+      "required": [
+        "startIsoUtc",
+        "timeScale"
+      ]
+    },
+    "ClockControl": {
+      "kind": "object",
+      "fields": {
+        "action": {
+          "vmbluType": "string"
+        },
+        "value": {
+          "vmbluType": "number"
+        }
+      },
+      "required": [
+        "action"
+      ]
+    },
+    "SimulationTick": {
+      "kind": "object",
+      "fields": {
+        "simTimeIsoUtc": {
+          "vmbluType": "string"
+        },
+        "simJulianDay": {
+          "vmbluType": "number"
+        },
+        "deltaSimSeconds": {
+          "vmbluType": "number"
+        }
+      },
+      "required": [
+        "simTimeIsoUtc",
+        "simJulianDay",
+        "deltaSimSeconds"
+      ]
+    },
+    "SimulationState": {
+      "kind": "object",
+      "fields": {
+        "simTimeIsoUtc": {
+          "vmbluType": "string"
+        },
+        "timeScale": {
+          "vmbluType": "number"
+        },
+        "paused": {
+          "vmbluType": "boolean"
+        }
+      },
+      "required": [
+        "simTimeIsoUtc",
+        "timeScale",
+        "paused"
+      ]
+    },
+    "CommandEnvelope": {
+      "kind": "object",
+      "fields": {
+        "kind": {
+          "vmbluType": "string"
+        },
+        "source": {
+          "vmbluType": "string"
+        },
+        "params": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "kind",
+        "source"
+      ]
+    },
+    "BodyPoseList": {
+      "kind": "array",
+      "summary": "List of current body poses.",
+      "items": {
+        "vmbluType": "BodyPose"
+      }
+    },
+    "ScenePatchList": {
+      "kind": "array",
+      "items": {
+        "vmbluType": "any"
+      }
+    },
+    "AnimatableBatch": {
+      "kind": "object",
+      "fields": {
+        "items": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "items"
+      ]
+    },
+    "CameraState": {
+      "kind": "object",
+      "fields": {
+        "cameraId": {
+          "vmbluType": "string"
+        },
+        "mode": {
+          "vmbluType": "string"
+        },
+        "state": {
+          "vmbluType": "any"
+        },
+        "availableCameras": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "cameraId",
+        "mode"
+      ]
+    },
+    "ChartOverlay": {
+      "kind": "object",
+      "fields": {
+        "visible": {
+          "vmbluType": "boolean"
+        },
+        "payload": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "visible"
+      ]
+    },
+    "UiPanelCommand": {
+      "kind": "object",
+      "fields": {
+        "panel": {
+          "vmbluType": "string"
+        },
+        "visible": {
+          "vmbluType": "boolean"
+        }
+      },
+      "required": [
+        "panel",
+        "visible"
+      ]
+    },
+    "BodyCatalog": {
+      "kind": "array",
+      "summary": "List of supported bodies in the simulation.",
+      "items": {
+        "vmbluType": "BodyCatalogItem"
+      }
+    },
+    "RenderCommand": {
+      "kind": "object",
+      "fields": {
+        "kind": {
+          "vmbluType": "string"
+        },
+        "params": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "CameraCommand": {
+      "kind": "object",
+      "fields": {
+        "kind": {
+          "vmbluType": "string"
+        },
+        "params": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "ChartCommand": {
+      "kind": "object",
+      "fields": {
+        "kind": {
+          "vmbluType": "string"
+        },
+        "params": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "LayoutState": {
+      "kind": "object",
+      "fields": {
+        "fullScreen": {
+          "vmbluType": "boolean"
+        },
+        "overlays": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "fullScreen"
+      ]
+    },
+    "Vec3": {
+      "kind": "object",
+      "summary": "Simple 3D vector in AU units.",
+      "fields": {
+        "x": {
+          "vmbluType": "number"
+        },
+        "y": {
+          "vmbluType": "number"
+        },
+        "z": {
+          "vmbluType": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    "BodyPose": {
+      "kind": "object",
+      "summary": "Pose of a celestial body at the current simulation time.",
+      "fields": {
+        "id": {
+          "vmbluType": "string"
+        },
+        "name": {
+          "vmbluType": "string"
+        },
+        "parentId": {
+          "vmbluType": "any"
+        },
+        "positionAu": {
+          "vmbluType": "Vec3"
+        },
+        "radiusAu": {
+          "vmbluType": "number"
+        },
+        "rotationRad": {
+          "vmbluType": "number"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "positionAu",
+        "radiusAu",
+        "rotationRad"
+      ]
+    },
+    "BodyCatalogItem": {
+      "kind": "object",
+      "summary": "Catalog entry describing a supported celestial body.",
+      "fields": {
+        "id": {
+          "vmbluType": "string"
+        },
+        "name": {
+          "vmbluType": "string"
+        },
+        "parentId": {
+          "vmbluType": "any"
+        },
+        "kind": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind"
+      ]
+    },
+    "CameraEvent": {
+      "kind": "object",
+      "fields": {
+        "reason": {
+          "vmbluType": "string"
+        },
+        "cameraId": {
+          "vmbluType": "string"
+        },
+        "mode": {
+          "vmbluType": "string"
+        },
+        "followBodyId": {
+          "vmbluType": "any"
+        },
+        "targetBodyId": {
+          "vmbluType": "any"
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    }
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "prompt": "Solar-system-agent app composition.",
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "SimulationClock",
+        "prompt": "Maintains simulation time, time scale, and paused state, and emits simulation ticks.",
+        "factory": {
+          "path": "../nodes/simulation-clock.js",
+          "function": "createSimulationClock"
+        },
+        "interfaces": [
+          {
+            "interface": "clock",
+            "pins": [
+              {
+                "name": "clock.configure",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ClockConfig"
+                },
+                "prompt": "Applies a new simulation start time and time scale configuration."
+              },
+              {
+                "name": "clock.control",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ClockControl"
+                },
+                "prompt": "Handles clock actions such as pause, resume, and speed changes."
+              },
+              {
+                "name": "clock.state",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SimulationState"
+                },
+                "prompt": "Emits the current simulation clock state for UI and agent context."
+              },
+              {
+                "name": "clock.tick",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SimulationTick"
+                },
+                "prompt": "Emits a tick whenever simulation time advances."
+              }
+            ]
+          }
+        ],
+        "sx": {
+          "tickMs": 50,
+          "timeScale": 36000,
+          "startIsoUtc": "",
+          "stopIsoUtc": ""
+        }
+      },
+      {
+        "kind": "source",
+        "name": "CommandRouter",
+        "prompt": "Normalizes UI commands and routes them to the correct subsystem nodes.",
+        "factory": {
+          "path": "../nodes/command-router.js",
+          "function": "createCommandRouter"
+        },
+        "interfaces": [
+          {
+            "interface": "ui",
+            "pins": [
+              {
+                "name": "ui.command",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandEnvelope"
+                },
+                "prompt": "Receives a normalized command from UI nodes for routing."
+              },
+              {
+                "name": "ui.panel",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "UiPanelCommand"
+                },
+                "prompt": "Emits a command that changes UI panel visibility or state."
+              }
+            ]
+          },
+          {
+            "interface": "render",
+            "pins": [
+              {
+                "name": "render.view",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "RenderCommand"
+                },
+                "prompt": "Emits renderer or layout commands to the rendering group."
+              },
+              {
+                "name": "render.camera",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CameraCommand"
+                },
+                "prompt": "Emits camera placement or movement commands to the rendering group."
+              }
+            ]
+          },
+          {
+            "interface": "chart",
+            "pins": [
+              {
+                "name": "chart.command",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ChartCommand"
+                },
+                "prompt": "Emits a chart request to the charts subsystem."
+              }
+            ]
+          },
+          {
+            "interface": "solar",
+            "pins": [
+              {
+                "name": "solar.command",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandEnvelope"
+                },
+                "prompt": "Emits solar-system related commands to the solar system group."
+              }
+            ]
+          },
+          {
+            "interface": "clock",
+            "pins": [
+              {
+                "name": "clock.config",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ClockConfig"
+                },
+                "prompt": "Emits a clock configuration message derived from a routed command."
+              },
+              {
+                "name": "clock.control",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ClockControl"
+                },
+                "prompt": "Emits messages on clock.control for CommandRouter."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Rendering",
+        "prompt": "Composes layout, renderer, animator, and camera management for the 3D view.",
+        "interfaces": [
+          {
+            "interface": "scene",
+            "pins": [
+              {
+                "name": "scene.updates",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ScenePatchList"
+                },
+                "prompt": "Receives scene patch updates that should be applied in this subsystem."
+              },
+              {
+                "name": "scene.animatables",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AnimatableBatch"
+                },
+                "prompt": "Receives animatable registrations for animation processing."
+              },
+              {
+                "name": "scene.body-poses",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "BodyPoseList"
+                },
+                "prompt": "Receives current celestial body poses."
+              }
+            ]
+          },
+          {
+            "interface": "render",
+            "pins": [
+              {
+                "name": "render.command",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandEnvelope"
+                },
+                "prompt": "Receives renderer or layout commands from the command router."
+              }
+            ]
+          },
+          {
+            "interface": "camera",
+            "pins": [
+              {
+                "name": "camera.command",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandEnvelope"
+                },
+                "prompt": "Receives a camera placement or movement command."
+              },
+              {
+                "name": "camera.active",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CameraState"
+                },
+                "prompt": "Emits the currently active camera state."
+              }
+            ]
+          },
+          {
+            "interface": "sim",
+            "pins": [
+              {
+                "name": "sim.tick",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SimulationTick"
+                },
+                "prompt": "Receives simulation ticks used to update local state."
+              }
+            ]
+          },
+          {
+            "interface": "overlay",
+            "pins": [
+              {
+                "name": "overlay.chart",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ChartOverlay"
+                },
+                "prompt": "Receives the chart overlay payload that should be shown in the layout."
+              }
+            ]
+          }
+        ],
+        "nodes": [
+          {
+            "kind": "source",
+            "name": "ScreenLayout",
+            "prompt": "Manages the full-screen canvas host and overlay panel placement.",
+            "factory": {
+              "path": "../nodes/rendering/screen-layout.js",
+              "function": "createScreenLayout"
+            },
+            "interfaces": [
+              {
+                "interface": "layout",
+                "pins": [
+                  {
+                    "name": "layout.command",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "RenderCommand"
+                    },
+                    "prompt": "Receives layout commands for canvas and overlay arrangement."
+                  },
+                  {
+                    "name": "layout.chart-overlay",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ChartOverlay"
+                    },
+                    "prompt": "Receives chart overlay data and visibility state."
+                  },
+                  {
+                    "name": "layout.state",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "LayoutState"
+                    },
+                    "prompt": "Emits the resolved layout state used by renderer and camera manager."
+                  }
+                ]
+              }
+            ],
+            "sx": {
+              "ambientIntensity": 7,
+              "sunIntensity": 1000,
+              "showEcliptic": true,
+              "showAxes": false
+            }
+          },
+          {
+            "kind": "source",
+            "name": "Renderer",
+            "prompt": "Hosts the THREE.js scene and render loop and applies scene and camera updates.",
+            "factory": {
+              "path": "../nodes/rendering/renderer.js",
+              "function": "createRenderer"
+            },
+            "interfaces": [
+              {
+                "interface": "render",
+                "pins": [
+                  {
+                    "name": "render.scene-patches",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ScenePatchList"
+                    },
+                    "prompt": "Applies incoming scene patch batches to the renderer scene."
+                  },
+                  {
+                    "name": "render.layout",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "LayoutState"
+                    },
+                    "prompt": "Receives layout state updates that affect canvas size or overlays."
+                  },
+                  {
+                    "name": "render.camera",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CameraState"
+                    },
+                    "prompt": "Receives the active camera state used by the render loop."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "Animator",
+            "prompt": "Applies time-based updates to registered animatable objects using simulation ticks.",
+            "factory": {
+              "path": "../nodes/rendering/animator.js",
+              "function": "createAnimator"
+            },
+            "interfaces": [
+              {
+                "interface": "anim",
+                "pins": [
+                  {
+                    "name": "anim.scene-patches",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ScenePatchList"
+                    },
+                    "prompt": "Emits scene patches generated by animation updates."
+                  },
+                  {
+                    "name": "anim.tick",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "SimulationTick"
+                    },
+                    "prompt": "Receives simulation ticks that drive animation updates."
+                  },
+                  {
+                    "name": "anim.registry",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "AnimatableBatch"
+                    },
+                    "prompt": "Receives the current set of animatable objects to manage."
+                  },
+                  {
+                    "name": "anim.body-poses",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "BodyPoseList"
+                    },
+                    "prompt": "Receives body poses used to update animations tied to celestial bodies."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "CameraManager",
+            "prompt": "Creates and updates cameras, including body-relative views and flyby motion.",
+            "factory": {
+              "path": "../nodes/rendering/camera-manager.js",
+              "function": "createCameraManager"
+            },
+            "interfaces": [
+              {
+                "interface": "camera",
+                "pins": [
+                  {
+                    "name": "camera.command",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CameraCommand"
+                    },
+                    "prompt": "Receives a camera placement or movement command.",
+                    "tool": {
+                      "enabled": true,
+                      "id": "camera.command @ CameraManager",
+                      "title": "Camera Command",
+                      "description": "Receives a camera placement or movement command.",
+                      "risk": "low",
+                      "approval": "never",
+                      "schema": {},
+                      "effects": []
+                    }
+                  },
+                  {
+                    "name": "ol/",
+                    "kind": "output",
+                    "contract": {
+                      "role": "follower",
+                      "payload": "any"
+                    }
+                  },
+                  {
+                    "name": "camera.body-poses",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "BodyPoseList"
+                    },
+                    "prompt": "Receives body poses used to resolve body-relative cameras."
+                  },
+                  {
+                    "name": "camera.layout",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "LayoutState"
+                    },
+                    "prompt": "Receives layout updates that can affect camera aspect or controls."
+                  },
+                  {
+                    "name": "camera.active",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CameraState"
+                    },
+                    "prompt": "Emits the currently active camera state."
+                  },
+                  {
+                    "name": "camera.event",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CameraEvent"
+                    },
+                    "prompt": "Emits semantic camera changes for agent observation.",
+                    "event": {
+                      "enabled": true,
+                      "id": "camera.event @ CameraManager",
+                      "title": "Camera Event",
+                      "description": "Emits semantic camera changes for agent observation.",
+                      "schema": {}
+                    }
+                  }
+                ]
+              }
+            ],
+            "sx": {
+              "sunRadiusMultiplier": 10,
+              "planetRadiusMultiplier": 200,
+              "activeCameraId": "earth-camera",
+              "defaultCameraState": {
+                "positionAu": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0.2
+                },
+                "targetAu": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "startupCameras": [
+                {
+                  "cameraId": "earth-camera",
+                  "label": "Earth Camera",
+                  "mode": "body-follow",
+                  "followBodyId": "earth",
+                  "targetBodyId": "earth",
+                  "dx": 0.03,
+                  "dy": 0,
+                  "dz": 0.01
+                },
+                {
+                  "cameraId": "jupiter-camera",
+                  "label": "Jupiter Camera",
+                  "mode": "body-follow",
+                  "followBodyId": "jupiter",
+                  "targetBodyId": "jupiter",
+                  "dx": 0.45,
+                  "dy": 0,
+                  "dz": 0.08
+                }
+              ]
+            }
+          }
+        ],
+        "connections": [
+          {
+            "src": {
+              "pin": "layout.state",
+              "node": "ScreenLayout"
+            },
+            "dst": [
+              {
+                "pin": "camera.layout",
+                "node": "CameraManager"
+              },
+              {
+                "pin": "render.layout",
+                "node": "Renderer"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "anim.scene-patches",
+              "node": "Animator"
+            },
+            "dst": {
+              "pin": "render.scene-patches",
+              "node": "Renderer"
+            }
+          },
+          {
+            "src": {
+              "pin": "camera.active",
+              "node": "CameraManager"
+            },
+            "dst": [
+              {
+                "pin": "camera.active"
+              },
+              {
+                "pin": "render.camera",
+                "node": "Renderer"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "scene.updates"
+            },
+            "dst": {
+              "pin": "render.scene-patches",
+              "node": "Renderer"
+            }
+          },
+          {
+            "src": {
+              "pin": "scene.animatables"
+            },
+            "dst": {
+              "pin": "anim.registry",
+              "node": "Animator"
+            }
+          },
+          {
+            "src": {
+              "pin": "scene.body-poses"
+            },
+            "dst": [
+              {
+                "pin": "anim.body-poses",
+                "node": "Animator"
+              },
+              {
+                "pin": "camera.body-poses",
+                "node": "CameraManager"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "render.command"
+            },
+            "dst": {
+              "pin": "layout.command",
+              "node": "ScreenLayout"
+            }
+          },
+          {
+            "src": {
+              "pin": "camera.command"
+            },
+            "dst": {
+              "pin": "camera.command",
+              "node": "CameraManager"
+            }
+          },
+          {
+            "src": {
+              "pin": "sim.tick"
+            },
+            "dst": {
+              "pin": "anim.tick",
+              "node": "Animator"
+            }
+          },
+          {
+            "src": {
+              "pin": "overlay.chart"
+            },
+            "dst": {
+              "pin": "layout.chart-overlay",
+              "node": "ScreenLayout"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "SolarSystem",
+        "prompt": "## Description\nComposes the solar system simulation nodes that compute poses and generate visuals.",
+        "interfaces": [
+          {
+            "interface": "solar",
+            "pins": [
+              {
+                "name": "solar.command",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandEnvelope"
+                },
+                "prompt": "Receives solar-system related commands such as scaling, labels, or scene options."
+              }
+            ]
+          },
+          {
+            "interface": "camera",
+            "pins": [
+              {
+                "name": "camera.state",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CameraState"
+                },
+                "prompt": "Receives the active camera state for context or view-dependent behavior."
+              }
+            ]
+          },
+          {
+            "interface": "scene",
+            "pins": [
+              {
+                "name": "scene.updates",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ScenePatchList"
+                },
+                "prompt": "Emits scene patch updates produced by this subsystem."
+              },
+              {
+                "name": "scene.animatables",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AnimatableBatch"
+                },
+                "prompt": "Emits animatable registrations for the animator."
+              },
+              {
+                "name": "scene.body-poses",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "BodyPoseList"
+                },
+                "prompt": "Emits current celestial body poses for other subsystems."
+              },
+              {
+                "name": "scene.body-catalog",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "BodyCatalog"
+                },
+                "prompt": "Emits metadata about available celestial bodies."
+              }
+            ]
+          },
+          {
+            "interface": "sim",
+            "pins": [
+              {
+                "name": "sim.tick",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SimulationTick"
+                },
+                "prompt": "Receives simulation ticks used to update local state."
+              }
+            ]
+          }
+        ],
+        "nodes": [
+          {
+            "kind": "source",
+            "name": "EphemerisEngine",
+            "prompt": "Computes planet and moon positions from ephemerides using Kepler-based calculations.",
+            "factory": {
+              "path": "../nodes/solar-system/ephemeris-engine.js",
+              "function": "createEphemerisEngine"
+            },
+            "interfaces": [
+              {
+                "interface": "sim",
+                "pins": [
+                  {
+                    "name": "sim.tick",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "SimulationTick"
+                    },
+                    "prompt": "Receives simulation ticks used to update local state."
+                  }
+                ]
+              },
+              {
+                "interface": "solar",
+                "pins": [
+                  {
+                    "name": "solar.command",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CommandEnvelope"
+                    },
+                    "prompt": "Receives solar-system related commands such as scaling, labels, or scene options."
+                  }
+                ]
+              },
+              {
+                "interface": "orb",
+                "pins": [
+                  {
+                    "name": "orb.body-poses",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "BodyPoseList"
+                    },
+                    "prompt": "Emits calculated orbital poses for planets and moons."
+                  },
+                  {
+                    "name": "orb.body-catalog",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "BodyCatalog"
+                    },
+                    "prompt": "Emits metadata describing the supported celestial bodies."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "BodyVisuals",
+            "prompt": "Builds and updates visual representations of bodies, labels, and lighting-related scene patches.",
+            "factory": {
+              "path": "../nodes/solar-system/body-visuals.js",
+              "function": "createBodyVisuals"
+            },
+            "interfaces": [
+              {
+                "interface": "scene",
+                "pins": [
+                  {
+                    "name": "scene.body-poses",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "BodyPoseList"
+                    },
+                    "prompt": "Receives current celestial body poses."
+                  },
+                  {
+                    "name": "scene.command",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CommandEnvelope"
+                    },
+                    "prompt": "Receives solar-system visual commands such as scale or label toggles."
+                  },
+                  {
+                    "name": "scene.camera",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CameraState"
+                    },
+                    "prompt": "Receives camera state used for view-dependent visual updates."
+                  },
+                  {
+                    "name": "scene.updates",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ScenePatchList"
+                    },
+                    "prompt": "Emits scene patch updates produced by this subsystem."
+                  },
+                  {
+                    "name": "scene.animatables",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "AnimatableBatch"
+                    },
+                    "prompt": "Emits animatable registrations for the animator."
+                  }
+                ]
+              }
+            ],
+            "sx": {
+              "visualScale": 1500,
+              "labelsVisible": true,
+              "sunRadiusMultiplier": 5,
+              "planetRadiusMultiplier": 200,
+              "moonOrbitRadiusMultiplier": 20
+            }
+          },
+          {
+            "kind": "source",
+            "name": "CelestialSphere",
+            "prompt": "Builds the star or constellation background around the solar system scene.",
+            "factory": {
+              "path": "../nodes/solar-system/celestial-sphere.js",
+              "function": "createCelestialSphere"
+            },
+            "interfaces": [
+              {
+                "interface": "sky",
+                "pins": [
+                  {
+                    "name": "sky.command",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CommandEnvelope"
+                    },
+                    "prompt": "Receives configuration commands for the celestial sphere background."
+                  },
+                  {
+                    "name": "sky.camera",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "CameraState"
+                    },
+                    "prompt": "Receives camera state for view-dependent sky behavior."
+                  },
+                  {
+                    "name": "sky.scene-updates",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ScenePatchList"
+                    },
+                    "prompt": "Emits scene patches for the celestial sphere visuals."
+                  }
+                ]
+              }
+            ],
+            "sx": {
+              "radius": 2500,
+              "starMapFile": "starmap_2020_8k.jpg",
+              "constellationFile": "constellations.png",
+              "showStars": true,
+              "showConstellations": false
+            }
+          }
+        ],
+        "connections": [
+          {
+            "src": {
+              "pin": "orb.body-poses",
+              "node": "EphemerisEngine"
+            },
+            "dst": [
+              {
+                "pin": "scene.body-poses",
+                "node": "BodyVisuals"
+              },
+              {
+                "pin": "scene.body-poses"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "orb.body-catalog",
+              "node": "EphemerisEngine"
+            },
+            "dst": {
+              "pin": "scene.body-catalog"
+            }
+          },
+          {
+            "src": {
+              "pin": "scene.updates",
+              "node": "BodyVisuals"
+            },
+            "dst": {
+              "pin": "scene.updates"
+            }
+          },
+          {
+            "src": {
+              "pin": "scene.animatables",
+              "node": "BodyVisuals"
+            },
+            "dst": {
+              "pin": "scene.animatables"
+            }
+          },
+          {
+            "src": {
+              "pin": "sky.scene-updates",
+              "node": "CelestialSphere"
+            },
+            "dst": {
+              "pin": "scene.updates"
+            }
+          },
+          {
+            "src": {
+              "pin": "solar.command"
+            },
+            "dst": [
+              {
+                "pin": "solar.command",
+                "node": "EphemerisEngine"
+              },
+              {
+                "pin": "scene.command",
+                "node": "BodyVisuals"
+              },
+              {
+                "pin": "sky.command",
+                "node": "CelestialSphere"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "camera.state"
+            },
+            "dst": [
+              {
+                "pin": "scene.camera",
+                "node": "BodyVisuals"
+              },
+              {
+                "pin": "sky.camera",
+                "node": "CelestialSphere"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "sim.tick"
+            },
+            "dst": {
+              "pin": "sim.tick",
+              "node": "EphemerisEngine"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Charts",
+        "prompt": "Composes analytical chart nodes that generate on-demand chart overlays.",
+        "interfaces": [
+          {
+            "interface": "chart",
+            "pins": [
+              {
+                "name": "chart.command",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandEnvelope"
+                },
+                "prompt": "Receives chart requests such as show, hide, or update chart parameters."
+              },
+              {
+                "name": "chart.overlay",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ChartOverlay"
+                },
+                "prompt": "Emits the current chart overlay payload for display."
+              }
+            ]
+          },
+          {
+            "interface": "sim",
+            "pins": [
+              {
+                "name": "sim.body-poses",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "BodyPoseList"
+                },
+                "prompt": "Receives current body poses for computation or rendering support."
+              },
+              {
+                "name": "sim.tick",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SimulationTick"
+                },
+                "prompt": "Receives simulation ticks used to update local state."
+              }
+            ]
+          }
+        ],
+        "nodes": [
+          {
+            "kind": "source",
+            "name": "DistanceChart",
+            "prompt": "Calculates and packages chart data such as distances between selected celestial bodies.",
+            "factory": {
+              "path": "../nodes/charts/distance-chart.js",
+              "function": "createDistanceChart"
+            },
+            "interfaces": [
+              {
+                "interface": "chart",
+                "pins": [
+                  {
+                    "name": "chart.command",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ChartCommand"
+                    },
+                    "prompt": "Receives chart requests such as show, hide, or update chart parameters."
+                  },
+                  {
+                    "name": "chart.body-poses",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "BodyPoseList"
+                    },
+                    "prompt": "Receives body poses used to compute chart values."
+                  },
+                  {
+                    "name": "chart.tick",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "SimulationTick"
+                    },
+                    "prompt": "Receives simulation ticks to sample chart values over time."
+                  },
+                  {
+                    "name": "chart.overlay",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ChartOverlay"
+                    },
+                    "prompt": "Emits the current chart overlay payload for display."
+                  }
+                ]
+              }
+            ],
+            "sx": {
+              "width": 420
+            }
+          }
+        ],
+        "connections": [
+          {
+            "src": {
+              "pin": "chart.overlay",
+              "node": "DistanceChart"
+            },
+            "dst": {
+              "pin": "chart.overlay"
+            }
+          },
+          {
+            "src": {
+              "pin": "chart.command"
+            },
+            "dst": {
+              "pin": "chart.command",
+              "node": "DistanceChart"
+            }
+          },
+          {
+            "src": {
+              "pin": "sim.body-poses"
+            },
+            "dst": {
+              "pin": "chart.body-poses",
+              "node": "DistanceChart"
+            }
+          },
+          {
+            "src": {
+              "pin": "sim.tick"
+            },
+            "dst": {
+              "pin": "chart.tick",
+              "node": "DistanceChart"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "IconMenu",
+        "prompt": "Provides a compact icon menu to open or control overlays such as the chat panel.",
+        "factory": {
+          "path": "../nodes/user-interface/icon-menu.js",
+          "function": "createIconMenu"
+        },
+        "interfaces": [
+          {
+            "interface": "ui",
+            "pins": [
+              {
+                "name": "ui.command",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandEnvelope"
+                },
+                "prompt": "Emits a normalized command generated by a UI interaction."
+              },
+              {
+                "name": "ui.panel",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "UiPanelCommand"
+                },
+                "prompt": "Receives commands that show or hide a user interface panel."
+              }
+            ]
+          },
+          {
+            "interface": "camera",
+            "pins": [
+              {
+                "name": "camera.state",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CameraState"
+                },
+                "prompt": "Receives the active camera state and available camera list for the settings menu."
+              }
+            ]
+          },
+          {
+            "interface": "sim",
+            "pins": [
+              {
+                "name": "sim.state",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SimulationState"
+                },
+                "prompt": "Receives the current simulation state for display or controls."
+              }
+            ]
+          }
+        ],
+        "sx": {
+          "baseAmbientIntensity": 7,
+          "baseSunIntensity": 1000,
+          "ambientIntensity": 7,
+          "sunIntensity": 1000,
+          "simSecondsPerSec": 86400,
+          "sunRadiusMultiplier": 10,
+          "planetRadiusMultiplier": 200,
+          "moonOrbitRadiusMultiplier": 20,
+          "showEcliptic": false,
+          "showAxes": false,
+          "showStars": true,
+          "showConstellations": false
+        }
+      }
+    ],
+    "connections": [
+      {
+        "src": {
+          "pin": "clock.state",
+          "node": "SimulationClock"
+        },
+        "dst": {
+          "pin": "sim.state",
+          "node": "IconMenu"
+        }
+      },
+      {
+        "src": {
+          "pin": "clock.tick",
+          "node": "SimulationClock"
+        },
+        "dst": [
+          {
+            "pin": "sim.tick",
+            "node": "Rendering"
+          },
+          {
+            "pin": "sim.tick",
+            "node": "SolarSystem"
+          },
+          {
+            "pin": "sim.tick",
+            "node": "Charts"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "ui.panel",
+          "node": "CommandRouter"
+        },
+        "dst": {
+          "pin": "ui.panel",
+          "node": "IconMenu"
+        }
+      },
+      {
+        "src": {
+          "pin": "render.view",
+          "node": "CommandRouter"
+        },
+        "dst": {
+          "pin": "render.command",
+          "node": "Rendering"
+        }
+      },
+      {
+        "src": {
+          "pin": "render.camera",
+          "node": "CommandRouter"
+        },
+        "dst": {
+          "pin": "camera.command",
+          "node": "Rendering"
+        }
+      },
+      {
+        "src": {
+          "pin": "chart.command",
+          "node": "CommandRouter"
+        },
+        "dst": {
+          "pin": "chart.command",
+          "node": "Charts"
+        }
+      },
+      {
+        "src": {
+          "pin": "solar.command",
+          "node": "CommandRouter"
+        },
+        "dst": {
+          "pin": "solar.command",
+          "node": "SolarSystem"
+        }
+      },
+      {
+        "src": {
+          "pin": "clock.config",
+          "node": "CommandRouter"
+        },
+        "dst": {
+          "pin": "clock.configure",
+          "node": "SimulationClock"
+        }
+      },
+      {
+        "src": {
+          "pin": "clock.control",
+          "node": "CommandRouter"
+        },
+        "dst": {
+          "pin": "clock.control",
+          "node": "SimulationClock"
+        }
+      },
+      {
+        "src": {
+          "pin": "camera.active",
+          "node": "Rendering"
+        },
+        "dst": [
+          {
+            "pin": "camera.state",
+            "node": "IconMenu"
+          },
+          {
+            "pin": "camera.state",
+            "node": "SolarSystem"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "scene.updates",
+          "node": "SolarSystem"
+        },
+        "dst": {
+          "pin": "scene.updates",
+          "node": "Rendering"
+        }
+      },
+      {
+        "src": {
+          "pin": "scene.animatables",
+          "node": "SolarSystem"
+        },
+        "dst": {
+          "pin": "scene.animatables",
+          "node": "Rendering"
+        }
+      },
+      {
+        "src": {
+          "pin": "scene.body-poses",
+          "node": "SolarSystem"
+        },
+        "dst": {
+          "pin": "scene.body-poses",
+          "node": "Rendering"
+        }
+      },
+      {
+        "src": {
+          "pin": "chart.overlay",
+          "node": "Charts"
+        },
+        "dst": {
+          "pin": "overlay.chart",
+          "node": "Rendering"
+        }
+      },
+      {
+        "src": {
+          "pin": "ui.command",
+          "node": "IconMenu"
+        },
+        "dst": {
+          "pin": "ui.command",
+          "node": "CommandRouter"
+        }
+      }
+    ]
+  }
+}

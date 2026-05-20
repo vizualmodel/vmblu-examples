@@ -1,0 +1,107 @@
+{
+  "header": {
+    "version": "0.9.3",
+    "utc": "2026-02-11T11:25:00.000Z",
+    "style": "#0066ff"
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "rect": "x 90 y 30 w 150 h 26",
+    "view": {
+      "state": "open",
+      "rect": "x 0 y 0 w 1526 h 1326",
+      "transform": "sx 1.000 sy 1.000 dx 0.000 dy 20.000"
+    },
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "ws gateway",
+        "rect": "x 90 y 30 w 150 h 161",
+        "interfaces": [
+          {
+            "interface": "(0) auth",
+            "pins": [
+              "(0 R)auth.login-received",
+              "(0 R)auth.login-result"
+            ]
+          },
+          {
+            "interface": "(0) chat",
+            "pins": [
+              "(0 R)chat.message-received",
+              "(0 R)chat.history-deliver",
+              "(0 R)chat.message-deliver"
+            ]
+          },
+          {
+            "interface": "(0) session",
+            "pins": [
+              "(0 R)session.user-disconnected"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "chat state",
+        "rect": "x 390 y 30 w 150 h 161",
+        "interfaces": [
+          {
+            "interface": "(0) auth",
+            "pins": [
+              "(0 L)auth.login-received",
+              "(0 L)auth.login-result"
+            ]
+          },
+          {
+            "interface": "(0) chat",
+            "pins": [
+              "(0 L)chat.message-received",
+              "(0 L)chat.history-deliver",
+              "(0 L)chat.message-deliver"
+            ]
+          },
+          {
+            "interface": "(0) session",
+            "pins": [
+              "(0 L)session.user-disconnected"
+            ]
+          }
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 0) auth.login-received @ ws gateway",
+        "to": "(pin 0) auth.login-received @ chat state",
+        "wire": "x 75.0 y 0.0 x 75.0"
+      },
+      {
+        "from": "(pin 0) chat.message-received @ ws gateway",
+        "to": "(pin 0) chat.message-received @ chat state",
+        "wire": "x 75.0 y 0.0 x 75.0"
+      },
+      {
+        "from": "(pin 0) session.user-disconnected @ ws gateway",
+        "to": "(pin 0) session.user-disconnected @ chat state",
+        "wire": "x 75.0 y 0.0 x 75.0"
+      },
+      {
+        "from": "(pin 0) auth.login-result @ chat state",
+        "to": "(pin 0) auth.login-result @ ws gateway",
+        "wire": "x -75.0 y 0.0 x -75.0"
+      },
+      {
+        "from": "(pin 0) chat.history-deliver @ chat state",
+        "to": "(pin 0) chat.history-deliver @ ws gateway",
+        "wire": "x -75.0 y 0.0 x -75.0"
+      },
+      {
+        "from": "(pin 0) chat.message-deliver @ chat state",
+        "to": "(pin 0) chat.message-deliver @ ws gateway",
+        "wire": "x -75.0 y 0.0 x -75.0"
+      }
+    ]
+  }
+}

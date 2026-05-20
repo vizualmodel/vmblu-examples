@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "id": "solar-system-agent",
+  "title": "Solar System Agent",
+  "instructions": "Help the user operate the solar system simulation through published vmblu capabilities.",
+  "llm": {
+    "provider": "openai",
+    "model": "gpt-4.1-mini",
+    "endpoint": "http://127.0.0.1:8080/v1"
+  },
+  "ui": {
+    "mode": "overlay",
+    "trace": true,
+    "traceWindow": "overlay"
+  },
+  "runtime": {
+    "environment": "browser"
+  }
+}

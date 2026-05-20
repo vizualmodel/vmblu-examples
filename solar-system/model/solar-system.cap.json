@@ -1,0 +1,51 @@
+{
+  "schema": "https://vmblu.dev/schemas/capabilities.v1.json",
+  "version": 1,
+  "application": {
+    "id": "Root",
+    "title": "Root",
+    "description": "Root application."
+  },
+  "tools": [
+    {
+      "id": "camera.command @ CameraManager",
+      "title": "Camera Command",
+      "description": "Receives a camera placement or movement command.",
+      "input": {
+        "node": "CameraManager",
+        "pin": "camera.command",
+        "ref": "camera.command@CameraManager",
+        "payload": "CameraCommand",
+        "schema": {}
+      },
+      "effects": [],
+      "risk": "low",
+      "approval": "never"
+    }
+  ],
+  "probes": [],
+  "events": [
+    {
+      "id": "camera.event @ CameraManager",
+      "title": "Camera Event",
+      "description": "Emits semantic camera changes for agent observation.",
+      "source": {
+        "node": "CameraManager",
+        "pin": "camera.event",
+        "ref": "camera.event@CameraManager"
+      },
+      "schema": {}
+    }
+  ],
+  "policies": {
+    "defaultApproval": "never"
+  },
+  "usageGuidance": {
+    "principles": [
+      "Use tools to change application state.",
+      "Use probes to verify effects.",
+      "Use events for asynchronous observations.",
+      "Do not assume that a tool call succeeded unless a result, probe, or event confirms it."
+    ]
+  }
+}

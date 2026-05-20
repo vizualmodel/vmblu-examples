@@ -1,0 +1,22 @@
+{
+  "name": "chat-server",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@vizualmodel/vmblu-runtime": "file:../../../runtime",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@vizualmodel/vmblu-cli": "file:../../../cli",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "vm:init": "node ../../../cli/bin/vmblu.js init .",
+    "vm:profile": "node ../../../cli/bin/vmblu.js profile chat-server.blu",
+    "vm:app": "node ../../../cli/bin/vmblu.js make-app chat-server.blu",
+    "vm:capabilities": "node ../../../cli/bin/vmblu.js make-capabilities chat-server.blu",
+    "start": "node model/chat-server.app.js",
+    "check": "node --check model/chat-server.app.js && node --check nodes/ws-gateway.js && node --check nodes/chat-state.js"
+  }
+}

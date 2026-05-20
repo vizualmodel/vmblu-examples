@@ -1,0 +1,183 @@
+{
+  "version": "0.5.2",
+  "generatedAt": "2026-05-19T13:34:51.572Z",
+  "entries": [
+    {
+      "node": "chat state",
+      "handles": [
+        {
+          "pin": "auth.login-received",
+          "handler": "onAuthLoginReceived",
+          "file": "../nodes/chat-state.js",
+          "line": 18,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ connectionId: string, userName: string }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "chat.message-received",
+          "handler": "onChatMessageReceived",
+          "file": "../nodes/chat-state.js",
+          "line": 36,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ userId: string, text: string }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "session.user-disconnected",
+          "handler": "onSessionUserDisconnected",
+          "file": "../nodes/chat-state.js",
+          "line": 63,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "string",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "auth.login-result",
+          "file": "../nodes/chat-state.js",
+          "line": 26
+        },
+        {
+          "pin": "chat.history-deliver",
+          "file": "../nodes/chat-state.js",
+          "line": 27
+        },
+        {
+          "pin": "chat.message-deliver",
+          "file": "../nodes/chat-state.js",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "node": "ws gateway",
+      "handles": [
+        {
+          "pin": "socket.connected",
+          "handler": "onSocketConnected",
+          "file": "../nodes/ws-gateway.js",
+          "line": 22,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "socket",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "socket.message",
+          "handler": "onSocketMessage",
+          "file": "../nodes/ws-gateway.js",
+          "line": 38,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "connectionId",
+              "type": "any",
+              "description": ""
+            },
+            {
+              "name": "raw",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "auth.login-result",
+          "handler": "onAuthLoginResult",
+          "file": "../nodes/ws-gateway.js",
+          "line": 65,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ connectionId: string, userId: string, userName: string }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "chat.history-deliver",
+          "handler": "onChatHistoryDeliver",
+          "file": "../nodes/ws-gateway.js",
+          "line": 81,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ connectionId: string, messages: Array<{ id: string, userId: string, userName: string, text: string, sentAt: string }> }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "chat.message-deliver",
+          "handler": "onChatMessageDeliver",
+          "file": "../nodes/ws-gateway.js",
+          "line": 95,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ id: string, userId: string, userName: string, text: string, sentAt: string }",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "session.user-disconnected",
+          "file": "../nodes/ws-gateway.js",
+          "line": 34
+        },
+        {
+          "pin": "auth.login-received",
+          "file": "../nodes/ws-gateway.js",
+          "line": 47
+        },
+        {
+          "pin": "chat.message-received",
+          "file": "../nodes/ws-gateway.js",
+          "line": 55
+        }
+      ]
+    }
+  ]
+}

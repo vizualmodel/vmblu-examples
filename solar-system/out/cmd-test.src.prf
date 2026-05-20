@@ -1,0 +1,689 @@
+{
+  "version": "0.5.2",
+  "generatedAt": "2026-05-06T15:57:57.983Z",
+  "entries": [
+    {
+      "node": "CommandRouter",
+      "handles": [
+        {
+          "pin": "ui.command",
+          "handler": "onUiCommand",
+          "file": "../nodes/command-router.js",
+          "line": 102,
+          "summary": "Receives a normalized command from UI nodes for routing.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CommandEnvelope",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "clock.config",
+          "file": "../nodes/command-router.js",
+          "line": 23
+        },
+        {
+          "pin": "clock.control",
+          "file": "../nodes/command-router.js",
+          "line": 38
+        },
+        {
+          "pin": "solar.command",
+          "file": "../nodes/command-router.js",
+          "line": 43
+        },
+        {
+          "pin": "render.camera",
+          "file": "../nodes/command-router.js",
+          "line": 53
+        },
+        {
+          "pin": "render.camera",
+          "file": "../nodes/command-router.js",
+          "line": 61
+        },
+        {
+          "pin": "render.view",
+          "file": "../nodes/command-router.js",
+          "line": 68
+        },
+        {
+          "pin": "chart.command",
+          "file": "../nodes/command-router.js",
+          "line": 75
+        },
+        {
+          "pin": "ui.panel",
+          "file": "../nodes/command-router.js",
+          "line": 86
+        },
+        {
+          "pin": "render.view",
+          "file": "../nodes/command-router.js",
+          "line": 91
+        }
+      ]
+    },
+    {
+      "node": "SimulationClock",
+      "handles": [
+        {
+          "pin": "clock.configure",
+          "handler": "onClockConfigure",
+          "file": "../nodes/simulation-clock.js",
+          "line": 65,
+          "summary": "Applies a new simulation start time and time scale configuration.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "ClockConfig",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "clock.control",
+          "handler": "onClockControl",
+          "file": "../nodes/simulation-clock.js",
+          "line": 89,
+          "summary": "Handles clock actions such as pause, resume, and speed changes.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "ClockControl",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "clock.tick",
+          "file": "../nodes/simulation-clock.js",
+          "line": 47
+        },
+        {
+          "pin": "clock.state",
+          "file": "../nodes/simulation-clock.js",
+          "line": 58
+        }
+      ]
+    },
+    {
+      "node": "DistanceChart",
+      "handles": [
+        {
+          "pin": "chart.command",
+          "handler": "onChartCommand",
+          "file": "../nodes/charts/distance-chart.js",
+          "line": 553,
+          "summary": "Receives chart requests such as show, hide, or update chart parameters.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "ChartCommand",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "chart.body-poses",
+          "handler": "onChartBodyPoses",
+          "file": "../nodes/charts/distance-chart.js",
+          "line": 598,
+          "summary": "Receives body poses used to compute chart values.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "BodyPoseList",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "chart.tick",
+          "handler": "onChartTick",
+          "file": "../nodes/charts/distance-chart.js",
+          "line": 620,
+          "summary": "Receives simulation ticks to sample chart values over time.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "SimulationTick",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "chart.overlay",
+          "file": "../nodes/charts/distance-chart.js",
+          "line": 242
+        }
+      ]
+    },
+    {
+      "node": "Animator",
+      "handles": [
+        {
+          "pin": "anim.tick",
+          "handler": "onAnimTick",
+          "file": "../nodes/rendering/animator.js",
+          "line": 16,
+          "summary": "Receives simulation ticks that drive animation updates.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "SimulationTick",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "anim.registry",
+          "handler": "onAnimRegistry",
+          "file": "../nodes/rendering/animator.js",
+          "line": 38,
+          "summary": "Receives the current set of animatable objects to manage.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "AnimatableBatch",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "anim.body-poses",
+          "handler": "onAnimBodyPoses",
+          "file": "../nodes/rendering/animator.js",
+          "line": 47,
+          "summary": "Receives body poses used to update animations tied to celestial bodies.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "BodyPoseList",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "anim.scene-patches",
+          "file": "../nodes/rendering/animator.js",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "node": "CameraManager",
+      "handles": [
+        {
+          "pin": "camera.command",
+          "handler": "onCameraCommand",
+          "file": "../nodes/rendering/camera-manager.js",
+          "line": 247,
+          "summary": "Receives a camera placement or movement command.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CameraCommand",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "camera.body-poses",
+          "handler": "onCameraBodyPoses",
+          "file": "../nodes/rendering/camera-manager.js",
+          "line": 344,
+          "summary": "Receives body poses used to resolve body-relative cameras.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "BodyPoseList",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "camera.layout",
+          "handler": "onCameraLayout",
+          "file": "../nodes/rendering/camera-manager.js",
+          "line": 353,
+          "summary": "Receives layout updates that can affect camera aspect or controls.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "LayoutState",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "camera.active",
+          "file": "../nodes/rendering/camera-manager.js",
+          "line": 191
+        },
+        {
+          "pin": "camera.event",
+          "file": "../nodes/rendering/camera-manager.js",
+          "line": 196
+        }
+      ]
+    },
+    {
+      "node": "Renderer",
+      "handles": [
+        {
+          "pin": "render.scene-patches",
+          "handler": "onRenderScenePatches",
+          "file": "../nodes/rendering/renderer.js",
+          "line": 588,
+          "summary": "Applies incoming scene patch batches to the renderer scene.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "ScenePatchList",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "render.layout",
+          "handler": "onRenderLayout",
+          "file": "../nodes/rendering/renderer.js",
+          "line": 597,
+          "summary": "Receives layout state updates that affect canvas size or overlays.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "LayoutState",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "render.camera",
+          "handler": "onRenderCamera",
+          "file": "../nodes/rendering/renderer.js",
+          "line": 616,
+          "summary": "Receives the active camera state used by the render loop.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CameraState",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": []
+    },
+    {
+      "node": "ScreenLayout",
+      "handles": [
+        {
+          "pin": "layout.command",
+          "handler": "onLayoutCommand",
+          "file": "../nodes/rendering/screen-layout.js",
+          "line": 42,
+          "summary": "Receives layout commands for canvas and overlay arrangement.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "RenderCommand",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "layout.chart-overlay",
+          "handler": "onLayoutChartOverlay",
+          "file": "../nodes/rendering/screen-layout.js",
+          "line": 83,
+          "summary": "Receives chart overlay data and visibility state.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "ChartOverlay",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "layout.state",
+          "file": "../nodes/rendering/screen-layout.js",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "node": "BodyVisuals",
+      "handles": [
+        {
+          "pin": "scene.body-poses",
+          "handler": "onSceneBodyPoses",
+          "file": "../nodes/solar-system/body-visuals.js",
+          "line": 43,
+          "summary": "Receives current celestial body poses.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "BodyPoseList",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "scene.command",
+          "handler": "onSceneCommand",
+          "file": "../nodes/solar-system/body-visuals.js",
+          "line": 69,
+          "summary": "Receives solar-system visual commands such as scale or label toggles.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CommandEnvelope",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "scene.camera",
+          "handler": "onSceneCamera",
+          "file": "../nodes/solar-system/body-visuals.js",
+          "line": 119,
+          "summary": "Receives camera state used for view-dependent visual updates.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CameraState",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "scene.updates",
+          "file": "../nodes/solar-system/body-visuals.js",
+          "line": 26
+        },
+        {
+          "pin": "scene.animatables",
+          "file": "../nodes/solar-system/body-visuals.js",
+          "line": 61
+        }
+      ]
+    },
+    {
+      "node": "CelestialSphere",
+      "handles": [
+        {
+          "pin": "sky.command",
+          "handler": "onSkyCommand",
+          "file": "../nodes/solar-system/celestial-sphere.js",
+          "line": 39,
+          "summary": "Receives configuration commands for the celestial sphere background.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CommandEnvelope",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "sky.camera",
+          "handler": "onSkyCamera",
+          "file": "../nodes/solar-system/celestial-sphere.js",
+          "line": 59,
+          "summary": "Receives camera state for view-dependent sky behavior.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CameraState",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "sky.scene-updates",
+          "file": "../nodes/solar-system/celestial-sphere.js",
+          "line": 32
+        }
+      ]
+    },
+    {
+      "node": "EphemerisEngine",
+      "handles": [
+        {
+          "pin": "sim.tick",
+          "handler": "onSimTick",
+          "file": "../nodes/solar-system/ephemeris-engine.js",
+          "line": 42,
+          "summary": "Receives simulation ticks used to update local state.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "SimulationTick",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "solar.command",
+          "handler": "onSolarCommand",
+          "file": "../nodes/solar-system/ephemeris-engine.js",
+          "line": 53,
+          "summary": "Receives solar-system related commands such as scaling, labels, or scene options.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CommandEnvelope",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "orb.body-catalog",
+          "file": "../nodes/solar-system/ephemeris-engine.js",
+          "line": 28
+        },
+        {
+          "pin": "orb.body-poses",
+          "file": "../nodes/solar-system/ephemeris-engine.js",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "node": "IconMenu",
+      "handles": [
+        {
+          "pin": "ui.panel",
+          "handler": "onUiPanel",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 835,
+          "summary": "Receives commands that show or hide a user interface panel.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "UiPanelCommand",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "camera.state",
+          "handler": "onCameraState",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 851,
+          "summary": "Receives the active camera state for context or view-dependent behavior.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "CameraState",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "sim.state",
+          "handler": "onSimState",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 868,
+          "summary": "Receives the current simulation state for display or controls.",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "SimulationState",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 648
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 660
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 673
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 691
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 703
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 715
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 727
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 741
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 753
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 765
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 777
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 787
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 810
+        },
+        {
+          "pin": "ui.command",
+          "file": "../nodes/user-interface/icon-menu.js",
+          "line": 828
+        }
+      ]
+    }
+  ]
+}

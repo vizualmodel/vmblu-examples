@@ -1,0 +1,25 @@
+{
+  "name": "chat-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@vizualmodel/vmblu-runtime": "file:../../../runtime",
+    "svelte": "^5.38.10"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@vizualmodel/vmblu-cli": "file:../../../cli",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  },
+  "scripts": {
+    "vm:init": "node ../../../cli/bin/vmblu.js init .",
+    "vm:profile": "node ../../../cli/bin/vmblu.js profile chat-client.blu",
+    "vm:app": "node ../../../cli/bin/vmblu.js make-app chat-client.blu",
+    "vm:capabilities": "node ../../../cli/bin/vmblu.js make-capabilities chat-client.blu",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
