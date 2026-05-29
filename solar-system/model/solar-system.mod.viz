@@ -76,8 +76,8 @@
         "rect": "x 751 y 30 w 150 h 221",
         "view": {
           "state": "closed",
-          "rect": "x 74 y 126 w 1109 h 562",
-          "transform": "sx 1.000 sy 1.000 dx -16.000 dy 248.000"
+          "rect": "x 166 y 183 w 1109 h 562",
+          "transform": "sx 1.000 sy 1.000 dx 76.000 dy 305.000"
         },
         "interfaces": [
           {
