@@ -1,0 +1,182 @@
+{
+  "header": {
+    "version": "0.9.7",
+    "utc": "2026-06-07T15:45:00.000Z",
+    "style": "#2c7be5"
+  },
+  "root": {
+    "kind": "group",
+    "name": "PatientLedger server",
+    "rect": "x 90 y 30 w 150 h 26",
+    "view": {
+      "state": "open",
+      "rect": "x 0 y 0 w 1200 h 800",
+      "transform": "sx 1.000 sy 1.000 dx 0.000 dy 0.000"
+    },
+    "nodes": [
+      {
+        "kind": "group",
+        "name": "Transport",
+        "rect": "x 80 y 210 w 175 h 101",
+        "interfaces": [
+          {
+            "interface": "(6) server",
+            "pins": [
+              "(1 R)request.in",
+              "(2 R)response.out",
+              "(3 R)event.stream",
+              "(4 R)transport.event"
+            ]
+          }
+        ],
+        "pads": [
+          "(1 R)x 700 y 23 w 83 h 15|request.in",
+          "(2 L)x 10 y 53 w 98 h 15|response.out",
+          "(3 L)x 10 y 83 w 99 h 15|event.stream",
+          "(4 R)x 700 y 113 w 111 h 15|transport.event"
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Authentication",
+        "rect": "x 330 y 120 w 190 h 101",
+        "interfaces": [
+          {
+            "interface": "(6) auth",
+            "pins": [
+              "(1 L)auth.request",
+              "(2 R)auth.context",
+              "(3 L)auth.denied",
+              "(4 R)auth.event"
+            ]
+          }
+        ],
+        "pads": [
+          "(1 L)x 10 y 23 w 97 h 15|auth.request",
+          "(2 R)x 700 y 53 w 96 h 15|auth.context",
+          "(3 R)x 700 y 83 w 93 h 15|auth.denied",
+          "(4 R)x 700 y 113 w 87 h 15|auth.event"
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "PolicyEnforcer",
+        "rect": "x 600 y 120 w 205 h 116",
+        "interfaces": [
+          {
+            "interface": "(7) policy",
+            "pins": [
+              "(1 L)auth.context",
+              "(2 R)data.operation",
+              "(3 L)policy.denied",
+              "(4 L)policy.event",
+              "(5 R)policy.decision"
+            ]
+          }
+        ],
+        "pads": [
+          "(1 L)x 10 y 23 w 96 h 15|auth.context",
+          "(2 R)x 700 y 53 w 107 h 15|data.operation",
+          "(3 R)x 700 y 83 w 98 h 15|policy.denied",
+          "(4 R)x 700 y 113 w 92 h 15|policy.event",
+          "(5 R)x 700 y 143 w 105 h 15|policy.decision"
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "DataCenter",
+        "rect": "x 880 y 135 w 185 h 86",
+        "interfaces": [
+          {
+            "interface": "(5) records",
+            "pins": [
+              "(1 L)data.operation",
+              "(2 L)data.result",
+              "(3 L)data.event"
+            ]
+          }
+        ],
+        "pads": [
+          "(1 L)x 10 y 23 w 107 h 15|data.operation",
+          "(2 R)x 700 y 53 w 86 h 15|data.result",
+          "(3 R)x 700 y 83 w 86 h 15|data.event"
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "EventRecorder",
+        "rect": "x 610 y 390 w 205 h 71",
+        "interfaces": [
+          {
+            "interface": "(4) events",
+            "pins": [
+              "(1 L)event.record",
+              "(2 L)event.stream"
+            ]
+          }
+        ],
+        "pads": [
+          "(1 L)x 10 y 23 w 96 h 15|event.record",
+          "(2 R)x 700 y 53 w 99 h 15|event.stream"
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 1) request.in @ Transport",
+        "to": "(pin 1) auth.request @ Authentication",
+        "wire": "x 37.5 y -90.0 x 37.5"
+      },
+      {
+        "from": "(pin 4) transport.event @ Transport",
+        "to": "(pin 1) event.record @ EventRecorder",
+        "wire": "x 177.5 y 135.0 x 177.5"
+      },
+      {
+        "from": "(pin 2) auth.context @ Authentication",
+        "to": "(pin 1) auth.context @ PolicyEnforcer",
+        "wire": "x 40.0 y -15.0 x 40.0"
+      },
+      {
+        "from": "(pin 3) auth.denied @ Authentication",
+        "to": "(pin 2) response.out @ Transport",
+        "wire": "x -17.5 y 75.0 x -57.5"
+      },
+      {
+        "from": "(pin 4) auth.event @ Authentication",
+        "to": "(pin 1) event.record @ EventRecorder",
+        "wire": "x 55.0 y 225.0 x 35.0"
+      },
+      {
+        "from": "(pin 2) data.operation @ PolicyEnforcer",
+        "to": "(pin 1) data.operation @ DataCenter",
+        "wire": "x 37.5 y 0.0 x 37.5"
+      },
+      {
+        "from": "(pin 3) policy.denied @ PolicyEnforcer",
+        "to": "(pin 2) response.out @ Transport",
+        "wire": "x -45.0 y 31.8 x -265.0 y 43.3 x -35.0"
+      },
+      {
+        "from": "(pin 4) policy.event @ PolicyEnforcer",
+        "to": "(pin 1) event.record @ EventRecorder",
+        "wire": "x -15.0 y 225.0 x 25.0"
+      },
+      {
+        "from": "(pin 2) data.result @ DataCenter",
+        "to": "(pin 2) response.out @ Transport",
+        "wire": "x -35.0 y 89.3 x -555.0 y -14.3 x -35.0"
+      },
+      {
+        "from": "(pin 3) data.event @ DataCenter",
+        "to": "(pin 1) event.record @ EventRecorder",
+        "wire": "x -25.0 y 36.8 x -270.0 y 188.3 x 25.0"
+      },
+      {
+        "from": "(pin 2) event.stream @ EventRecorder",
+        "to": "(pin 3) event.stream @ Transport",
+        "wire": "x -157.5 y -165.0 x -197.5"
+      }
+    ]
+  }
+}

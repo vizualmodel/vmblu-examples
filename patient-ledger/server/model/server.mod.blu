@@ -1,0 +1,373 @@
+{
+  "header": {
+    "version": "0.9.7",
+    "created": "2026-06-07T15:32:34.587Z",
+    "saved": "2026-06-07T15:45:00.000Z",
+    "utc": "2026-06-07T15:45:00.000Z",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base"
+  },
+  "types": {
+    "AnyPayload": {
+      "kind": "primitive",
+      "summary": "Opaque payload used while the architecture is still being refined."
+    },
+    "ServerRequest": {
+      "kind": "object",
+      "summary": "Provisional incoming request from a client, admin surface, agent gateway or scenario runner.",
+      "fields": {}
+    },
+    "AuthContext": {
+      "kind": "object",
+      "summary": "Provisional authenticated actor/session context.",
+      "fields": {}
+    },
+    "PolicyDecision": {
+      "kind": "object",
+      "summary": "Provisional allow/deny decision with reason and policy evidence.",
+      "fields": {}
+    },
+    "DataOperation": {
+      "kind": "object",
+      "summary": "Provisional approved operation against patient records or related synthetic data.",
+      "fields": {}
+    },
+    "ServerResponse": {
+      "kind": "object",
+      "summary": "Provisional response returned through transport.",
+      "fields": {}
+    },
+    "RecordedEvent": {
+      "kind": "object",
+      "summary": "Provisional audit, access-denial, capability-trace or security event.",
+      "fields": {}
+    }
+  },
+  "root": {
+    "kind": "group",
+    "name": "PatientLedger server",
+    "prompt": "Architecture sketch for the PatientLedger server. The model intentionally uses coarse responsibility nodes and provisional payloads so the architecture can be discussed and refined before implementation details are fixed.",
+    "nodes": [
+      {
+        "kind": "group",
+        "name": "Transport",
+        "label": "server communication boundary",
+        "prompt": "Receives traffic from the clinical client, admin client, agent gateway and scenario runner. It adapts external communication to internal server requests and returns responses or event streams. It should not own authentication, policy or patient-data decisions.",
+        "interfaces": [
+          {
+            "interface": "server",
+            "pins": [
+              {
+                "name": "request.in",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ServerRequest"
+                }
+              },
+              {
+                "name": "response.out",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ServerResponse"
+                }
+              },
+              {
+                "name": "event.stream",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "RecordedEvent"
+                }
+              },
+              {
+                "name": "transport.event",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "RecordedEvent"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Authentication",
+        "label": "identity and session boundary",
+        "prompt": "Establishes or denies actor identity and session state for synthetic users. Authentication produces context for later policy decisions, but does not decide patient-record permissions by itself.",
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ServerRequest"
+                }
+              },
+              {
+                "name": "auth.context",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthContext"
+                }
+              },
+              {
+                "name": "auth.denied",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ServerResponse"
+                }
+              },
+              {
+                "name": "auth.event",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "RecordedEvent"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "PolicyEnforcer",
+        "label": "authorization and capability boundary",
+        "prompt": "Vets authenticated requests against role policy, capability policy and the server security boundary. It permits narrow data operations or returns a denial. It is the main watchdog responsibility in the current architecture sketch.",
+        "interfaces": [
+          {
+            "interface": "policy",
+            "pins": [
+              {
+                "name": "auth.context",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthContext"
+                }
+              },
+              {
+                "name": "data.operation",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "DataOperation"
+                }
+              },
+              {
+                "name": "policy.denied",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ServerResponse"
+                }
+              },
+              {
+                "name": "policy.event",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "RecordedEvent"
+                }
+              },
+              {
+                "name": "policy.decision",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PolicyDecision"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "DataCenter",
+        "label": "patient data authority",
+        "prompt": "Owns the synthetic patient records and related data. It receives approved data operations and returns data results. Direct external access to this responsibility should remain out of bounds.",
+        "interfaces": [
+          {
+            "interface": "records",
+            "pins": [
+              {
+                "name": "data.operation",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "DataOperation"
+                }
+              },
+              {
+                "name": "data.result",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ServerResponse"
+                }
+              },
+              {
+                "name": "data.event",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "RecordedEvent"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "EventRecorder",
+        "label": "audit and security evidence",
+        "prompt": "Records authentication events, policy decisions, denied access, data access, capability traces and runtime security events. It records evidence; it does not grant access.",
+        "interfaces": [
+          {
+            "interface": "events",
+            "pins": [
+              {
+                "name": "event.record",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "RecordedEvent"
+                }
+              },
+              {
+                "name": "event.stream",
+                "kind": "output",
+                "contract": {
+                  "role": "follower",
+                  "payload": "RecordedEvent"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "src": {
+          "pin": "request.in",
+          "node": "Transport"
+        },
+        "dst": {
+          "pin": "auth.request",
+          "node": "Authentication"
+        }
+      },
+      {
+        "src": {
+          "pin": "transport.event",
+          "node": "Transport"
+        },
+        "dst": {
+          "pin": "event.record",
+          "node": "EventRecorder"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.context",
+          "node": "Authentication"
+        },
+        "dst": {
+          "pin": "auth.context",
+          "node": "PolicyEnforcer"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.denied",
+          "node": "Authentication"
+        },
+        "dst": {
+          "pin": "response.out",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.event",
+          "node": "Authentication"
+        },
+        "dst": {
+          "pin": "event.record",
+          "node": "EventRecorder"
+        }
+      },
+      {
+        "src": {
+          "pin": "data.operation",
+          "node": "PolicyEnforcer"
+        },
+        "dst": {
+          "pin": "data.operation",
+          "node": "DataCenter"
+        }
+      },
+      {
+        "src": {
+          "pin": "policy.denied",
+          "node": "PolicyEnforcer"
+        },
+        "dst": {
+          "pin": "response.out",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "policy.event",
+          "node": "PolicyEnforcer"
+        },
+        "dst": {
+          "pin": "event.record",
+          "node": "EventRecorder"
+        }
+      },
+      {
+        "src": {
+          "pin": "data.result",
+          "node": "DataCenter"
+        },
+        "dst": {
+          "pin": "response.out",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "data.event",
+          "node": "DataCenter"
+        },
+        "dst": {
+          "pin": "event.record",
+          "node": "EventRecorder"
+        }
+      },
+      {
+        "src": {
+          "pin": "event.stream",
+          "node": "EventRecorder"
+        },
+        "dst": {
+          "pin": "event.stream",
+          "node": "Transport"
+        }
+      }
+    ]
+  }
+}

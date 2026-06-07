@@ -1,0 +1,22 @@
+{
+  "header": {
+    "version": "0.9.7",
+    "created": "2026-06-07T15:32:34.587Z",
+    "saved": "2026-06-07T15:32:34.587Z",
+    "utc": "2026-06-07T15:32:34.587Z",
+    "style": "#2c7be5",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base",
+    "description": "admin - vmblu model (scaffolded)"
+  },
+  "imports": [],
+  "factories": [],
+  "types": {},
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "prompt": "Root group for the application.",
+    "interfaces": [],
+    "nodes": [],
+    "connections": []
+  }
+}

@@ -53,7 +53,7 @@ const nodeList = [
 const agentRuntimeOptions = {}
 
 // prepare the runtime
-const runtime = VMBLU.scaffold(nodeList, [], agentRuntimeOptions)
+const runtime = new VMBLU.Runtime(nodeList, agentRuntimeOptions)
 
 // and start the app
 runtime.start()

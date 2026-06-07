@@ -1,0 +1,18 @@
+{
+  "name": "vmblu-examples",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "workspaces": [
+    "solar-system",
+    "chat-application/chat-client",
+    "chat-application/chat-server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run check --workspaces --if-present",
+    "vm:profile": "npm run vm:profile --workspaces --if-present",
+    "vm:app": "npm run vm:app --workspaces --if-present",
+    "vm:capabilities": "npm run vm:capabilities --workspaces --if-present"
+  }
+}
