@@ -9,8 +9,14 @@ using Node.js runtime security settings to report and block unsafe behavior.
 The example is a synthetic health records workspace. It runs locally on a
 developer machine and should include a clinical user experience, a governance
 or administration experience and a server-side authority for records, policy,
-audit and security. The exact project boundaries and node boundaries are not
-fixed by this spec; they should be decided during the architecture design phase.
+audit and security.
+
+The first architecture pass has now been completed for the server-side
+authority. The repository currently uses three application folders:
+
+- `server`: vmblu model for authentication, data, policy and event recording;
+- `client`: clinical workspace, still to be designed;
+- `admin`: governance workspace, still to be designed.
 
 The application must make the vmblu message clear:
 
@@ -50,103 +56,112 @@ PatientLedger should show:
 - model-wide runtime security settings and per-node requests;
 - node security requests being clipped by the model-wide security envelope.
 
-## Architecture To Be Designed
+## Current Architecture Status
 
-The architecture is intentionally unresolved at this stage. PatientLedger should
-not start from a fixed `server`, `client` and `admin` folder split, nor from a
-preselected list of node names. The first deliverable should be a reviewed
-architecture proposal that explains the runtime boundaries, node
-responsibilities, shared abstractions, pin contracts and security boundaries.
+The project has moved from an unresolved architecture brief to an accepted first
+server model. The server architecture is represented in:
 
-The server-side authority remains important: browser code must not read the
-records database directly, and browser code is not responsible for enforcing
-Node.js `fs`, `net` or `process` security. However, the exact transport nodes,
-session nodes, UI nodes, audit nodes and scenario nodes should be designed
-before implementation begins.
+- `server/server.blu`: vmblu entrypoint;
+- `server/model/server.mod.blu`: semantic server model;
+- `server/model/server.mod.viz`: editor-maintained visual layout;
+- `server/model/prompts/*.md`: model-owned node and pin prompts.
 
-## Product Surfaces To Consider
+The model is intentionally still design-level. The nodes and pins are detailed
+enough to guide implementation, but source code for the server nodes has not
+been written yet.
 
-The design phase should consider these product surfaces without assuming they
-must map one-to-one to projects:
+Do not edit `server/model/server.mod.viz` by hand. It is maintained by the
+vmblu editor. Architecture and implementation work should focus on
+`server.mod.blu`, prompt files and later the source files under `server/nodes`.
 
-- clinical workspace: patient search, patient detail, timeline, labs,
+## Product Surfaces
+
+The physical project split has been chosen:
+
+- `client`: clinical workspace: patient search, patient detail, timeline, labs,
   medications, notes, visit brief and access denial feedback;
-- governance workspace: scenarios, audit stream, security events, policy
+- `admin`: governance workspace: scenarios, audit stream, security events, policy
   explanation, capability trace and reset controls;
-- server-side authority: authentication, sessions, records, policy decisions,
+- `server`: server-side authority: authentication, sessions, records, policy decisions,
   audit/security recording and runtime security enforcement;
 - agent capability surface: declared tools, probes and events exposed through
   vmblu, with no direct database access;
 - scenario orchestration: visible demo flows that can drive or observe the
   clinical and governance workspaces.
 
-## Architecture Design Phase
+## Accepted Server Model
 
-Before creating projects, models or node files, complete an explicit
-architecture design phase.
+The server model root is the group node `PatientLedger server`. It currently
+contains six source nodes:
 
-Recommended approach:
+- `Transport`: server boundary adapter for authentication, patient-data and
+  admin-data traffic. It routes login/logout, data requests and responses, and
+  emits event records for transport-level activity.
+- `Authentication`: owns login, logout and session verification. Every
+  `patient-data.request` and `admin-data.request` passes through this node so
+  invalid session keys are blocked before policy or data access.
+- `PatientDataPolicy`: evaluates patient-data authorization. It is separate
+  from admin policy to avoid mixing patient data and admin data concerns in one
+  node.
+- `Admin`: evaluates admin access. Admin is modeled as a simpler role gate:
+  an actor is allowed as admin or denied.
+- `DataCenter`: local JSON-backed data authority for patient data, policy facts
+  and admin operations. This example is simple enough that the data center is a
+  source node rather than a complex external database boundary.
+- `EventRecorder`: authoritative event store for audit, access-denial,
+  security and governance events.
 
-1. Define the domain vocabulary.
-   - Agree on names for records, sessions, actors, policies, decisions, audit
-     entries, security events, capability calls, scenarios and UI surfaces.
-   - Use those names consistently in node names, interfaces and pin contracts.
+Important server message routes:
 
-2. Draw the logical architecture before the physical project split.
-   - Identify the major responsibilities independent of browser/server folders.
-   - Decide which responsibilities are domain logic, which are adapters and
-     which are visual presentation.
-   - Only then decide whether the implementation should have two projects,
-     three projects or shared packages.
+- `Transport.auth.*` connects to `Authentication.auth.*`.
+- `Transport.patient-data.request` goes to `Authentication`, then valid
+  requests go to `PatientDataPolicy`; denials and approved responses return to
+  `Transport`.
+- `Transport.admin-data.request` goes to `Authentication`, then valid requests
+  go to `Admin`; denials and approved responses return to `Transport`.
+- `PatientDataPolicy.policy.query` requests policy facts from
+  `DataCenter.policy.query`.
+- `PatientDataPolicy.data.query` requests patient data from
+  `DataCenter.data.query`.
+- `PatientDataPolicy.data.operation` sends non-query data operations to
+  `DataCenter.data.operation`.
+- `Admin.admin.query` and `Admin.admin.operation` connect to matching
+  `DataCenter.admin.*` pins.
+- `Admin.event.query` connects to `EventRecorder.event.query`.
+- `event.record` outputs from server nodes connect to
+  `EventRecorder.event.record`.
 
-3. Identify shared concerns early.
-   - Login/session handling should probably be one reusable concept, not one
-     separate design per UI surface.
-   - Server transport should probably be one reusable adapter concept, unless
-     different security or lifecycle requirements justify separate nodes.
-   - Audit and security recording should be unified or deliberately separated
-     with a clear reason.
+The main server interfaces are:
 
-4. Decide node granularity deliberately.
-   - Split nodes when they have different ownership, security boundaries,
-     lifecycle, reuse potential, observability needs or failure modes.
-   - Combine responsibilities when splitting would only spread one domain
-     decision across several routing-only nodes.
-   - Keep UI nodes mostly presentational; policy decisions and data access
-     decisions should live in domain or server-side authority nodes.
+- `auth`: login, logout and authentication result traffic;
+- `patient-data`: patient data requests, approvals and denials;
+- `admin-data`: admin requests, approvals and denials;
+- `policy`: data-center facts needed for patient-data policy decisions;
+- `data`: patient data queries and operations;
+- `admin`: admin data queries and operations;
+- `event`: event recording and admin event query access.
 
-5. Make security boundaries visible in the model.
-   - Show where authentication is checked.
-   - Show where role policy is evaluated.
-   - Show where agent capability policy is evaluated.
-   - Show where runtime security events are recorded.
-   - Show which nodes are allowed to request file, network or process access.
+## Server Prompt Files
 
-6. Design the event model before the panels.
-   - Define the canonical activity event, audit event, access denial event,
-     security event and capability trace event.
-   - Decide whether UI panels subscribe to one shared event stream or to
-     specialized projections.
-   - Avoid creating separate event shapes only because separate panels need
-     different views.
+The server model uses external prompt repositories. Each non-dock server node
+has a prompt file under `server/model/prompts/`:
 
-7. Design scenario behavior explicitly.
-   - Decide whether scenarios drive the real clinical UI, simulate server-side
-     operations only, or publish state for both UI surfaces to render.
-   - For side-by-side demos, define which visible changes should appear in the
-     clinical workspace and which should appear in the governance workspace.
-   - Keep scripted scenarios deterministic enough for documentation and tests.
+- `PatientLedger-server.md`;
+- `Transport.md`;
+- `Authentication.md`;
+- `PatientDataPolicy.md`;
+- `Admin.md`;
+- `DataCenter.md`;
+- `EventRecorder.md`.
 
-8. Write pin contracts before implementation.
-   - For every interface, define payload shape, ownership, policy assumptions,
-     error behavior and whether the payload may contain sensitive data.
-   - Prefer interfaces for groups of related pins, especially shared prefixes
-     such as `session.*`, `server.*`, `audit.*`, `security.*` and `scenario.*`.
-   - Treat contracts as implementation guidance for node code, not as comments
-     added after the fact.
+These prompt files are part of the model. They contain one node-level prompt
+and pin-level prompts for implementation guidance. They should be read by a
+coding agent after the structural model has been read.
 
-Implementation should not start until the architecture proposal has been
-reviewed and accepted.
+The prompt files are design-time guidance, not executable truth. During the
+implementation phase, keep them useful while they guide coding. Once node code
+exists, the current model and source code become the stronger sources of truth
+if an old prompt has drifted.
 
 ## Synthetic Data
 
@@ -386,8 +401,8 @@ Expected result:
 ## Local Developer Workflow
 
 The example should run locally with a small number of commands. The exact
-commands depend on the architecture decision and should be documented after the
-project split is chosen.
+commands still need to be documented after the client, admin and server
+implementation choices are made.
 
 The local workflow should support:
 
@@ -465,7 +480,7 @@ Avoid:
 - Keep the first version small enough to inspect in one sitting.
 - Add focused scripted verification where practical.
 
-## Initial Decisions To Revisit
+## Open Decisions To Carry Forward
 
 AI provider integration:
 
@@ -518,7 +533,9 @@ The default demo user should be `clinician`.
 
 ## Architecture Review Checklist
 
-Before implementation, the architecture proposal should answer these questions:
+The first server architecture pass has answered the server-side responsibility
+split. Before broad implementation starts, the remaining architecture work
+should answer these questions:
 
 - Can a new reader explain the graph after one careful pass?
 - Are the product surfaces and runtime boundaries justified?
@@ -537,16 +554,36 @@ Before implementation, the architecture proposal should answer these questions:
 - Is the first implementation slice small, but still representative of the
   final architecture?
 
-## Architecture Workshop Outputs
+## Architecture Work Completed
 
-The next design pass should produce these artifacts before any code is written:
+Completed:
 
-- a context map showing clinical workflow, governance workflow, server-side
-  authority, agent capability surface and scenario orchestration;
-- a responsibility matrix that assigns authentication, sessions, records,
-  policy, audit, security, capability routing, scenario control and UI rendering;
-- one or more candidate vmblu model graphs with clear runtime boundaries;
-- a pin and interface catalog with payload contracts and policy assumptions;
+- created `server`, `client` and `admin` application folders;
+- initialized the server vmblu project;
+- created the first server model with six source nodes;
+- separated patient-data policy from admin policy;
+- routed patient-data and admin-data requests through authentication for
+  session verification before policy evaluation;
+- added request/reply pins for policy facts, patient data, admin data and event
+  queries;
+- added model-owned prompt files for the server root and all server source
+  nodes;
+- updated vmblu `0.9.8` schema/annex guidance so coding agents understand
+  prompt repositories and external prompt files.
+
+## Remaining Architecture Work
+
+The next design pass should produce these artifacts before server source code
+is written:
+
+- client and admin vmblu models with clear runtime boundaries;
+- a context map showing how the clinical workflow, governance workflow,
+  server-side authority, agent capability surface and scenario orchestration
+  interact;
+- a responsibility matrix for remaining concerns: capability routing, scenario
+  control, UI rendering, visit-brief generation and runtime security reporting;
+- a reviewed pin and interface catalog for client/server and admin/server
+  transport payloads;
 - sequence diagrams for normal use, prompt injection, denied access and unsafe
   file/network behavior;
 - an implementation slice plan that names the smallest useful first build and
@@ -554,9 +591,9 @@ The next design pass should produce these artifacts before any code is written:
 
 ## First Implementation Slice Planning
 
-After the architecture is accepted, the first implementation slice should be
-chosen by risk, not by UI convenience. It should prove the core claim of the
-example:
+After the client/admin models are sketched, the first implementation slice
+should be chosen by risk, not by UI convenience. It should prove the core claim
+of the example:
 
 ```text
 An agent can help with realistic patient-record workflows, but only through a

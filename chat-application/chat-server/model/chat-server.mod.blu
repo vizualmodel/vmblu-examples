@@ -124,12 +124,18 @@
   "root": {
     "kind": "group",
     "name": "Root",
-    "prompt": "Server-side chat backend composition.",
+    "promptRepo": {
+      "arl": "./prompts/Root.md",
+      "pathKind": 2
+    },
     "nodes": [
       {
         "kind": "source",
         "name": "ws gateway",
-        "prompt": "Hosts websocket endpoints and maps socket events to vmblu messages.",
+        "promptRepo": {
+          "arl": "./prompts/ws-gateway.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/ws-gateway.js",
           "function": "createWsGatewayNode"
@@ -144,8 +150,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "LoginRequest"
-                },
-                "prompt": "Emits when a client requests login."
+                }
               },
               {
                 "name": "auth.login-result",
@@ -153,8 +158,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "LoginAccepted"
-                },
-                "prompt": "Applies successful login result for a pending connection."
+                }
               }
             ]
           },
@@ -167,8 +171,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChatMessageInput"
-                },
-                "prompt": "Emits when a connected client sends a chat message."
+                }
               },
               {
                 "name": "chat.history-deliver",
@@ -176,8 +179,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "HistoryDelivery"
-                },
-                "prompt": "Sends message history to one target connection."
+                }
               },
               {
                 "name": "chat.message-deliver",
@@ -185,8 +187,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "ChatMessage"
-                },
-                "prompt": "Broadcasts a stored chat message to connected clients."
+                }
               }
             ]
           },
@@ -199,8 +200,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "string"
-                },
-                "prompt": "Emits when an authenticated user disconnects."
+                }
               }
             ]
           }
@@ -209,7 +209,10 @@
       {
         "kind": "source",
         "name": "chat state",
-        "prompt": "Maintains logged-in users and message history, and prepares outbound server events.",
+        "promptRepo": {
+          "arl": "./prompts/chat-state.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/chat-state.js",
           "function": "createChatStateNode"
@@ -224,8 +227,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "LoginRequest"
-                },
-                "prompt": "Registers a user login and allocates server identity."
+                }
               },
               {
                 "name": "auth.login-result",
@@ -233,8 +235,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "LoginAccepted"
-                },
-                "prompt": "Returns assigned user identity for the login connection."
+                }
               }
             ]
           },
@@ -247,8 +248,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "ChatMessageInput"
-                },
-                "prompt": "Stores an incoming client message into chat history."
+                }
               },
               {
                 "name": "chat.history-deliver",
@@ -256,8 +256,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "HistoryDelivery"
-                },
-                "prompt": "Emits full history to the newly logged-in connection."
+                }
               },
               {
                 "name": "chat.message-deliver",
@@ -265,8 +264,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChatMessage"
-                },
-                "prompt": "Emits canonical chat messages for broadcast to all clients."
+                }
               }
             ]
           },
@@ -279,8 +277,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "string"
-                },
-                "prompt": "Removes disconnected users from active session tracking."
+                }
               }
             ]
           }

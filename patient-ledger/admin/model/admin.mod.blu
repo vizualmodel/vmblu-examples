@@ -2,21 +2,582 @@
   "header": {
     "version": "0.9.7",
     "created": "2026-06-07T15:32:34.587Z",
-    "saved": "2026-06-07T15:32:34.587Z",
-    "utc": "2026-06-07T15:32:34.587Z",
-    "style": "#2c7be5",
-    "runtime": "@vizualmodel/vmblu-runtime/rt-base",
-    "description": "admin - vmblu model (scaffolded)"
+    "saved": "2026-06-18T00:00:00.000Z",
+    "utc": "2026-06-18T00:00:00.000Z",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base"
   },
-  "imports": [],
-  "factories": [],
-  "types": {},
+  "factories": [
+    {
+      "path": "../nodes/page-layout.js",
+      "function": "PageLayout"
+    },
+    {
+      "path": "../nodes/server-gateway.js",
+      "function": "ServerGateway"
+    },
+    {
+      "path": "../nodes/admin-controller.js",
+      "function": "AdminController"
+    },
+    {
+      "path": "../nodes/login.js",
+      "function": "Login"
+    },
+    {
+      "path": "../nodes/admin-data.js",
+      "function": "AdminData"
+    }
+  ],
+  "types": {
+    "AnyPayload": {
+      "kind": "primitive",
+      "summary": "Opaque payload used while the admin client architecture is still being refined."
+    },
+    "PageFragment": {
+      "kind": "object",
+      "summary": "A browser UI fragment contributed by a node that wants page real estate.",
+      "fields": {
+        "fragmentId": {
+          "vmbluType": "string"
+        },
+        "region": {
+          "vmbluType": "string"
+        },
+        "priority": {
+          "vmbluType": "number"
+        },
+        "div": {
+          "vmbluType": "AnyPayload"
+        }
+      },
+      "required": [
+        "fragmentId",
+        "region",
+        "div"
+      ]
+    },
+    "PageDocument": {
+      "kind": "object",
+      "summary": "The assembled browser page produced by PageLayout.",
+      "fields": {
+        "layoutId": {
+          "vmbluType": "string"
+        },
+        "regions": {
+          "vmbluType": "AnyPayload"
+        }
+      },
+      "required": [
+        "layoutId",
+        "regions"
+      ]
+    },
+    "AuthRequest": {
+      "kind": "object",
+      "summary": "Login, logout or session refresh request from the admin client.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "credential": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "requestedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "operation",
+        "requestedAt"
+      ]
+    },
+    "AuthState": {
+      "kind": "object",
+      "summary": "Current authenticated admin session state returned by the server authority.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "role": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "reason": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "outcome"
+      ]
+    },
+    "AdminRequest": {
+      "kind": "object",
+      "summary": "Admin request for audit, security, policy, scenario or access-management information.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "subject": {
+          "vmbluType": "string"
+        },
+        "filters": {
+          "vmbluType": "AnyPayload"
+        },
+        "payload": {
+          "vmbluType": "AnyPayload"
+        },
+        "requestedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "operation",
+        "requestedAt"
+      ]
+    },
+    "AdminDataView": {
+      "kind": "object",
+      "summary": "Policy-filtered governance data that the admin client may display.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "subject": {
+          "vmbluType": "string"
+        },
+        "data": {
+          "vmbluType": "AnyPayload"
+        },
+        "reason": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "outcome"
+      ]
+    }
+  },
   "root": {
     "kind": "group",
-    "name": "Root",
-    "prompt": "Root group for the application.",
-    "interfaces": [],
-    "nodes": [],
-    "connections": []
+    "name": "PatientLedger admin client",
+    "prompt": "First-pass governance client architecture. PageLayout owns page organization. UI nodes contribute page fragments. AdminController coordinates authenticated admin state and server requests. ServerGateway is the only node that talks to the server authority.",
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "PageLayout",
+        "label": "admin page organization",
+        "prompt": "Owns the page-level layout. It receives page fragments from admin UI nodes and decides where they are mounted on the browser page.",
+        "factory": {
+          "path": "../nodes/page-layout.js",
+          "function": "PageLayout"
+        },
+        "interfaces": [
+          {
+            "interface": "page",
+            "pins": [
+              {
+                "name": "page.fragment",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PageFragment"
+                }
+              },
+              {
+                "name": "page.document",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PageDocument"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "ServerGateway",
+        "label": "server authority gateway",
+        "prompt": "The only admin client node that talks to the server. It adapts auth and admin-data requests to the server-side authority without owning authentication or admin policy.",
+        "factory": {
+          "path": "../nodes/server-gateway.js",
+          "function": "ServerGateway"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.state",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthState"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "admin",
+            "pins": [
+              {
+                "name": "admin.request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AdminRequest"
+                }
+              },
+              {
+                "name": "admin.data",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataView"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "AdminController",
+        "label": "central admin controller",
+        "prompt": "Central application coordinator for the governance client. It receives auth and admin app-level messages from UI nodes, tracks the current admin session context and forwards server-bound requests through ServerGateway. Future admin UI nodes should connect here rather than directly to ServerGateway.",
+        "factory": {
+          "path": "../nodes/admin-controller.js",
+          "function": "AdminController"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.app-request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.app-state",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthState"
+                }
+              },
+              {
+                "name": "auth.request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthState"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "admin",
+            "pins": [
+              {
+                "name": "admin.app-request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AdminRequest"
+                }
+              },
+              {
+                "name": "admin.app-data",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataView"
+                }
+              },
+              {
+                "name": "admin.request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminRequest"
+                }
+              },
+              {
+                "name": "admin.data",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AdminDataView"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Login",
+        "label": "admin login UI",
+        "prompt": "Owns the login area of the governance browser page. It emits login/logout requests and renders the current admin session state.",
+        "factory": {
+          "path": "../nodes/login.js",
+          "function": "Login"
+        },
+        "interfaces": [
+          {
+            "interface": "page",
+            "pins": [
+              {
+                "name": "page.fragment",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PageFragment"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.app-request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.app-state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthState"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "AdminData",
+        "label": "admin data UI",
+        "prompt": "Owns the governance data area of the admin browser page: scenario controls, audit stream, security events, policy explanation and capability trace. It requests admin data through AdminController and renders only data returned by the server authority.",
+        "factory": {
+          "path": "../nodes/admin-data.js",
+          "function": "AdminData"
+        },
+        "interfaces": [
+          {
+            "interface": "page",
+            "pins": [
+              {
+                "name": "page.fragment",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PageFragment"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.app-state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthState"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "admin",
+            "pins": [
+              {
+                "name": "admin.app-request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminRequest"
+                }
+              },
+              {
+                "name": "admin.app-data",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AdminDataView"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "src": {
+          "pin": "auth.state",
+          "node": "ServerGateway"
+        },
+        "dst": {
+          "pin": "auth.state",
+          "node": "AdminController"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin.data",
+          "node": "ServerGateway"
+        },
+        "dst": {
+          "pin": "admin.data",
+          "node": "AdminController"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.app-state",
+          "node": "AdminController"
+        },
+        "dst": [
+          {
+            "pin": "auth.app-state",
+            "node": "Login"
+          },
+          {
+            "pin": "auth.app-state",
+            "node": "AdminData"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "auth.request",
+          "node": "AdminController"
+        },
+        "dst": {
+          "pin": "auth.request",
+          "node": "ServerGateway"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin.app-data",
+          "node": "AdminController"
+        },
+        "dst": {
+          "pin": "admin.app-data",
+          "node": "AdminData"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin.request",
+          "node": "AdminController"
+        },
+        "dst": {
+          "pin": "admin.request",
+          "node": "ServerGateway"
+        }
+      },
+      {
+        "src": {
+          "pin": "page.fragment",
+          "node": "Login"
+        },
+        "dst": {
+          "pin": "page.fragment",
+          "node": "PageLayout"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.app-request",
+          "node": "Login"
+        },
+        "dst": {
+          "pin": "auth.app-request",
+          "node": "AdminController"
+        }
+      },
+      {
+        "src": {
+          "pin": "page.fragment",
+          "node": "AdminData"
+        },
+        "dst": {
+          "pin": "page.fragment",
+          "node": "PageLayout"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin.app-request",
+          "node": "AdminData"
+        },
+        "dst": {
+          "pin": "admin.app-request",
+          "node": "AdminController"
+        }
+      }
+    ]
   }
 }

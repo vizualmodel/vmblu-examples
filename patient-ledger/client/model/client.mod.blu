@@ -2,21 +2,611 @@
   "header": {
     "version": "0.9.7",
     "created": "2026-06-07T15:32:34.537Z",
-    "saved": "2026-06-07T15:32:34.537Z",
-    "utc": "2026-06-07T15:32:34.537Z",
-    "style": "#2c7be5",
+    "saved": "2026-06-18T00:00:00.000Z",
+    "utc": "2026-06-18T00:00:00.000Z",
     "runtime": "@vizualmodel/vmblu-runtime/rt-base",
-    "description": "client - vmblu model (scaffolded)"
+    "teams": {
+      "default": {
+        "color": "#00aaff"
+      },
+      "ui": {
+        "color": "#777537"
+      }
+    }
   },
-  "imports": [],
-  "factories": [],
-  "types": {},
+  "factories": [
+    {
+      "path": "../nodes/page-layout.js",
+      "function": "PageLayout"
+    },
+    {
+      "path": "../nodes/server-gateway.js",
+      "function": "ServerGateway"
+    },
+    {
+      "path": "../nodes/session-controller.js",
+      "function": "SessionController"
+    },
+    {
+      "path": "../nodes/login.js",
+      "function": "Login"
+    },
+    {
+      "path": "../nodes/patient-data.js",
+      "function": "PatientData"
+    }
+  ],
+  "types": {
+    "AnyPayload": {
+      "kind": "primitive",
+      "summary": "Opaque payload used while the clinical client architecture is still being refined."
+    },
+    "PageFragment": {
+      "kind": "object",
+      "summary": "A browser UI fragment contributed by a node that wants page real estate.",
+      "fields": {
+        "fragmentId": {
+          "vmbluType": "string"
+        },
+        "region": {
+          "vmbluType": "string"
+        },
+        "priority": {
+          "vmbluType": "number"
+        },
+        "div": {
+          "vmbluType": "AnyPayload"
+        }
+      },
+      "required": [
+        "fragmentId",
+        "region",
+        "div"
+      ]
+    },
+    "PageDocument": {
+      "kind": "object",
+      "summary": "The assembled browser page produced by PageLayout.",
+      "fields": {
+        "layoutId": {
+          "vmbluType": "string"
+        },
+        "regions": {
+          "vmbluType": "AnyPayload"
+        }
+      },
+      "required": [
+        "layoutId",
+        "regions"
+      ]
+    },
+    "AuthRequest": {
+      "kind": "object",
+      "summary": "Login, logout or session refresh request from the clinical client.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "credential": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "requestedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "operation",
+        "requestedAt"
+      ]
+    },
+    "AuthState": {
+      "kind": "object",
+      "summary": "Current authenticated session state returned by the server authority.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "role": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "reason": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "outcome"
+      ]
+    },
+    "PatientRequest": {
+      "kind": "object",
+      "summary": "Patient search, selection or visible-record request.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "patientId": {
+          "vmbluType": "string"
+        },
+        "searchText": {
+          "vmbluType": "string"
+        },
+        "requestedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "operation",
+        "requestedAt"
+      ]
+    },
+    "PatientDataView": {
+      "kind": "object",
+      "summary": "Policy-filtered patient data that the clinical client may display.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "patientId": {
+          "vmbluType": "string"
+        },
+        "data": {
+          "vmbluType": "AnyPayload"
+        },
+        "reason": {
+          "vmbluType": "string"
+        },
+        "decisionId": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "outcome"
+      ]
+    }
+  },
   "root": {
     "kind": "group",
-    "name": "Root",
-    "prompt": "Root group for the application.",
-    "interfaces": [],
-    "nodes": [],
-    "connections": []
+    "name": "PatientLedger clinical client",
+    "promptRepo": {
+      "arl": "./prompts/PatientLedger-clinical-client.md",
+      "pathKind": 2
+    },
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "PageLayout",
+        "label": "browser page organization",
+        "team": "ui",
+        "promptRepo": {
+          "arl": "./prompts/PageLayout.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/page-layout.js",
+          "function": "PageLayout"
+        },
+        "interfaces": [
+          {
+            "interface": "page",
+            "pins": [
+              {
+                "name": "page.fragment",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PageFragment"
+                }
+              },
+              {
+                "name": "page.document",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PageDocument"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "ServerGateway",
+        "label": "server authority gateway",
+        "promptRepo": {
+          "arl": "./prompts/ServerGateway.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/server-gateway.js",
+          "function": "ServerGateway"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.state",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthState"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "patient",
+            "pins": [
+              {
+                "name": "patient.request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PatientRequest"
+                }
+              },
+              {
+                "name": "patient.data",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientDataView"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "SessionController",
+        "label": "central client session controller",
+        "promptRepo": {
+          "arl": "./prompts/SessionController.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/session-controller.js",
+          "function": "SessionController"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.app-request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.app-state",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthState"
+                }
+              },
+              {
+                "name": "auth.request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthState"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "patient",
+            "pins": [
+              {
+                "name": "patient.app-request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PatientRequest"
+                }
+              },
+              {
+                "name": "patient.app-data",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientDataView"
+                }
+              },
+              {
+                "name": "patient.request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientRequest"
+                }
+              },
+              {
+                "name": "patient.data",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PatientDataView"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Login",
+        "label": "login UI",
+        "team": "ui",
+        "promptRepo": {
+          "arl": "./prompts/Login.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/login.js",
+          "function": "Login"
+        },
+        "interfaces": [
+          {
+            "interface": "page",
+            "pins": [
+              {
+                "name": "page.fragment",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PageFragment"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.app-state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthState"
+                }
+              },
+              {
+                "name": "auth.app-request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthRequest"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "PatientData",
+        "label": "patient data UI",
+        "team": "ui",
+        "promptRepo": {
+          "arl": "./prompts/PatientData.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/patient-data.js",
+          "function": "PatientData"
+        },
+        "interfaces": [
+          {
+            "interface": "page",
+            "pins": [
+              {
+                "name": "page.fragment",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PageFragment"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.app-state",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AuthState"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "patient",
+            "pins": [
+              {
+                "name": "patient.app-request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientRequest"
+                }
+              },
+              {
+                "name": "patient.app-data",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PatientDataView"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "src": {
+          "pin": "auth.state",
+          "node": "ServerGateway"
+        },
+        "dst": {
+          "pin": "auth.state",
+          "node": "SessionController"
+        }
+      },
+      {
+        "src": {
+          "pin": "patient.data",
+          "node": "ServerGateway"
+        },
+        "dst": {
+          "pin": "patient.data",
+          "node": "SessionController"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.app-state",
+          "node": "SessionController"
+        },
+        "dst": [
+          {
+            "pin": "auth.app-state",
+            "node": "Login"
+          },
+          {
+            "pin": "auth.app-state",
+            "node": "PatientData"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "auth.request",
+          "node": "SessionController"
+        },
+        "dst": {
+          "pin": "auth.request",
+          "node": "ServerGateway"
+        }
+      },
+      {
+        "src": {
+          "pin": "patient.app-data",
+          "node": "SessionController"
+        },
+        "dst": {
+          "pin": "patient.app-data",
+          "node": "PatientData"
+        }
+      },
+      {
+        "src": {
+          "pin": "patient.request",
+          "node": "SessionController"
+        },
+        "dst": {
+          "pin": "patient.request",
+          "node": "ServerGateway"
+        }
+      },
+      {
+        "src": {
+          "pin": "page.fragment",
+          "node": "Login"
+        },
+        "dst": {
+          "pin": "page.fragment",
+          "node": "PageLayout"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.app-request",
+          "node": "Login"
+        },
+        "dst": {
+          "pin": "auth.app-request",
+          "node": "SessionController"
+        }
+      },
+      {
+        "src": {
+          "pin": "page.fragment",
+          "node": "PatientData"
+        },
+        "dst": {
+          "pin": "page.fragment",
+          "node": "PageLayout"
+        }
+      },
+      {
+        "src": {
+          "pin": "patient.app-request",
+          "node": "PatientData"
+        },
+        "dst": {
+          "pin": "patient.app-request",
+          "node": "SessionController"
+        }
+      }
+    ]
   }
 }

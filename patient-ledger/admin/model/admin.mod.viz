@@ -1,19 +1,193 @@
 {
   "header": {
     "version": "0.9.7",
-    "utc": "2026-06-07T15:32:34.590Z",
-    "style": "#2c7be5"
+    "utc": "2026-06-18T00:00:00.000Z",
+    "style": "#00aaff"
   },
   "root": {
     "kind": "group",
-    "name": "Root",
+    "name": "PatientLedger admin client",
     "rect": "x 90 y 30 w 150 h 26",
     "view": {
       "state": "open",
       "rect": "x 0 y 0 w 1200 h 800",
       "transform": "sx 1.000 sy 1.000 dx 0.000 dy 0.000"
     },
-    "nodes": [],
-    "connections": []
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "PageLayout",
+        "rect": "x 98 y -136 w 150 h 71",
+        "interfaces": [
+          {
+            "interface": "(4) page",
+            "pins": [
+              "(5 R)page.fragment",
+              "(6 R)page.document"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "ServerGateway",
+        "rect": "x -210 y 59 w 165 h 116",
+        "interfaces": [
+          {
+            "interface": "(7) auth",
+            "pins": [
+              "(8 R)auth.request",
+              "(9 R)auth.state"
+            ]
+          },
+          {
+            "interface": "(10) admin",
+            "pins": [
+              "(11 R)admin.request",
+              "(12 R)admin.data"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "AdminController",
+        "rect": "x 101 y 29 w 165 h 176",
+        "interfaces": [
+          {
+            "interface": "(11) auth",
+            "pins": [
+              "(12 R)auth.app-request",
+              "(13 R)auth.app-state",
+              "(14 L)auth.request",
+              "(15 L)auth.state"
+            ]
+          },
+          {
+            "interface": "(16) admin",
+            "pins": [
+              "(17 R)admin.app-request",
+              "(18 R)admin.app-data",
+              "(19 L)admin.request",
+              "(20 L)admin.data"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Login",
+        "rect": "x 481 y -136 w 150 h 101",
+        "interfaces": [
+          {
+            "interface": "(6) page",
+            "pins": [
+              "(7 L)page.fragment"
+            ]
+          },
+          {
+            "interface": "(8) auth",
+            "pins": [
+              "(9 L)auth.app-request",
+              "(10 L)auth.app-state"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "AdminData",
+        "rect": "x 480 y 74 w 150 h 131",
+        "interfaces": [
+          {
+            "interface": "(8) page",
+            "pins": [
+              "(9 L)page.fragment"
+            ]
+          },
+          {
+            "interface": "(10) auth",
+            "pins": [
+              "(11 L)auth.app-state"
+            ]
+          },
+          {
+            "interface": "(12) admin",
+            "pins": [
+              "(13 L)admin.app-request",
+              "(14 L)admin.app-data"
+            ]
+          }
+        ]
+      }
+    ],
+    "cables": [
+      {
+        "start": "x 481 y -93.5",
+        "wire": "x -72.0 y 0.0 x -161.0"
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 9) auth.state @ ServerGateway",
+        "to": "(pin 15) auth.state @ AdminController",
+        "wire": "x 45.0 y 0.0 x 101.0"
+      },
+      {
+        "from": "(pin 12) admin.data @ ServerGateway",
+        "to": "(pin 20) admin.data @ AdminController",
+        "wire": "x 65.0 y 30.0 x 81.0"
+      },
+      {
+        "from": "(pin 13) auth.app-state @ AdminController",
+        "to": "(pin 10) auth.app-state @ Login",
+        "wire": "x 116.0 y -135.0 x 99.0"
+      },
+      {
+        "from": "(pin 13) auth.app-state @ AdminController",
+        "to": "(pin 11) auth.app-state @ AdminData",
+        "wire": "x 115.0 y 60.0 x 99.0"
+      },
+      {
+        "from": "(pin 14) auth.request @ AdminController",
+        "to": "(pin 8) auth.request @ ServerGateway",
+        "wire": "x -91.0 y 0.0 x -55.0"
+      },
+      {
+        "from": "(pin 18) admin.app-data @ AdminController",
+        "to": "(pin 14) admin.app-data @ AdminData",
+        "wire": "x 86.0 y 30.0 x 128.0"
+      },
+      {
+        "from": "(pin 19) admin.request @ AdminController",
+        "to": "(pin 11) admin.request @ ServerGateway",
+        "wire": "x -58.0 y -30.0 x -88.0"
+      },
+      {
+        "from": "(pin 7) page.fragment @ Login",
+        "to": "(cable 0 endpoint nonselective)",
+        "wire": "y 0.0"
+      },
+      {
+        "from": "(pin 9) auth.app-request @ Login",
+        "to": "(pin 12) auth.app-request @ AdminController",
+        "wire": "x -110.0 y 135.0 x -105.0"
+      },
+      {
+        "from": "(pin 9) page.fragment @ AdminData",
+        "to": "(cable 0 nonselective)",
+        "wire": "x -60.0 y -210.0"
+      },
+      {
+        "from": "(pin 13) admin.app-request @ AdminData",
+        "to": "(pin 17) admin.app-request @ AdminController",
+        "wire": "x -115.0 y -30.0 x -99.0"
+      },
+      {
+        "from": "(cable 0 endpoint nonselective)",
+        "to": "(pin 5) page.fragment @ PageLayout",
+        "wire": "y 0.0"
+      }
+    ]
   }
 }

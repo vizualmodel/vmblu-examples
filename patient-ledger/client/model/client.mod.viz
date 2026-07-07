@@ -1,19 +1,182 @@
 {
   "header": {
     "version": "0.9.7",
-    "utc": "2026-06-07T15:32:34.545Z",
-    "style": "#2c7be5"
+    "utc": "2026-06-18T00:00:00.000Z",
+    "style": "#00aaff"
   },
   "root": {
     "kind": "group",
-    "name": "Root",
+    "name": "PatientLedger clinical client",
     "rect": "x 90 y 30 w 150 h 26",
     "view": {
       "state": "open",
       "rect": "x 0 y 0 w 1200 h 800",
       "transform": "sx 1.000 sy 1.000 dx 0.000 dy 0.000"
     },
-    "nodes": [],
-    "connections": []
+    "nodes": [
+      {
+        "kind": "source",
+        "name": "PageLayout",
+        "rect": "x 332 y 390 w 150 h 71",
+        "interfaces": [
+          {
+            "interface": "(7) page",
+            "pins": [
+              "(5 R)page.fragment",
+              "(6 R)page.document"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "ServerGateway",
+        "rect": "x 15 y 727 w 165 h 116",
+        "interfaces": [
+          {
+            "interface": "(13) auth",
+            "pins": [
+              "(8 R)auth.request",
+              "(9 R)auth.state"
+            ]
+          },
+          {
+            "interface": "(14) patient",
+            "pins": [
+              "(11 R)patient.request",
+              "(12 R)patient.data"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "SessionController",
+        "rect": "x 336 y 697 w 165 h 176",
+        "interfaces": [
+          {
+            "interface": "(29) auth",
+            "pins": [
+              "(24 R)auth.app-request",
+              "(25 R)auth.app-state",
+              "(18 L)auth.request",
+              "(19 L)auth.state"
+            ]
+          },
+          {
+            "interface": "(30) patient",
+            "pins": [
+              "(27 R)patient.app-request",
+              "(28 R)patient.app-data",
+              "(21 L)patient.request",
+              "(22 L)patient.data"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Login",
+        "rect": "x 333 y 535 w 150 h 101",
+        "interfaces": [
+          {
+            "interface": "(12) page",
+            "pins": [
+              "(7 R)page.fragment"
+            ]
+          },
+          {
+            "interface": "(13) auth",
+            "pins": [
+              "(10 R)auth.app-state",
+              "(11 R)auth.app-request"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "PatientData",
+        "rect": "x 752 y 390 w 150 h 131",
+        "interfaces": [
+          {
+            "interface": "(16) page",
+            "pins": [
+              "(9 L)page.fragment"
+            ]
+          },
+          {
+            "interface": "(17) auth",
+            "pins": [
+              "(12 L)auth.app-state"
+            ]
+          },
+          {
+            "interface": "(18) patient",
+            "pins": [
+              "(14 L)patient.app-request",
+              "(15 L)patient.app-data"
+            ]
+          }
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 9) auth.state @ ServerGateway",
+        "to": "(pin 19) auth.state @ SessionController",
+        "wire": "x 50.0 y 0.0 x 106.0"
+      },
+      {
+        "from": "(pin 12) patient.data @ ServerGateway",
+        "to": "(pin 22) patient.data @ SessionController",
+        "wire": "x 57.0 y 30.0 x 99.0"
+      },
+      {
+        "from": "(pin 25) auth.app-state @ SessionController",
+        "to": "(pin 10) auth.app-state @ Login",
+        "wire": "x 37.0 y -147.0 x -55.0"
+      },
+      {
+        "from": "(pin 25) auth.app-state @ SessionController",
+        "to": "(pin 12) auth.app-state @ PatientData",
+        "wire": "x 125.5 y -292.0 x 125.5"
+      },
+      {
+        "from": "(pin 18) auth.request @ SessionController",
+        "to": "(pin 8) auth.request @ ServerGateway",
+        "wire": "x -81.0 y 0.0 x -75.0"
+      },
+      {
+        "from": "(pin 28) patient.app-data @ SessionController",
+        "to": "(pin 15) patient.app-data @ PatientData",
+        "wire": "x 178.5 y -322.0 x 72.5"
+      },
+      {
+        "from": "(pin 21) patient.request @ SessionController",
+        "to": "(pin 11) patient.request @ ServerGateway",
+        "wire": "x -71.0 y -30.0 x -85.0"
+      },
+      {
+        "from": "(pin 7) page.fragment @ Login",
+        "to": "(pin 5) page.fragment @ PageLayout",
+        "wire": "x 55.0 y -145.0 x -56.0"
+      },
+      {
+        "from": "(pin 11) auth.app-request @ Login",
+        "to": "(pin 24) auth.app-request @ SessionController",
+        "wire": "x 33.0 y 117.0 x -15.0"
+      },
+      {
+        "from": "(pin 9) page.fragment @ PatientData",
+        "to": "(pin 5) page.fragment @ PageLayout",
+        "wire": "x -51.0 y 0.0 x -219.0"
+      },
+      {
+        "from": "(pin 14) patient.app-request @ PatientData",
+        "to": "(pin 27) patient.app-request @ SessionController",
+        "wire": "x -90.5 y 322.0 x -160.5"
+      }
+    ]
   }
 }

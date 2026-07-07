@@ -140,12 +140,18 @@
   "root": {
     "kind": "group",
     "name": "Root",
-    "prompt": "Client-side chat application composition.",
+    "promptRepo": {
+      "arl": "./prompts/Root.md",
+      "pathKind": 2
+    },
     "nodes": [
       {
         "kind": "source",
         "name": "login popup",
-        "prompt": "Renders the login popup and emits login requests.",
+        "promptRepo": {
+          "arl": "./prompts/login-popup.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/login popup/index.js",
           "function": "createLoginPopupNode"
@@ -160,8 +166,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "UserName"
-                },
-                "prompt": "Emits when the login form is submitted."
+                }
               }
             ]
           },
@@ -177,8 +182,7 @@
                     "request": "any",
                     "reply": "UiView"
                   }
-                },
-                "prompt": "Returns the UI element managed by this node."
+                }
               }
             ]
           }
@@ -187,7 +191,10 @@
       {
         "kind": "source",
         "name": "message history",
-        "prompt": "Renders the message history panel and incoming updates.",
+        "promptRepo": {
+          "arl": "./prompts/message-history.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/message history/index.js",
           "function": "createMessageHistoryNode"
@@ -202,8 +209,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "any"
-                },
-                "prompt": "Emits when the user clicks logout."
+                }
               }
             ]
           },
@@ -216,8 +222,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "string"
-                },
-                "prompt": "Updates visible connection status in the history panel."
+                }
               },
               {
                 "name": "chat.message-list",
@@ -225,8 +230,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "ChatHistory"
-                },
-                "prompt": "Updates the visible message list for the chat history panel."
+                }
               },
               {
                 "name": "chat.append-message",
@@ -234,8 +238,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "ChatMessage"
-                },
-                "prompt": "Adds one new message to the displayed history."
+                }
               },
               {
                 "name": "chat.current-user",
@@ -243,8 +246,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "string"
-                },
-                "prompt": "Sets the current user so own messages can be aligned right."
+                }
               }
             ]
           },
@@ -260,8 +262,7 @@
                     "request": "any",
                     "reply": "UiView"
                   }
-                },
-                "prompt": "Returns the UI element managed by this node."
+                }
               }
             ]
           }
@@ -270,7 +271,10 @@
       {
         "kind": "source",
         "name": "message composer",
-        "prompt": "Renders the message input area and emits send events.",
+        "promptRepo": {
+          "arl": "./prompts/message-composer.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/message composer/index.js",
           "function": "createMessageComposerNode"
@@ -285,8 +289,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "string"
-                },
-                "prompt": "Emits when the user sends a message from the composer."
+                }
               },
               {
                 "name": "chat.connection-state",
@@ -294,8 +297,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "string"
-                },
-                "prompt": "Updates composer enabled state based on connection state."
+                }
               }
             ]
           },
@@ -311,8 +313,7 @@
                     "request": "any",
                     "reply": "UiView"
                   }
-                },
-                "prompt": "Returns the UI element managed by this node."
+                }
               }
             ]
           }
@@ -321,7 +322,10 @@
       {
         "kind": "source",
         "name": "client controller",
-        "prompt": "Coordinates login flow, session state, and manages what UI is mounted on screen.",
+        "promptRepo": {
+          "arl": "./prompts/client-controller.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/client-controller.js",
           "function": "createClientControllerNode"
@@ -336,8 +340,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "UserName"
-                },
-                "prompt": "Requests transport to log in with the provided user name."
+                }
               },
               {
                 "name": "auth.connected",
@@ -345,8 +348,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "LoginEvent"
-                },
-                "prompt": "Handles successful login/session information from transport."
+                }
               },
               {
                 "name": "auth.disconnect-request",
@@ -354,8 +356,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "any"
-                },
-                "prompt": "Requests transport to disconnect the active session."
+                }
               },
               {
                 "name": "auth.logout-request",
@@ -363,8 +364,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "any"
-                },
-                "prompt": "Handles user logout requests from the UI."
+                }
               },
               {
                 "name": "auth.login-submitted",
@@ -372,8 +372,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "UserName"
-                },
-                "prompt": "Starts login processing for the submitted user name."
+                }
               }
             ]
           },
@@ -386,8 +385,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "OutgoingChatMessage"
-                },
-                "prompt": "Emits outbound message payload to transport."
+                }
               },
               {
                 "name": "chat.history-received",
@@ -395,8 +393,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "ChatHistory"
-                },
-                "prompt": "Receives chat history and prepares the UI state."
+                }
               },
               {
                 "name": "chat.incoming-message",
@@ -404,8 +401,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "ChatMessage"
-                },
-                "prompt": "Handles new messages coming from the server."
+                }
               },
               {
                 "name": "chat.send-message",
@@ -413,8 +409,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "string"
-                },
-                "prompt": "Handles a message typed by the current user."
+                }
               }
             ]
           },
@@ -427,8 +422,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "string"
-                },
-                "prompt": "Handles transport connection state updates."
+                }
               },
               {
                 "name": "net.connection-state",
@@ -436,8 +430,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "string"
-                },
-                "prompt": "Broadcasts connection status to UI-facing nodes."
+                }
               }
             ]
           },
@@ -450,8 +443,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChatHistory"
-                },
-                "prompt": "Sends the full message list state to the history node."
+                }
               },
               {
                 "name": "history.append-message",
@@ -459,8 +451,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChatMessage"
-                },
-                "prompt": "Requests the history node to append one message."
+                }
               },
               {
                 "name": "history.current-user",
@@ -468,8 +459,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "string"
-                },
-                "prompt": "Updates the history node with the current user id."
+                }
               }
             ]
           },
@@ -485,8 +475,7 @@
                     "request": "any",
                     "reply": "UiView"
                   }
-                },
-                "prompt": "Requests the history view so the controller can mount it."
+                }
               },
               {
                 "name": "ui.get-login-view",
@@ -497,8 +486,7 @@
                     "request": "any",
                     "reply": "UiView"
                   }
-                },
-                "prompt": "Requests the login view so the controller can mount it."
+                }
               },
               {
                 "name": "ui.get-composer-view",
@@ -509,8 +497,7 @@
                     "request": "any",
                     "reply": "UiView"
                   }
-                },
-                "prompt": "Requests the composer view so the controller can mount it."
+                }
               }
             ]
           }
@@ -519,7 +506,10 @@
       {
         "kind": "source",
         "name": "ws transport",
-        "prompt": "Handles websocket connection to the chat server and maps protocol events to node pins.",
+        "promptRepo": {
+          "arl": "./prompts/ws-transport.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/ws-transport.js",
           "function": "createWsTransportNode"
@@ -534,8 +524,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "UserName"
-                },
-                "prompt": "Starts connection and login handshake with the server."
+                }
               },
               {
                 "name": "auth.connected",
@@ -543,8 +532,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "LoginEvent"
-                },
-                "prompt": "Emits when server confirms login success."
+                }
               },
               {
                 "name": "auth.disconnect-request",
@@ -552,8 +540,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "any"
-                },
-                "prompt": "Disconnects the websocket session on logout."
+                }
               }
             ]
           },
@@ -566,8 +553,7 @@
                 "contract": {
                   "role": "follower",
                   "payload": "OutgoingChatMessage"
-                },
-                "prompt": "Sends a chat message from the client to the server."
+                }
               },
               {
                 "name": "chat.history-received",
@@ -575,8 +561,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChatHistory"
-                },
-                "prompt": "Emits initial chat history from the server."
+                }
               },
               {
                 "name": "chat.incoming-message",
@@ -584,8 +569,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChatMessage"
-                },
-                "prompt": "Emits new message events from the server."
+                }
               }
             ]
           },
@@ -598,8 +582,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "string"
-                },
-                "prompt": "Emits transport lifecycle state changes."
+                }
               }
             ]
           }
@@ -672,20 +655,16 @@
           "pin": "net.connection-state",
           "node": "client controller"
         },
-        "dst": {
-          "pin": "chat.connection-state",
-          "node": "message history"
-        }
-      },
-      {
-        "src": {
-          "pin": "net.connection-state",
-          "node": "client controller"
-        },
-        "dst": {
-          "pin": "chat.connection-state",
-          "node": "message composer"
-        }
+        "dst": [
+          {
+            "pin": "chat.connection-state",
+            "node": "message history"
+          },
+          {
+            "pin": "chat.connection-state",
+            "node": "message composer"
+          }
+        ]
       },
       {
         "src": {

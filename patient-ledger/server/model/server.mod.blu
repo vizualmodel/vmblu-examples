@@ -2,89 +2,468 @@
   "header": {
     "version": "0.9.7",
     "created": "2026-06-07T15:32:34.587Z",
-    "saved": "2026-06-07T15:45:00.000Z",
-    "utc": "2026-06-07T15:45:00.000Z",
-    "runtime": "@vizualmodel/vmblu-runtime/rt-base"
+    "saved": "2026-06-16T00:00:00.000Z",
+    "utc": "2026-06-16T00:00:00.000Z",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base",
+    "teams": {
+      "default": {
+        "color": "#00aaff"
+      }
+    }
   },
+  "factories": [
+    {
+      "path": "../nodes/transport.js",
+      "function": "Transport"
+    },
+    {
+      "path": "../nodes/authentication.js",
+      "function": "Authentication"
+    },
+    {
+      "path": "../nodes/patient-data-policy.js",
+      "function": "PatientDataPolicy"
+    },
+    {
+      "path": "../nodes/admin.js",
+      "function": "Admin"
+    },
+    {
+      "path": "../nodes/data-center.js",
+      "function": "DataCenter"
+    },
+    {
+      "path": "../nodes/event-recorder.js",
+      "function": "EventRecorder"
+    }
+  ],
   "types": {
     "AnyPayload": {
       "kind": "primitive",
       "summary": "Opaque payload used while the architecture is still being refined."
     },
-    "ServerRequest": {
+    "AuthRequest": {
       "kind": "object",
-      "summary": "Provisional incoming request from a client, admin surface, agent gateway or scenario runner.",
-      "fields": {}
+      "summary": "Login, logout or session-management request received through transport.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "credential": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "source": {
+          "vmbluType": "string"
+        },
+        "requestedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "operation",
+        "source",
+        "requestedAt"
+      ]
     },
-    "AuthContext": {
+    "AuthResponse": {
       "kind": "object",
-      "summary": "Provisional authenticated actor/session context.",
-      "fields": {}
+      "summary": "Authentication result, including issued session details or denial reason.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "role": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "expiresAt": {
+          "vmbluType": "string"
+        },
+        "reason": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "outcome"
+      ]
     },
-    "PolicyDecision": {
+    "PatientDataRequest": {
       "kind": "object",
-      "summary": "Provisional allow/deny decision with reason and policy evidence.",
-      "fields": {}
+      "summary": "Protected patient-data request. Requests carry the session key issued by authentication.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "patientId": {
+          "vmbluType": "string"
+        },
+        "capability": {
+          "vmbluType": "string"
+        },
+        "sections": {
+          "vmbluType": "AnyPayload"
+        },
+        "payload": {
+          "vmbluType": "AnyPayload"
+        },
+        "requestedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "sessionKey",
+        "operation",
+        "requestedAt"
+      ]
+    },
+    "PatientDataResponse": {
+      "kind": "object",
+      "summary": "Patient-data result or denial. Approved responses may carry only the data allowed by policy.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "patientId": {
+          "vmbluType": "string"
+        },
+        "data": {
+          "vmbluType": "AnyPayload"
+        },
+        "reason": {
+          "vmbluType": "string"
+        },
+        "decisionId": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "outcome"
+      ]
+    },
+    "AdminDataRequest": {
+      "kind": "object",
+      "summary": "Protected admin-data request for audit, security, policy, scenario or access-management information.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "sessionKey": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "subject": {
+          "vmbluType": "string"
+        },
+        "filters": {
+          "vmbluType": "AnyPayload"
+        },
+        "payload": {
+          "vmbluType": "AnyPayload"
+        },
+        "requestedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "sessionKey",
+        "operation",
+        "requestedAt"
+      ]
+    },
+    "AdminDataResponse": {
+      "kind": "object",
+      "summary": "Admin-data result or denial. Approved responses may carry governance, audit, security, scenario or access-management information.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "subject": {
+          "vmbluType": "string"
+        },
+        "data": {
+          "vmbluType": "AnyPayload"
+        },
+        "reason": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "outcome"
+      ]
+    },
+    "AccessFacts": {
+      "kind": "object",
+      "summary": "Authorization facts used by patient-data policy.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "role": {
+          "vmbluType": "string"
+        },
+        "patientId": {
+          "vmbluType": "string"
+        },
+        "assignedClinician": {
+          "vmbluType": "string"
+        },
+        "allowedSections": {
+          "vmbluType": "AnyPayload"
+        },
+        "capabilities": {
+          "vmbluType": "AnyPayload"
+        }
+      },
+      "required": [
+        "requestId",
+        "role"
+      ]
     },
     "DataOperation": {
       "kind": "object",
-      "summary": "Provisional approved operation against patient records or related synthetic data.",
-      "fields": {}
-    },
-    "ServerResponse": {
-      "kind": "object",
-      "summary": "Provisional response returned through transport.",
-      "fields": {}
+      "summary": "Policy-approved operation against patient records or related synthetic data.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "patientId": {
+          "vmbluType": "string"
+        },
+        "scope": {
+          "vmbluType": "AnyPayload"
+        },
+        "payload": {
+          "vmbluType": "AnyPayload"
+        },
+        "decisionId": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "operation"
+      ]
     },
     "RecordedEvent": {
       "kind": "object",
-      "summary": "Provisional audit, access-denial, capability-trace or security event.",
-      "fields": {}
+      "summary": "Audit, access-denial, capability-trace or security event.",
+      "fields": {
+        "eventId": {
+          "vmbluType": "string"
+        },
+        "timestamp": {
+          "vmbluType": "string"
+        },
+        "source": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "role": {
+          "vmbluType": "string"
+        },
+        "operation": {
+          "vmbluType": "string"
+        },
+        "patientId": {
+          "vmbluType": "string"
+        },
+        "outcome": {
+          "vmbluType": "string"
+        },
+        "reason": {
+          "vmbluType": "string"
+        },
+        "details": {
+          "vmbluType": "AnyPayload"
+        }
+      },
+      "required": [
+        "eventId",
+        "timestamp",
+        "source",
+        "operation",
+        "outcome"
+      ]
     }
   },
   "root": {
     "kind": "group",
     "name": "PatientLedger server",
-    "prompt": "Architecture sketch for the PatientLedger server. The model intentionally uses coarse responsibility nodes and provisional payloads so the architecture can be discussed and refined before implementation details are fixed.",
+    "promptRepo": {
+      "arl": "./prompts/PatientLedger-server.md",
+      "pathKind": 2
+    },
     "nodes": [
       {
-        "kind": "group",
+        "kind": "source",
         "name": "Transport",
         "label": "server communication boundary",
-        "prompt": "Receives traffic from the clinical client, admin client, agent gateway and scenario runner. It adapts external communication to internal server requests and returns responses or event streams. It should not own authentication, policy or patient-data decisions.",
+        "promptRepo": {
+          "arl": "./prompts/Transport.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/transport.js",
+          "function": "Transport"
+        },
         "interfaces": [
           {
-            "interface": "server",
+            "interface": "auth",
             "pins": [
               {
-                "name": "request.in",
+                "name": "auth.request",
                 "kind": "output",
                 "contract": {
-                  "role": "follower",
-                  "payload": "ServerRequest"
+                  "role": "owner",
+                  "payload": "AuthRequest"
                 }
               },
               {
-                "name": "response.out",
+                "name": "auth.logout",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.approved",
                 "kind": "input",
                 "contract": {
                   "role": "follower",
-                  "payload": "ServerResponse"
+                  "payload": "AuthResponse"
                 }
               },
               {
-                "name": "event.stream",
+                "name": "auth.denied",
                 "kind": "input",
                 "contract": {
                   "role": "follower",
-                  "payload": "RecordedEvent"
+                  "payload": "AuthResponse"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "patient-data",
+            "pins": [
+              {
+                "name": "patient-data.request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientDataRequest"
                 }
               },
               {
-                "name": "transport.event",
-                "kind": "output",
+                "name": "patient-data.denied",
+                "kind": "input",
                 "contract": {
                   "role": "follower",
+                  "payload": "PatientDataResponse"
+                }
+              },
+              {
+                "name": "patient-data.approved",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PatientDataResponse"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "admin-data",
+            "pins": [
+              {
+                "name": "admin-data.request",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataRequest"
+                }
+              },
+              {
+                "name": "admin-data.denied",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AdminDataResponse"
+                }
+              },
+              {
+                "name": "admin-data.approved",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AdminDataResponse"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "event",
+            "pins": [
+              {
+                "name": "event.record",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
                   "payload": "RecordedEvent"
                 }
               }
@@ -93,10 +472,17 @@
         ]
       },
       {
-        "kind": "group",
+        "kind": "source",
         "name": "Authentication",
         "label": "identity and session boundary",
-        "prompt": "Establishes or denies actor identity and session state for synthetic users. Authentication produces context for later policy decisions, but does not decide patient-record permissions by itself.",
+        "promptRepo": {
+          "arl": "./prompts/Authentication.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/authentication.js",
+          "function": "Authentication"
+        },
         "interfaces": [
           {
             "interface": "auth",
@@ -106,30 +492,101 @@
                 "kind": "input",
                 "contract": {
                   "role": "follower",
-                  "payload": "ServerRequest"
+                  "payload": "AuthRequest"
                 }
               },
               {
-                "name": "auth.context",
-                "kind": "output",
+                "name": "auth.logout",
+                "kind": "input",
                 "contract": {
                   "role": "follower",
-                  "payload": "AuthContext"
+                  "payload": "AuthRequest"
+                }
+              },
+              {
+                "name": "auth.approved",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AuthResponse"
                 }
               },
               {
                 "name": "auth.denied",
                 "kind": "output",
                 "contract": {
+                  "role": "owner",
+                  "payload": "AuthResponse"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "patient-data",
+            "pins": [
+              {
+                "name": "patient-data.request",
+                "kind": "input",
+                "contract": {
                   "role": "follower",
-                  "payload": "ServerResponse"
+                  "payload": "PatientDataRequest"
                 }
               },
               {
-                "name": "auth.event",
+                "name": "patient-data.denied",
                 "kind": "output",
                 "contract": {
+                  "role": "owner",
+                  "payload": "PatientDataResponse"
+                }
+              },
+              {
+                "name": "patient-data.approved",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientDataRequest"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "admin-data",
+            "pins": [
+              {
+                "name": "admin-data.request",
+                "kind": "input",
+                "contract": {
                   "role": "follower",
+                  "payload": "AdminDataRequest"
+                }
+              },
+              {
+                "name": "admin-data.denied",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataResponse"
+                }
+              },
+              {
+                "name": "admin-data.approved",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataRequest"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "event",
+            "pins": [
+              {
+                "name": "event.record",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
                   "payload": "RecordedEvent"
                 }
               }
@@ -138,115 +595,316 @@
         ]
       },
       {
-        "kind": "group",
-        "name": "PolicyEnforcer",
-        "label": "authorization and capability boundary",
-        "prompt": "Vets authenticated requests against role policy, capability policy and the server security boundary. It permits narrow data operations or returns a denial. It is the main watchdog responsibility in the current architecture sketch.",
+        "kind": "source",
+        "name": "PatientDataPolicy",
+        "label": "patient-data authorization boundary",
+        "promptRepo": {
+          "arl": "./prompts/PatientDataPolicy.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/patient-data-policy.js",
+          "function": "PatientDataPolicy"
+        },
+        "interfaces": [
+          {
+            "interface": "patient-data",
+            "pins": [
+              {
+                "name": "patient-data.request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "PatientDataRequest"
+                }
+              },
+              {
+                "name": "patient-data.denied",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientDataResponse"
+                }
+              },
+              {
+                "name": "patient-data.approved",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "PatientDataResponse"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "policy",
+            "pins": [
+              {
+                "name": "policy.query",
+                "kind": "request",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "DataOperation",
+                    "reply": "AccessFacts"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "interface": "data",
+            "pins": [
+              {
+                "name": "data.query",
+                "kind": "request",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "DataOperation",
+                    "reply": "PatientDataResponse"
+                  }
+                }
+              },
+              {
+                "name": "data.operation",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "DataOperation"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "event",
+            "pins": [
+              {
+                "name": "event.record",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "RecordedEvent"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Admin",
+        "label": "admin authorization boundary",
+        "promptRepo": {
+          "arl": "./prompts/Admin.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/admin.js",
+          "function": "Admin"
+        },
+        "interfaces": [
+          {
+            "interface": "admin-data",
+            "pins": [
+              {
+                "name": "admin-data.request",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "AdminDataRequest"
+                }
+              },
+              {
+                "name": "admin-data.denied",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataResponse"
+                }
+              },
+              {
+                "name": "admin-data.approved",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataResponse"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "admin",
+            "pins": [
+              {
+                "name": "admin.query",
+                "kind": "request",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "AdminDataRequest",
+                    "reply": "AdminDataResponse"
+                  }
+                }
+              },
+              {
+                "name": "admin.operation",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "AdminDataRequest"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "event",
+            "pins": [
+              {
+                "name": "event.query",
+                "kind": "request",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "AdminDataRequest",
+                    "reply": "AdminDataResponse"
+                  }
+                }
+              },
+              {
+                "name": "event.record",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "RecordedEvent"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "DataCenter",
+        "label": "patient data authority",
+        "promptRepo": {
+          "arl": "./prompts/DataCenter.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/data-center.js",
+          "function": "DataCenter"
+        },
         "interfaces": [
           {
             "interface": "policy",
             "pins": [
               {
-                "name": "auth.context",
-                "kind": "input",
+                "name": "policy.query",
+                "kind": "reply",
                 "contract": {
                   "role": "follower",
-                  "payload": "AuthContext"
-                }
-              },
-              {
-                "name": "data.operation",
-                "kind": "output",
-                "contract": {
-                  "role": "follower",
-                  "payload": "DataOperation"
-                }
-              },
-              {
-                "name": "policy.denied",
-                "kind": "output",
-                "contract": {
-                  "role": "follower",
-                  "payload": "ServerResponse"
-                }
-              },
-              {
-                "name": "policy.event",
-                "kind": "output",
-                "contract": {
-                  "role": "follower",
-                  "payload": "RecordedEvent"
-                }
-              },
-              {
-                "name": "policy.decision",
-                "kind": "output",
-                "contract": {
-                  "role": "follower",
-                  "payload": "PolicyDecision"
+                  "payload": {
+                    "request": "DataOperation",
+                    "reply": "AccessFacts"
+                  }
                 }
               }
             ]
-          }
-        ]
-      },
-      {
-        "kind": "group",
-        "name": "DataCenter",
-        "label": "patient data authority",
-        "prompt": "Owns the synthetic patient records and related data. It receives approved data operations and returns data results. Direct external access to this responsibility should remain out of bounds.",
-        "interfaces": [
+          },
           {
-            "interface": "records",
+            "interface": "data",
             "pins": [
               {
+                "name": "data.query",
+                "kind": "reply",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "DataOperation",
+                    "reply": "PatientDataResponse"
+                  }
+                }
+              },
+              {
                 "name": "data.operation",
                 "kind": "input",
                 "contract": {
                   "role": "follower",
                   "payload": "DataOperation"
                 }
-              },
+              }
+            ]
+          },
+          {
+            "interface": "admin",
+            "pins": [
               {
-                "name": "data.result",
-                "kind": "output",
+                "name": "admin.query",
+                "kind": "reply",
                 "contract": {
                   "role": "follower",
-                  "payload": "ServerResponse"
+                  "payload": {
+                    "request": "AdminDataRequest",
+                    "reply": "AdminDataResponse"
+                  }
                 }
               },
               {
-                "name": "data.event",
-                "kind": "output",
+                "name": "admin.operation",
+                "kind": "input",
                 "contract": {
                   "role": "follower",
-                  "payload": "RecordedEvent"
+                  "payload": "AdminDataRequest"
                 }
               }
             ]
-          }
-        ]
-      },
-      {
-        "kind": "group",
-        "name": "EventRecorder",
-        "label": "audit and security evidence",
-        "prompt": "Records authentication events, policy decisions, denied access, data access, capability traces and runtime security events. It records evidence; it does not grant access.",
-        "interfaces": [
+          },
           {
-            "interface": "events",
+            "interface": "event",
             "pins": [
               {
                 "name": "event.record",
-                "kind": "input",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "RecordedEvent"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "EventRecorder",
+        "label": "audit and security evidence",
+        "promptRepo": {
+          "arl": "./prompts/EventRecorder.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/event-recorder.js",
+          "function": "EventRecorder"
+        },
+        "interfaces": [
+          {
+            "interface": "event",
+            "pins": [
+              {
+                "name": "event.query",
+                "kind": "reply",
                 "contract": {
                   "role": "follower",
-                  "payload": "RecordedEvent"
+                  "payload": {
+                    "request": "AdminDataRequest",
+                    "reply": "AdminDataResponse"
+                  }
                 }
               },
               {
-                "name": "event.stream",
-                "kind": "output",
+                "name": "event.record",
+                "kind": "input",
                 "contract": {
                   "role": "follower",
                   "payload": "RecordedEvent"
@@ -260,7 +918,7 @@
     "connections": [
       {
         "src": {
-          "pin": "request.in",
+          "pin": "auth.request",
           "node": "Transport"
         },
         "dst": {
@@ -270,7 +928,37 @@
       },
       {
         "src": {
-          "pin": "transport.event",
+          "pin": "auth.logout",
+          "node": "Transport"
+        },
+        "dst": {
+          "pin": "auth.logout",
+          "node": "Authentication"
+        }
+      },
+      {
+        "src": {
+          "pin": "patient-data.request",
+          "node": "Transport"
+        },
+        "dst": {
+          "pin": "patient-data.request",
+          "node": "Authentication"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin-data.request",
+          "node": "Transport"
+        },
+        "dst": {
+          "pin": "admin-data.request",
+          "node": "Authentication"
+        }
+      },
+      {
+        "src": {
+          "pin": "event.record",
           "node": "Transport"
         },
         "dst": {
@@ -280,12 +968,12 @@
       },
       {
         "src": {
-          "pin": "auth.context",
+          "pin": "auth.approved",
           "node": "Authentication"
         },
         "dst": {
-          "pin": "auth.context",
-          "node": "PolicyEnforcer"
+          "pin": "auth.approved",
+          "node": "Transport"
         }
       },
       {
@@ -294,13 +982,53 @@
           "node": "Authentication"
         },
         "dst": {
-          "pin": "response.out",
+          "pin": "auth.denied",
           "node": "Transport"
         }
       },
       {
         "src": {
-          "pin": "auth.event",
+          "pin": "patient-data.denied",
+          "node": "Authentication"
+        },
+        "dst": {
+          "pin": "patient-data.denied",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "patient-data.approved",
+          "node": "Authentication"
+        },
+        "dst": {
+          "pin": "patient-data.request",
+          "node": "PatientDataPolicy"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin-data.denied",
+          "node": "Authentication"
+        },
+        "dst": {
+          "pin": "admin-data.denied",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin-data.approved",
+          "node": "Authentication"
+        },
+        "dst": {
+          "pin": "admin-data.request",
+          "node": "Admin"
+        }
+      },
+      {
+        "src": {
+          "pin": "event.record",
           "node": "Authentication"
         },
         "dst": {
@@ -310,8 +1038,48 @@
       },
       {
         "src": {
+          "pin": "patient-data.denied",
+          "node": "PatientDataPolicy"
+        },
+        "dst": {
+          "pin": "patient-data.denied",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "patient-data.approved",
+          "node": "PatientDataPolicy"
+        },
+        "dst": {
+          "pin": "patient-data.approved",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "policy.query",
+          "node": "PatientDataPolicy"
+        },
+        "dst": {
+          "pin": "policy.query",
+          "node": "DataCenter"
+        }
+      },
+      {
+        "src": {
+          "pin": "data.query",
+          "node": "PatientDataPolicy"
+        },
+        "dst": {
+          "pin": "data.query",
+          "node": "DataCenter"
+        }
+      },
+      {
+        "src": {
           "pin": "data.operation",
-          "node": "PolicyEnforcer"
+          "node": "PatientDataPolicy"
         },
         "dst": {
           "pin": "data.operation",
@@ -320,18 +1088,8 @@
       },
       {
         "src": {
-          "pin": "policy.denied",
-          "node": "PolicyEnforcer"
-        },
-        "dst": {
-          "pin": "response.out",
-          "node": "Transport"
-        }
-      },
-      {
-        "src": {
-          "pin": "policy.event",
-          "node": "PolicyEnforcer"
+          "pin": "event.record",
+          "node": "PatientDataPolicy"
         },
         "dst": {
           "pin": "event.record",
@@ -340,18 +1098,58 @@
       },
       {
         "src": {
-          "pin": "data.result",
-          "node": "DataCenter"
+          "pin": "admin-data.denied",
+          "node": "Admin"
         },
         "dst": {
-          "pin": "response.out",
+          "pin": "admin-data.denied",
           "node": "Transport"
         }
       },
       {
         "src": {
-          "pin": "data.event",
+          "pin": "admin-data.approved",
+          "node": "Admin"
+        },
+        "dst": {
+          "pin": "admin-data.approved",
+          "node": "Transport"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin.query",
+          "node": "Admin"
+        },
+        "dst": {
+          "pin": "admin.query",
           "node": "DataCenter"
+        }
+      },
+      {
+        "src": {
+          "pin": "admin.operation",
+          "node": "Admin"
+        },
+        "dst": {
+          "pin": "admin.operation",
+          "node": "DataCenter"
+        }
+      },
+      {
+        "src": {
+          "pin": "event.query",
+          "node": "Admin"
+        },
+        "dst": {
+          "pin": "event.query",
+          "node": "EventRecorder"
+        }
+      },
+      {
+        "src": {
+          "pin": "event.record",
+          "node": "Admin"
         },
         "dst": {
           "pin": "event.record",
@@ -360,12 +1158,12 @@
       },
       {
         "src": {
-          "pin": "event.stream",
-          "node": "EventRecorder"
+          "pin": "event.record",
+          "node": "DataCenter"
         },
         "dst": {
-          "pin": "event.stream",
-          "node": "Transport"
+          "pin": "event.record",
+          "node": "EventRecorder"
         }
       }
     ]

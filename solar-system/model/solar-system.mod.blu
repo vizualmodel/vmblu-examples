@@ -415,12 +415,18 @@
   "root": {
     "kind": "group",
     "name": "Root",
-    "prompt": "Solar-system-agent app composition.",
+    "promptRepo": {
+      "arl": "./prompts/Root.md",
+      "pathKind": 2
+    },
     "nodes": [
       {
         "kind": "source",
         "name": "SimulationClock",
-        "prompt": "Maintains simulation time, time scale, and paused state, and emits simulation ticks.",
+        "promptRepo": {
+          "arl": "./prompts/SimulationClock.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/simulation-clock.js",
           "function": "createSimulationClock"
@@ -435,8 +441,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ClockConfig"
-                },
-                "prompt": "Applies a new simulation start time and time scale configuration."
+                }
               },
               {
                 "name": "clock.control",
@@ -444,8 +449,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ClockControl"
-                },
-                "prompt": "Handles clock actions such as pause, resume, and speed changes."
+                }
               },
               {
                 "name": "clock.state",
@@ -453,8 +457,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "SimulationState"
-                },
-                "prompt": "Emits the current simulation clock state for UI and agent context."
+                }
               },
               {
                 "name": "clock.tick",
@@ -462,8 +465,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "SimulationTick"
-                },
-                "prompt": "Emits a tick whenever simulation time advances."
+                }
               }
             ]
           }
@@ -478,7 +480,10 @@
       {
         "kind": "source",
         "name": "CommandRouter",
-        "prompt": "Normalizes UI commands and routes them to the correct subsystem nodes.",
+        "promptRepo": {
+          "arl": "./prompts/CommandRouter.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/command-router.js",
           "function": "createCommandRouter"
@@ -493,8 +498,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CommandEnvelope"
-                },
-                "prompt": "Receives a normalized command from UI nodes for routing."
+                }
               },
               {
                 "name": "ui.panel",
@@ -502,8 +506,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "UiPanelCommand"
-                },
-                "prompt": "Emits a command that changes UI panel visibility or state."
+                }
               }
             ]
           },
@@ -516,8 +519,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "RenderCommand"
-                },
-                "prompt": "Emits renderer or layout commands to the rendering group."
+                }
               },
               {
                 "name": "render.camera",
@@ -525,8 +527,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CameraCommand"
-                },
-                "prompt": "Emits camera placement or movement commands to the rendering group."
+                }
               }
             ]
           },
@@ -539,8 +540,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChartCommand"
-                },
-                "prompt": "Emits a chart request to the charts subsystem."
+                }
               }
             ]
           },
@@ -553,8 +553,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CommandEnvelope"
-                },
-                "prompt": "Emits solar-system related commands to the solar system group."
+                }
               }
             ]
           },
@@ -567,8 +566,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ClockConfig"
-                },
-                "prompt": "Emits a clock configuration message derived from a routed command."
+                }
               },
               {
                 "name": "clock.control",
@@ -576,8 +574,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ClockControl"
-                },
-                "prompt": "Emits messages on clock.control for CommandRouter."
+                }
               }
             ]
           }
@@ -586,7 +583,10 @@
       {
         "kind": "group",
         "name": "Rendering",
-        "prompt": "Composes layout, renderer, animator, and camera management for the 3D view.",
+        "promptRepo": {
+          "arl": "./prompts/Rendering.md",
+          "pathKind": 2
+        },
         "interfaces": [
           {
             "interface": "scene",
@@ -597,8 +597,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ScenePatchList"
-                },
-                "prompt": "Receives scene patch updates that should be applied in this subsystem."
+                }
               },
               {
                 "name": "scene.animatables",
@@ -606,8 +605,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "AnimatableBatch"
-                },
-                "prompt": "Receives animatable registrations for animation processing."
+                }
               },
               {
                 "name": "scene.body-poses",
@@ -615,8 +613,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "BodyPoseList"
-                },
-                "prompt": "Receives current celestial body poses."
+                }
               }
             ]
           },
@@ -629,8 +626,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CommandEnvelope"
-                },
-                "prompt": "Receives renderer or layout commands from the command router."
+                }
               }
             ]
           },
@@ -643,8 +639,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CommandEnvelope"
-                },
-                "prompt": "Receives a camera placement or movement command."
+                }
               },
               {
                 "name": "camera.active",
@@ -652,8 +647,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CameraState"
-                },
-                "prompt": "Emits the currently active camera state."
+                }
               }
             ]
           },
@@ -666,8 +660,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "SimulationTick"
-                },
-                "prompt": "Receives simulation ticks used to update local state."
+                }
               }
             ]
           },
@@ -680,8 +673,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChartOverlay"
-                },
-                "prompt": "Receives the chart overlay payload that should be shown in the layout."
+                }
               }
             ]
           }
@@ -690,7 +682,10 @@
           {
             "kind": "source",
             "name": "ScreenLayout",
-            "prompt": "Manages the full-screen canvas host and overlay panel placement.",
+            "promptRepo": {
+              "arl": "./prompts/Rendering/ScreenLayout.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/rendering/screen-layout.js",
               "function": "createScreenLayout"
@@ -705,8 +700,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "RenderCommand"
-                    },
-                    "prompt": "Receives layout commands for canvas and overlay arrangement."
+                    }
                   },
                   {
                     "name": "layout.chart-overlay",
@@ -714,8 +708,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "ChartOverlay"
-                    },
-                    "prompt": "Receives chart overlay data and visibility state."
+                    }
                   },
                   {
                     "name": "layout.state",
@@ -723,8 +716,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "LayoutState"
-                    },
-                    "prompt": "Emits the resolved layout state used by renderer and camera manager."
+                    }
                   }
                 ]
               }
@@ -739,7 +731,10 @@
           {
             "kind": "source",
             "name": "Renderer",
-            "prompt": "Hosts the THREE.js scene and render loop and applies scene and camera updates.",
+            "promptRepo": {
+              "arl": "./prompts/Rendering/Renderer.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/rendering/renderer.js",
               "function": "createRenderer"
@@ -754,8 +749,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "ScenePatchList"
-                    },
-                    "prompt": "Applies incoming scene patch batches to the renderer scene."
+                    }
                   },
                   {
                     "name": "render.layout",
@@ -763,8 +757,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "LayoutState"
-                    },
-                    "prompt": "Receives layout state updates that affect canvas size or overlays."
+                    }
                   },
                   {
                     "name": "render.camera",
@@ -772,8 +765,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "CameraState"
-                    },
-                    "prompt": "Receives the active camera state used by the render loop."
+                    }
                   }
                 ]
               }
@@ -782,7 +774,10 @@
           {
             "kind": "source",
             "name": "Animator",
-            "prompt": "Applies time-based updates to registered animatable objects using simulation ticks.",
+            "promptRepo": {
+              "arl": "./prompts/Rendering/Animator.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/rendering/animator.js",
               "function": "createAnimator"
@@ -797,8 +792,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "ScenePatchList"
-                    },
-                    "prompt": "Emits scene patches generated by animation updates."
+                    }
                   },
                   {
                     "name": "anim.tick",
@@ -806,8 +800,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "SimulationTick"
-                    },
-                    "prompt": "Receives simulation ticks that drive animation updates."
+                    }
                   },
                   {
                     "name": "anim.registry",
@@ -815,8 +808,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "AnimatableBatch"
-                    },
-                    "prompt": "Receives the current set of animatable objects to manage."
+                    }
                   },
                   {
                     "name": "anim.body-poses",
@@ -824,8 +816,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "BodyPoseList"
-                    },
-                    "prompt": "Receives body poses used to update animations tied to celestial bodies."
+                    }
                   }
                 ]
               }
@@ -834,7 +825,10 @@
           {
             "kind": "source",
             "name": "CameraManager",
-            "prompt": "Creates and updates cameras, including body-relative views and flyby motion.",
+            "promptRepo": {
+              "arl": "./prompts/Rendering/CameraManager.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/rendering/camera-manager.js",
               "function": "createCameraManager"
@@ -850,7 +844,6 @@
                       "role": "owner",
                       "payload": "CameraCommand"
                     },
-                    "prompt": "Receives a camera placement or movement command.",
                     "tool": {
                       "enabled": true,
                       "id": "camera.command @ CameraManager",
@@ -876,8 +869,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "BodyPoseList"
-                    },
-                    "prompt": "Receives body poses used to resolve body-relative cameras."
+                    }
                   },
                   {
                     "name": "camera.layout",
@@ -885,8 +877,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "LayoutState"
-                    },
-                    "prompt": "Receives layout updates that can affect camera aspect or controls."
+                    }
                   },
                   {
                     "name": "camera.active",
@@ -894,8 +885,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "CameraState"
-                    },
-                    "prompt": "Emits the currently active camera state."
+                    }
                   },
                   {
                     "name": "camera.event",
@@ -904,7 +894,6 @@
                       "role": "owner",
                       "payload": "CameraEvent"
                     },
-                    "prompt": "Emits semantic camera changes for agent observation.",
                     "event": {
                       "enabled": true,
                       "id": "camera.event @ CameraManager",
@@ -1073,7 +1062,10 @@
       {
         "kind": "group",
         "name": "SolarSystem",
-        "prompt": "## Description\nComposes the solar system simulation nodes that compute poses and generate visuals.",
+        "promptRepo": {
+          "arl": "./prompts/SolarSystem.md",
+          "pathKind": 2
+        },
         "interfaces": [
           {
             "interface": "solar",
@@ -1084,8 +1076,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CommandEnvelope"
-                },
-                "prompt": "Receives solar-system related commands such as scaling, labels, or scene options."
+                }
               }
             ]
           },
@@ -1098,8 +1089,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CameraState"
-                },
-                "prompt": "Receives the active camera state for context or view-dependent behavior."
+                }
               }
             ]
           },
@@ -1112,8 +1102,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ScenePatchList"
-                },
-                "prompt": "Emits scene patch updates produced by this subsystem."
+                }
               },
               {
                 "name": "scene.animatables",
@@ -1121,8 +1110,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "AnimatableBatch"
-                },
-                "prompt": "Emits animatable registrations for the animator."
+                }
               },
               {
                 "name": "scene.body-poses",
@@ -1130,8 +1118,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "BodyPoseList"
-                },
-                "prompt": "Emits current celestial body poses for other subsystems."
+                }
               },
               {
                 "name": "scene.body-catalog",
@@ -1139,8 +1126,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "BodyCatalog"
-                },
-                "prompt": "Emits metadata about available celestial bodies."
+                }
               }
             ]
           },
@@ -1153,8 +1139,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "SimulationTick"
-                },
-                "prompt": "Receives simulation ticks used to update local state."
+                }
               }
             ]
           }
@@ -1163,7 +1148,10 @@
           {
             "kind": "source",
             "name": "EphemerisEngine",
-            "prompt": "Computes planet and moon positions from ephemerides using Kepler-based calculations.",
+            "promptRepo": {
+              "arl": "./prompts/SolarSystem/EphemerisEngine.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/solar-system/ephemeris-engine.js",
               "function": "createEphemerisEngine"
@@ -1178,8 +1166,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "SimulationTick"
-                    },
-                    "prompt": "Receives simulation ticks used to update local state."
+                    }
                   }
                 ]
               },
@@ -1192,8 +1179,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "CommandEnvelope"
-                    },
-                    "prompt": "Receives solar-system related commands such as scaling, labels, or scene options."
+                    }
                   }
                 ]
               },
@@ -1206,8 +1192,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "BodyPoseList"
-                    },
-                    "prompt": "Emits calculated orbital poses for planets and moons."
+                    }
                   },
                   {
                     "name": "orb.body-catalog",
@@ -1215,8 +1200,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "BodyCatalog"
-                    },
-                    "prompt": "Emits metadata describing the supported celestial bodies."
+                    }
                   }
                 ]
               }
@@ -1225,7 +1209,10 @@
           {
             "kind": "source",
             "name": "BodyVisuals",
-            "prompt": "Builds and updates visual representations of bodies, labels, and lighting-related scene patches.",
+            "promptRepo": {
+              "arl": "./prompts/SolarSystem/BodyVisuals.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/solar-system/body-visuals.js",
               "function": "createBodyVisuals"
@@ -1240,8 +1227,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "BodyPoseList"
-                    },
-                    "prompt": "Receives current celestial body poses."
+                    }
                   },
                   {
                     "name": "scene.command",
@@ -1249,8 +1235,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "CommandEnvelope"
-                    },
-                    "prompt": "Receives solar-system visual commands such as scale or label toggles."
+                    }
                   },
                   {
                     "name": "scene.camera",
@@ -1258,8 +1243,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "CameraState"
-                    },
-                    "prompt": "Receives camera state used for view-dependent visual updates."
+                    }
                   },
                   {
                     "name": "scene.updates",
@@ -1267,8 +1251,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "ScenePatchList"
-                    },
-                    "prompt": "Emits scene patch updates produced by this subsystem."
+                    }
                   },
                   {
                     "name": "scene.animatables",
@@ -1276,8 +1259,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "AnimatableBatch"
-                    },
-                    "prompt": "Emits animatable registrations for the animator."
+                    }
                   }
                 ]
               }
@@ -1293,7 +1275,10 @@
           {
             "kind": "source",
             "name": "CelestialSphere",
-            "prompt": "Builds the star or constellation background around the solar system scene.",
+            "promptRepo": {
+              "arl": "./prompts/SolarSystem/CelestialSphere.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/solar-system/celestial-sphere.js",
               "function": "createCelestialSphere"
@@ -1308,8 +1293,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "CommandEnvelope"
-                    },
-                    "prompt": "Receives configuration commands for the celestial sphere background."
+                    }
                   },
                   {
                     "name": "sky.camera",
@@ -1317,8 +1301,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "CameraState"
-                    },
-                    "prompt": "Receives camera state for view-dependent sky behavior."
+                    }
                   },
                   {
                     "name": "sky.scene-updates",
@@ -1326,8 +1309,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "ScenePatchList"
-                    },
-                    "prompt": "Emits scene patches for the celestial sphere visuals."
+                    }
                   }
                 ]
               }
@@ -1441,7 +1423,10 @@
       {
         "kind": "group",
         "name": "Charts",
-        "prompt": "Composes analytical chart nodes that generate on-demand chart overlays.",
+        "promptRepo": {
+          "arl": "./prompts/Charts.md",
+          "pathKind": 2
+        },
         "interfaces": [
           {
             "interface": "chart",
@@ -1452,8 +1437,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CommandEnvelope"
-                },
-                "prompt": "Receives chart requests such as show, hide, or update chart parameters."
+                }
               },
               {
                 "name": "chart.overlay",
@@ -1461,8 +1445,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChartOverlay"
-                },
-                "prompt": "Emits the current chart overlay payload for display."
+                }
               }
             ]
           },
@@ -1475,8 +1458,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "BodyPoseList"
-                },
-                "prompt": "Receives current body poses for computation or rendering support."
+                }
               },
               {
                 "name": "sim.tick",
@@ -1484,8 +1466,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "SimulationTick"
-                },
-                "prompt": "Receives simulation ticks used to update local state."
+                }
               }
             ]
           }
@@ -1494,7 +1475,10 @@
           {
             "kind": "source",
             "name": "DistanceChart",
-            "prompt": "Calculates and packages chart data such as distances between selected celestial bodies.",
+            "promptRepo": {
+              "arl": "./prompts/Charts/DistanceChart.md",
+              "pathKind": 2
+            },
             "factory": {
               "path": "../nodes/charts/distance-chart.js",
               "function": "createDistanceChart"
@@ -1509,8 +1493,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "ChartCommand"
-                    },
-                    "prompt": "Receives chart requests such as show, hide, or update chart parameters."
+                    }
                   },
                   {
                     "name": "chart.body-poses",
@@ -1518,8 +1501,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "BodyPoseList"
-                    },
-                    "prompt": "Receives body poses used to compute chart values."
+                    }
                   },
                   {
                     "name": "chart.tick",
@@ -1527,8 +1509,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "SimulationTick"
-                    },
-                    "prompt": "Receives simulation ticks to sample chart values over time."
+                    }
                   },
                   {
                     "name": "chart.overlay",
@@ -1536,8 +1517,7 @@
                     "contract": {
                       "role": "owner",
                       "payload": "ChartOverlay"
-                    },
-                    "prompt": "Emits the current chart overlay payload for display."
+                    }
                   }
                 ]
               }
@@ -1589,7 +1569,10 @@
       {
         "kind": "source",
         "name": "IconMenu",
-        "prompt": "Provides a compact icon menu to open or control overlays such as the chat panel.",
+        "promptRepo": {
+          "arl": "./prompts/IconMenu.md",
+          "pathKind": 2
+        },
         "factory": {
           "path": "../nodes/user-interface/icon-menu.js",
           "function": "createIconMenu"
@@ -1604,8 +1587,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CommandEnvelope"
-                },
-                "prompt": "Emits a normalized command generated by a UI interaction."
+                }
               },
               {
                 "name": "ui.panel",
@@ -1613,8 +1595,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "UiPanelCommand"
-                },
-                "prompt": "Receives commands that show or hide a user interface panel."
+                }
               }
             ]
           },
@@ -1627,8 +1608,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "CameraState"
-                },
-                "prompt": "Receives the active camera state and available camera list for the settings menu."
+                }
               }
             ]
           },
@@ -1641,8 +1621,7 @@
                 "contract": {
                   "role": "owner",
                   "payload": "SimulationState"
-                },
-                "prompt": "Receives the current simulation state for display or controls."
+                }
               }
             ]
           }

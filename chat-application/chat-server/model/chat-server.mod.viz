@@ -20,24 +20,24 @@
         "rect": "x 90 y 30 w 150 h 161",
         "interfaces": [
           {
-            "interface": "(0) auth",
+            "interface": "(10) auth",
             "pins": [
-              "(0 R)auth.login-received",
-              "(0 R)auth.login-result"
+              "(11 R)auth.login-received",
+              "(12 R)auth.login-result"
             ]
           },
           {
-            "interface": "(0) chat",
+            "interface": "(13) chat",
             "pins": [
-              "(0 R)chat.message-received",
-              "(0 R)chat.history-deliver",
-              "(0 R)chat.message-deliver"
+              "(14 R)chat.message-received",
+              "(15 R)chat.history-deliver",
+              "(16 R)chat.message-deliver"
             ]
           },
           {
-            "interface": "(0) session",
+            "interface": "(17) session",
             "pins": [
-              "(0 R)session.user-disconnected"
+              "(18 R)session.user-disconnected"
             ]
           }
         ]
@@ -48,24 +48,24 @@
         "rect": "x 390 y 30 w 150 h 161",
         "interfaces": [
           {
-            "interface": "(0) auth",
+            "interface": "(10) auth",
             "pins": [
-              "(0 L)auth.login-received",
-              "(0 L)auth.login-result"
+              "(11 L)auth.login-received",
+              "(12 L)auth.login-result"
             ]
           },
           {
-            "interface": "(0) chat",
+            "interface": "(13) chat",
             "pins": [
-              "(0 L)chat.message-received",
-              "(0 L)chat.history-deliver",
-              "(0 L)chat.message-deliver"
+              "(14 L)chat.message-received",
+              "(15 L)chat.history-deliver",
+              "(16 L)chat.message-deliver"
             ]
           },
           {
-            "interface": "(0) session",
+            "interface": "(17) session",
             "pins": [
-              "(0 L)session.user-disconnected"
+              "(18 L)session.user-disconnected"
             ]
           }
         ]
@@ -73,33 +73,33 @@
     ],
     "routes": [
       {
-        "from": "(pin 0) auth.login-received @ ws gateway",
-        "to": "(pin 0) auth.login-received @ chat state",
+        "from": "(pin 11) auth.login-received @ ws gateway",
+        "to": "(pin 11) auth.login-received @ chat state",
         "wire": "x 75.0 y 0.0 x 75.0"
       },
       {
-        "from": "(pin 0) chat.message-received @ ws gateway",
-        "to": "(pin 0) chat.message-received @ chat state",
+        "from": "(pin 14) chat.message-received @ ws gateway",
+        "to": "(pin 14) chat.message-received @ chat state",
         "wire": "x 75.0 y 0.0 x 75.0"
       },
       {
-        "from": "(pin 0) session.user-disconnected @ ws gateway",
-        "to": "(pin 0) session.user-disconnected @ chat state",
+        "from": "(pin 18) session.user-disconnected @ ws gateway",
+        "to": "(pin 18) session.user-disconnected @ chat state",
         "wire": "x 75.0 y 0.0 x 75.0"
       },
       {
-        "from": "(pin 0) auth.login-result @ chat state",
-        "to": "(pin 0) auth.login-result @ ws gateway",
+        "from": "(pin 12) auth.login-result @ chat state",
+        "to": "(pin 12) auth.login-result @ ws gateway",
         "wire": "x -75.0 y 0.0 x -75.0"
       },
       {
-        "from": "(pin 0) chat.history-deliver @ chat state",
-        "to": "(pin 0) chat.history-deliver @ ws gateway",
+        "from": "(pin 15) chat.history-deliver @ chat state",
+        "to": "(pin 15) chat.history-deliver @ ws gateway",
         "wire": "x -75.0 y 0.0 x -75.0"
       },
       {
-        "from": "(pin 0) chat.message-deliver @ chat state",
-        "to": "(pin 0) chat.message-deliver @ ws gateway",
+        "from": "(pin 16) chat.message-deliver @ chat state",
+        "to": "(pin 16) chat.message-deliver @ ws gateway",
         "wire": "x -75.0 y 0.0 x -75.0"
       }
     ]
