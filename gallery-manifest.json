@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "repository": "vizualmodel/vmblu-examples",
+  "ref": "main",
+  "rawBase": "https://raw.githubusercontent.com/vizualmodel/vmblu-examples/main/",
+  "pagesBase": "https://vizualmodel.github.io/vmblu-examples/",
+  "examples": [
+    {
+      "id": "chat-application",
+      "title": "Chat application",
+      "models": [
+        { "title": "Chat client", "entrypoint": "chat-application/chat-client/chat-client.blu" },
+        { "title": "Chat server", "entrypoint": "chat-application/chat-server/chat-server.blu" }
+      ]
+    },
+    {
+      "id": "solar-system",
+      "title": "Solar System",
+      "models": [
+        { "title": "Solar System", "entrypoint": "solar-system/solar-system.blu" }
+      ],
+      "demo": {
+        "path": "solar-system/",
+        "source": "solar-system/out"
+      }
+    },
+    {
+      "id": "patient-ledger",
+      "title": "Patient Ledger",
+      "models": [
+        { "title": "Administration", "entrypoint": "patient-ledger/admin/admin.blu" },
+        { "title": "Patient client", "entrypoint": "patient-ledger/client/client.blu" },
+        { "title": "Server", "entrypoint": "patient-ledger/server/server.blu" }
+      ]
+    },
+    {
+      "id": "crisis-grid",
+      "title": "CrisisGrid",
+      "models": [
+        { "title": "Command centre web", "entrypoint": "crisis-grid/command-centre-web/command-centre-web.blu" },
+        { "title": "Operational core service", "entrypoint": "crisis-grid/operational-core-service/operational-core-service.blu" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,541 @@
+{
+  "version": "0.10.0",
+  "provenance": {
+    "generated": true,
+    "artifact": "source-profile",
+    "compatibilityFamily": "0.10",
+    "schemaVersion": "0.10.0",
+    "generator": {
+      "name": "@vizualmodel/vmblu-cli",
+      "version": "0.10.0"
+    },
+    "source": {
+      "model": "command-centre-web.mod.blu",
+      "hash": "fnv1a64:414eddaab656a5c3"
+    }
+  },
+  "entries": [
+    {
+      "node": "Operational Core Connection",
+      "handles": [
+        {
+          "pin": "session.establish",
+          "handler": "onSessionEstablish",
+          "file": "../nodes/operational-core-connection/index.js",
+          "line": 33,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": []
+        },
+        {
+          "pin": "operational.picture-load",
+          "handler": "onOperationalPictureLoad",
+          "file": "../nodes/operational-core-connection/index.js",
+          "line": 38,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "live.updates-subscribe",
+          "handler": "onLiveUpdatesSubscribe",
+          "file": "../nodes/operational-core-connection/index.js",
+          "line": 53,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "operational.command-submit",
+          "handler": "onOperationalCommandSubmit",
+          "file": "../nodes/operational-core-connection/index.js",
+          "line": 57,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "connection.status-changed",
+          "file": "../nodes/operational-core-connection/index.js",
+          "line": 27
+        },
+        {
+          "pin": "connection.status-changed",
+          "file": "../nodes/operational-core-connection/index.js",
+          "line": 48
+        },
+        {
+          "pin": "connection.status-changed",
+          "file": "../nodes/operational-core-connection/index.js",
+          "line": 66
+        }
+      ]
+    },
+    {
+      "node": "Operational Picture",
+      "handles": [
+        {
+          "pin": "workspace.open-incident",
+          "handler": "onWorkspaceOpenIncident",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 11,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ incidentId?: string }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "operational.command-committed",
+          "handler": "onOperationalCommandCommitted",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 37,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "live.updates-received",
+          "handler": "onLiveUpdatesReceived",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 42,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": []
+        },
+        {
+          "pin": "projection.detail-request",
+          "handler": "onProjectionDetailRequest",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 47,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ requestId?: string, incidentId?: string }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "connection.status-changed",
+          "handler": "onConnectionStatusChanged",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 56,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "operational-picture.load",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 20
+        },
+        {
+          "pin": "projection.updated",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 31
+        },
+        {
+          "pin": "projection.updated",
+          "file": "../nodes/operational-picture/index.js",
+          "line": 63
+        }
+      ]
+    },
+    {
+      "node": "Spatial Workspace",
+      "handles": [
+        {
+          "pin": "workspace.activation-change",
+          "handler": "onWorkspaceActivationChange",
+          "file": "../nodes/spatial-workspace/index.js",
+          "line": 22,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ workspaceId: string, state: \"active\" | \"inactive\" }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "projection.updated",
+          "handler": "onProjectionUpdated",
+          "file": "../nodes/spatial-workspace/index.js",
+          "line": 32,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "unknown",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "layout.acquire-region",
+          "file": "../nodes/spatial-workspace/index.js",
+          "line": 58
+        },
+        {
+          "pin": "operational-command.proposal",
+          "file": "../nodes/spatial-workspace/index.js",
+          "line": 137
+        }
+      ]
+    },
+    {
+      "node": "Situation Workspace",
+      "handles": [
+        {
+          "pin": "workspace.activation-change",
+          "handler": "onWorkspaceActivationChange",
+          "file": "../nodes/situation-workspace/index.js",
+          "line": 18,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ workspaceId: string, state: \"active\" | \"inactive\" }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "projection.updated",
+          "handler": "onProjectionUpdated",
+          "file": "../nodes/situation-workspace/index.js",
+          "line": 25,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "unknown",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "layout.acquire-region",
+          "file": "../nodes/situation-workspace/index.js",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "node": "Action Workspace",
+      "handles": [
+        {
+          "pin": "workspace.activation-change",
+          "handler": "onWorkspaceActivationChange",
+          "file": "../nodes/action-workspace/index.js",
+          "line": 16,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "projection.updated",
+          "handler": "onProjectionUpdated",
+          "file": "../nodes/action-workspace/index.js",
+          "line": 22,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": []
+        },
+        {
+          "pin": "operational.command-proposal",
+          "handler": "onOperationalCommandProposal",
+          "file": "../nodes/action-workspace/index.js",
+          "line": 24,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "any",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "operational-command.submit",
+          "file": "../nodes/action-workspace/index.js",
+          "line": 35
+        },
+        {
+          "pin": "operational-command.committed",
+          "file": "../nodes/action-workspace/index.js",
+          "line": 48
+        },
+        {
+          "pin": "layout.acquire-region",
+          "file": "../nodes/action-workspace/index.js",
+          "line": 64
+        }
+      ]
+    },
+    {
+      "node": "Talk Workspace",
+      "handles": [
+        {
+          "pin": "workspace.activation-change",
+          "handler": "onWorkspaceActivationChange",
+          "file": "../nodes/talk-workspace/index.js",
+          "line": 16,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ workspaceId: string, state: \"active\" | \"inactive\" }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "projection.updated",
+          "handler": "onProjectionUpdated",
+          "file": "../nodes/talk-workspace/index.js",
+          "line": 23,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "unknown",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "layout.acquire-region",
+          "file": "../nodes/talk-workspace/index.js",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "node": "Workspace",
+      "handles": [
+        {
+          "pin": "session.status-changed",
+          "handler": "onSessionStatusChanged",
+          "file": "../nodes/application-shell/workspace/index.js",
+          "line": 33,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ status: string, reason: string }",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": [
+        {
+          "pin": "workspace.activation-change",
+          "file": "../nodes/application-shell/workspace/index.js",
+          "line": 19
+        },
+        {
+          "pin": "workspace.open-incident",
+          "file": "../nodes/application-shell/workspace/index.js",
+          "line": 27
+        },
+        {
+          "pin": "workspace.activation-change",
+          "file": "../nodes/application-shell/workspace/index.js",
+          "line": 38
+        }
+      ]
+    },
+    {
+      "node": "Layout",
+      "handles": [
+        {
+          "pin": "workspace.activation-change",
+          "handler": "onWorkspaceActivationChange",
+          "file": "../nodes/application-shell/layout/index.js",
+          "line": 28,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ workspaceId: string, state: \"active\" | \"inactive\" }",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "layout.acquire-region",
+          "handler": "onLayoutAcquireRegion",
+          "file": "../nodes/application-shell/layout/index.js",
+          "line": 43,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ workspaceId: string, regionRole: string }",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": []
+    },
+    {
+      "node": "SpatialMap",
+      "handles": [
+        {
+          "pin": "load",
+          "handler": "onLoad",
+          "file": "../nodes/spatial-workspace/map/spatial-map.ts",
+          "line": 91,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": []
+        },
+        {
+          "pin": "pointer.move",
+          "handler": "onPointerMove",
+          "file": "../nodes/spatial-workspace/map/spatial-map.ts",
+          "line": 103,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "longitude",
+              "type": "number",
+              "description": ""
+            },
+            {
+              "name": "latitude",
+              "type": "number",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "feature.click",
+          "handler": "onFeatureClick",
+          "file": "../nodes/spatial-workspace/map/spatial-map.ts",
+          "line": 111,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "event",
+              "type": "maplibregl.MapMouseEvent",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "pin": "error",
+          "handler": "onError",
+          "file": "../nodes/spatial-workspace/map/spatial-map.ts",
+          "line": 135,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "error",
+              "type": "Error",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "transmits": []
+    }
+  ]
+}

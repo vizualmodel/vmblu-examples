@@ -4,29 +4,19 @@
     "created": "2026-02-11T11:09:28.315Z",
     "saved": "2026-02-11T15:05:00.000Z",
     "utc": "2026-02-11T15:05:00.000Z",
-    "runtime": "@vizualmodel/vmblu-runtime/rt-base"
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base",
+    "teams": {
+      "default": {
+        "color": "#0066ff"
+      }
+    }
   },
   "factories": [
-    {
-      "path": "../nodes/login popup/index.js",
-      "function": "createLoginPopupNode"
-    },
-    {
-      "path": "../nodes/message history/index.js",
-      "function": "createMessageHistoryNode"
-    },
-    {
-      "path": "../nodes/message composer/index.js",
-      "function": "createMessageComposerNode"
-    },
-    {
-      "path": "../nodes/client-controller.js",
-      "function": "createClientControllerNode"
-    },
-    {
-      "path": "../nodes/ws-transport.js",
-      "function": "createWsTransportNode"
-    }
+    "../nodes/login popup/index.js",
+    "../nodes/message history/index.js",
+    "../nodes/message composer/index.js",
+    "../nodes/client-controller.js",
+    "../nodes/ws-transport.js"
   ],
   "types": {
     "UserName": {

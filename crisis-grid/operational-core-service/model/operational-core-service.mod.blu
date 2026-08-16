@@ -1,0 +1,1477 @@
+{
+  "header": {
+    "version": "0.10.0",
+    "created": "2026-07-23T11:10:19.955Z",
+    "saved": "2026-08-16T15:20:07.129Z",
+    "utc": "2026-08-16T15:20:07.129Z",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base",
+    "teams": {
+      "default": {
+        "color": "#2c7be5"
+      }
+    }
+  },
+  "types": {
+    "SessionToken": {
+      "kind": "primitive",
+      "summary": "A cryptographically random opaque bearer value returned only to the client and never stored in plaintext."
+    },
+    "StringList": {
+      "kind": "array",
+      "summary": "An ordered collection of strings.",
+      "items": {
+        "vmbluType": "string"
+      }
+    },
+    "TrustedActorContext": {
+      "kind": "object",
+      "summary": "Identity and coarse authority context established from a currently valid session for use by domain-owning groups.",
+      "fields": {
+        "actorId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the authenticated user or agent."
+        },
+        "actorKind": {
+          "vmbluType": "string",
+          "summary": "Category of authenticated actor."
+        },
+        "sessionId": {
+          "vmbluType": "string",
+          "summary": "Non-secret identifier of the validated session."
+        },
+        "roles": {
+          "vmbluType": "StringList",
+          "summary": "Roles current when the interaction was validated."
+        },
+        "informationScopes": {
+          "vmbluType": "StringList",
+          "summary": "Information scopes current when the interaction was validated."
+        },
+        "authenticatedAt": {
+          "vmbluType": "string",
+          "summary": "Time at which the session actor was authenticated."
+        },
+        "sessionExpiresAt": {
+          "vmbluType": "string",
+          "summary": "Current expiry boundary of the validated session."
+        }
+      },
+      "required": [
+        "actorId",
+        "actorKind",
+        "sessionId",
+        "roles",
+        "informationScopes",
+        "authenticatedAt",
+        "sessionExpiresAt"
+      ]
+    },
+    "ExternalInteraction": {
+      "kind": "object",
+      "summary": "A transport-neutral external interaction normalized after protocol parsing.",
+      "fields": {
+        "interactionId": {
+          "vmbluType": "string",
+          "summary": "Stable identifier used to correlate retries and processing."
+        },
+        "deliveryContextId": {
+          "vmbluType": "string",
+          "summary": "Opaque reference used to deliver the eventual external outcome."
+        },
+        "interactionKind": {
+          "vmbluType": "string",
+          "summary": "Declared category of interaction."
+        },
+        "sessionToken": {
+          "vmbluType": "SessionToken",
+          "summary": "Opaque session token when the interaction presents one."
+        },
+        "message": {
+          "vmbluType": "any",
+          "summary": "Parsed application message awaiting security and domain validation."
+        }
+      },
+      "required": [
+        "interactionId",
+        "deliveryContextId",
+        "interactionKind",
+        "message"
+      ]
+    },
+    "TrustedInteraction": {
+      "kind": "object",
+      "summary": "A protected interaction accompanied by actor context established by Session and Access Control.",
+      "fields": {
+        "interactionId": {
+          "vmbluType": "string",
+          "summary": "Stable identifier preserved from the external interaction."
+        },
+        "deliveryContextId": {
+          "vmbluType": "string",
+          "summary": "Opaque reference preserved for eventual external delivery."
+        },
+        "actor": {
+          "vmbluType": "TrustedActorContext",
+          "summary": "Trusted actor context established for this interaction."
+        },
+        "message": {
+          "vmbluType": "any",
+          "summary": "Application message for domain-owned validation and processing."
+        }
+      },
+      "required": [
+        "interactionId",
+        "deliveryContextId",
+        "actor",
+        "message"
+      ]
+    },
+    "ExternalResponse": {
+      "kind": "object",
+      "summary": "A transport-neutral outcome ready for correlated external delivery.",
+      "fields": {
+        "deliveryContextId": {
+          "vmbluType": "string",
+          "summary": "Opaque reference identifying the external interaction to complete."
+        },
+        "outcome": {
+          "vmbluType": "string",
+          "summary": "Stable outcome category suitable for protocol mapping."
+        },
+        "sessionToken": {
+          "vmbluType": "SessionToken",
+          "summary": "New opaque token returned only when a session is established."
+        },
+        "message": {
+          "vmbluType": "any",
+          "summary": "Outcome detail safe for external delivery."
+        }
+      },
+      "required": [
+        "deliveryContextId",
+        "outcome"
+      ]
+    },
+    "OperationalResponse": {
+      "kind": "object",
+      "summary": "An authorized domain outcome ready for correlated external delivery without session credentials.",
+      "fields": {
+        "deliveryContextId": {
+          "vmbluType": "string",
+          "summary": "Opaque reference identifying the external interaction to complete."
+        },
+        "outcome": {
+          "vmbluType": "string",
+          "summary": "Stable domain outcome category suitable for protocol mapping."
+        },
+        "message": {
+          "vmbluType": "any",
+          "summary": "Authorized operational outcome detail safe for external delivery."
+        }
+      },
+      "required": [
+        "deliveryContextId",
+        "outcome"
+      ]
+    },
+    "SessionInvalidation": {
+      "kind": "object",
+      "summary": "A directive identifying a session whose further use and live delivery must cease.",
+      "fields": {
+        "sessionId": {
+          "vmbluType": "string",
+          "summary": "Non-secret identifier of the affected session."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Stable reason category for the invalidation."
+        },
+        "invalidatedAt": {
+          "vmbluType": "string",
+          "summary": "Time from which the session is invalid."
+        }
+      },
+      "required": [
+        "sessionId",
+        "reason",
+        "invalidatedAt"
+      ]
+    },
+    "LiveDeliveryStart": {
+      "kind": "object",
+      "summary": "An approved directive to begin or resume delivery after the client's last applied sequence.",
+      "fields": {
+        "deliveryContextId": {
+          "vmbluType": "string",
+          "summary": "Opaque external-delivery context through which updates are sent."
+        },
+        "subscriptionId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the accepted operational subscription."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Incident whose authorized operational updates are subscribed to."
+        },
+        "afterSequence": {
+          "vmbluType": "string",
+          "summary": "Last sequence already represented at the client when delivery is resumed."
+        }
+      },
+      "required": [
+        "deliveryContextId",
+        "subscriptionId",
+        "incidentId",
+        "afterSequence"
+      ]
+    },
+    "LiveDeliveryUpdate": {
+      "kind": "object",
+      "summary": "An ordered authorized delta or invalidation ready for an established live-delivery context.",
+      "fields": {
+        "subscriptionId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the operational subscription receiving the event."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Incident to which the event belongs."
+        },
+        "kind": {
+          "vmbluType": "string",
+          "summary": "Delivery form: delta or invalidation."
+        },
+        "sequence": {
+          "vmbluType": "string",
+          "summary": "Monotonic subscription cursor used for ordering and resumption."
+        },
+        "version": {
+          "vmbluType": "string",
+          "summary": "Authoritative operational version represented after the update."
+        },
+        "change": {
+          "vmbluType": "any",
+          "summary": "Authorized change to apply when kind is delta."
+        },
+        "affectedScope": {
+          "vmbluType": "any",
+          "summary": "Buffered records or coverage to reload when kind is invalidation."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Simple explanation when affected data is invalidated."
+        }
+      },
+      "required": [
+        "subscriptionId",
+        "incidentId",
+        "sequence",
+        "version",
+        "kind"
+      ]
+    },
+    "LiveDeliveryStop": {
+      "kind": "object",
+      "summary": "A domain-owned directive to end one operational subscription without invalidating its session.",
+      "fields": {
+        "subscriptionId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the operational subscription to end."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Stable domain reason category for ending delivery."
+        },
+        "stoppedAt": {
+          "vmbluType": "string",
+          "summary": "Time from which the subscription is no longer active."
+        }
+      },
+      "required": [
+        "subscriptionId",
+        "reason",
+        "stoppedAt"
+      ]
+    },
+    "OperationalState": {
+      "kind": "primitive",
+      "summary": "Opaque persisted incident state until the first operational record model is accepted."
+    },
+    "OperationalChangeSet": {
+      "kind": "primitive",
+      "summary": "Opaque set of domain-approved operational changes until the first record mutation model is accepted."
+    },
+    "OperationalCommitOutcome": {
+      "kind": "primitive",
+      "summary": "Opaque domain result that becomes authoritative with a successful operational commit."
+    },
+    "OperationalAttribution": {
+      "kind": "primitive",
+      "summary": "Opaque attribution for the actor, system, or workflow responsible for an operational commit."
+    },
+    "OperationalAuditEvidence": {
+      "kind": "primitive",
+      "summary": "Opaque audit evidence that must be stored with an operational commit."
+    },
+    "NotificationIntentList": {
+      "kind": "array",
+      "summary": "The durable notifications that become eligible for later distribution after a successful commit.",
+      "items": {
+        "vmbluType": "any"
+      }
+    },
+    "OperationalStateLoadRequest": {
+      "kind": "object",
+      "summary": "A request for the current persisted state of one incident.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident to load."
+        }
+      },
+      "required": [
+        "incidentId"
+      ]
+    },
+    "OperationalStateLoadResult": {
+      "kind": "object",
+      "summary": "The found, not-found, or failed result of loading one incident's persisted state.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: found, not-found, or failed."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the requested incident."
+        },
+        "version": {
+          "vmbluType": "string",
+          "summary": "Current persisted version when the incident is found."
+        },
+        "state": {
+          "vmbluType": "OperationalState",
+          "summary": "Current persisted incident state when found."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable repository failure category when loading fails."
+        }
+      },
+      "required": [
+        "status",
+        "incidentId"
+      ]
+    },
+    "OperationalStateCommitRequest": {
+      "kind": "object",
+      "summary": "A domain-approved operational change and its evidence submitted for one atomic commit.",
+      "fields": {
+        "operationId": {
+          "vmbluType": "string",
+          "summary": "Stable identity reused for every delivery of the same logical operation."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident being changed."
+        },
+        "expectedVersion": {
+          "vmbluType": "string",
+          "summary": "Persisted version on which the decision was based, or an explicit marker that no version should exist."
+        },
+        "expectedResourceVersionContext": {
+          "vmbluType": "ResourceVersionContext",
+          "summary": "Resource record versions against which the prepared resource change was validated."
+        },
+        "changes": {
+          "vmbluType": "OperationalChangeSet",
+          "summary": "Domain-approved changes to store."
+        },
+        "preparedResourceChange": {
+          "vmbluType": "PreparedResourceChange",
+          "summary": "Optional opaque Resource Registry-approved mutation to commit with the incident change."
+        },
+        "outcome": {
+          "vmbluType": "OperationalCommitOutcome",
+          "summary": "Domain result to make authoritative and return for a duplicate operation."
+        },
+        "attribution": {
+          "vmbluType": "OperationalAttribution",
+          "summary": "Attribution to store with the change."
+        },
+        "auditEvidence": {
+          "vmbluType": "OperationalAuditEvidence",
+          "summary": "Audit evidence to store with the change."
+        },
+        "notificationIntents": {
+          "vmbluType": "NotificationIntentList",
+          "summary": "Notifications to make durably available after the commit."
+        }
+      },
+      "required": [
+        "operationId",
+        "incidentId",
+        "expectedVersion",
+        "changes",
+        "outcome",
+        "attribution",
+        "auditEvidence",
+        "notificationIntents"
+      ]
+    },
+    "OperationalStateCommitResult": {
+      "kind": "object",
+      "summary": "The committed, duplicate, conflict, or failed result of an operational commit attempt.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: committed, duplicate, conflict, or failed."
+        },
+        "operationId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the logical operation."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the affected incident."
+        },
+        "commitId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the durable commit when one exists."
+        },
+        "committedVersion": {
+          "vmbluType": "string",
+          "summary": "Version produced by the successful original commit."
+        },
+        "currentVersion": {
+          "vmbluType": "string",
+          "summary": "Current persisted version when the expected version conflicts."
+        },
+        "committedResourceVersionContext": {
+          "vmbluType": "ResourceVersionContext",
+          "summary": "Resource record versions produced by the successful original commit when it included a resource change."
+        },
+        "currentResourceVersionContext": {
+          "vmbluType": "ResourceVersionContext",
+          "summary": "Current resource record versions when a resource expectation conflicts."
+        },
+        "outcome": {
+          "vmbluType": "OperationalCommitOutcome",
+          "summary": "Authoritative domain result for a committed or duplicate operation."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable repository failure category when committing fails."
+        }
+      },
+      "required": [
+        "status",
+        "operationId",
+        "incidentId"
+      ]
+    },
+    "ResourceSelection": {
+      "kind": "primitive",
+      "summary": "Opaque selection of resource categories, capabilities, areas, or availability until the first resource model is accepted."
+    },
+    "ResourceView": {
+      "kind": "primitive",
+      "summary": "Opaque authorized view of relevant resource identities, capabilities, availability, and assignments."
+    },
+    "ResourceVersionContext": {
+      "kind": "primitive",
+      "summary": "Opaque versions of the resource records on which a view or proposed change depends."
+    },
+    "ResourceChangeProposal": {
+      "kind": "primitive",
+      "summary": "Opaque requested assignment, release, availability update, or other resource-owned change."
+    },
+    "PreparedResourceChange": {
+      "kind": "primitive",
+      "summary": "Opaque Resource Registry-approved mutation that can participate in a later atomic repository commit."
+    },
+    "ResourceStateViewRequest": {
+      "kind": "object",
+      "summary": "A request for an authorized incident-relevant resource view.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident for which resources are needed."
+        },
+        "actor": {
+          "vmbluType": "TrustedActorContext",
+          "summary": "Trusted actor context used for resource-specific disclosure decisions."
+        },
+        "selection": {
+          "vmbluType": "ResourceSelection",
+          "summary": "Optional narrowing of the requested resource view."
+        }
+      },
+      "required": [
+        "incidentId",
+        "actor"
+      ]
+    },
+    "ResourceStateViewResult": {
+      "kind": "object",
+      "summary": "The found, not-found, or failed result of requesting an incident-relevant resource view.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: found, not-found, or failed."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident for which resources were requested."
+        },
+        "versionContext": {
+          "vmbluType": "ResourceVersionContext",
+          "summary": "Versions of the resource records represented in the returned view."
+        },
+        "resources": {
+          "vmbluType": "ResourceView",
+          "summary": "Authorized resource information when found."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable Resource Registry failure category when the request fails."
+        }
+      },
+      "required": [
+        "status",
+        "incidentId"
+      ]
+    },
+    "ResourceChangePreparationRequest": {
+      "kind": "object",
+      "summary": "A proposed resource-owned change submitted for validation and preparation.",
+      "fields": {
+        "operationId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the logical operation that proposed the resource change."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident requiring the resource change."
+        },
+        "actor": {
+          "vmbluType": "TrustedActorContext",
+          "summary": "Trusted actor context used for resource-specific authority decisions."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Operational reason for the proposed resource change."
+        },
+        "expectedVersionContext": {
+          "vmbluType": "ResourceVersionContext",
+          "summary": "Versions on which the proposal was based."
+        },
+        "proposal": {
+          "vmbluType": "ResourceChangeProposal",
+          "summary": "Requested resource-owned change."
+        }
+      },
+      "required": [
+        "operationId",
+        "incidentId",
+        "actor",
+        "reason",
+        "expectedVersionContext",
+        "proposal"
+      ]
+    },
+    "ResourceChangePreparationResult": {
+      "kind": "object",
+      "summary": "The prepared, rejected, conflict, or failed result of evaluating a proposed resource change.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: prepared, rejected, conflict, or failed."
+        },
+        "operationId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the logical operation."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident requiring the resource change."
+        },
+        "validatedVersionContext": {
+          "vmbluType": "ResourceVersionContext",
+          "summary": "Resource versions against which an approved change plan was validated."
+        },
+        "changePlan": {
+          "vmbluType": "PreparedResourceChange",
+          "summary": "Opaque approved resource mutation when preparation succeeds."
+        },
+        "currentVersionContext": {
+          "vmbluType": "ResourceVersionContext",
+          "summary": "Current resource versions when the expected versions conflict."
+        },
+        "decisionReason": {
+          "vmbluType": "string",
+          "summary": "Stable explanation when the proposal is rejected or conflicts."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable Resource Registry failure category when preparation fails."
+        }
+      },
+      "required": [
+        "status",
+        "operationId",
+        "incidentId"
+      ]
+    },
+    "AuthorizedSpatialContext": {
+      "kind": "primitive",
+      "summary": "Opaque authorized incident and resource references with source identities, versions, provenance, sensitivity, and freshness for spatial processing."
+    },
+    "SpatialInputVersionContext": {
+      "kind": "primitive",
+      "summary": "Opaque source versions represented in a spatial analysis or projection."
+    },
+    "SpatialAnalysis": {
+      "kind": "primitive",
+      "summary": "Opaque spatial relationship, proximity, intersection, reachability, route, or area analysis to perform."
+    },
+    "SpatialAnalysisData": {
+      "kind": "primitive",
+      "summary": "Opaque derived geographic relationships returned by spatial analysis."
+    },
+    "SpatialProjectionSpecification": {
+      "kind": "primitive",
+      "summary": "Opaque selection of extent, layers, detail, time, and other requirements for a map-ready projection."
+    },
+    "SpatialProjection": {
+      "kind": "primitive",
+      "summary": "Opaque map-ready representation derived from authorized operational references and base geography."
+    },
+    "SpatialDegradation": {
+      "kind": "primitive",
+      "summary": "Opaque description of missing, stale, uncertain, or degraded spatial inputs or services."
+    },
+    "SpatialAnalysisRequest": {
+      "kind": "object",
+      "summary": "A request to derive geographic relationships from authorized incident and resource references.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident for which spatial analysis is requested."
+        },
+        "actor": {
+          "vmbluType": "TrustedActorContext",
+          "summary": "Trusted actor context used to enforce spatial information scope."
+        },
+        "analysis": {
+          "vmbluType": "SpatialAnalysis",
+          "summary": "Requested spatial analysis."
+        },
+        "context": {
+          "vmbluType": "AuthorizedSpatialContext",
+          "summary": "Authorized source references to analyze."
+        }
+      },
+      "required": [
+        "incidentId",
+        "actor",
+        "analysis",
+        "context"
+      ]
+    },
+    "SpatialAnalysisResult": {
+      "kind": "object",
+      "summary": "The completed, partial, rejected, or failed result of spatial analysis.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: completed, partial, rejected, or failed."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident for which analysis was requested."
+        },
+        "inputVersionContext": {
+          "vmbluType": "SpatialInputVersionContext",
+          "summary": "Source versions represented in the result."
+        },
+        "analysis": {
+          "vmbluType": "SpatialAnalysisData",
+          "summary": "Derived geographic relationships when analysis completes fully or partially."
+        },
+        "degradation": {
+          "vmbluType": "SpatialDegradation",
+          "summary": "Visible limitations when the result is partial or degraded."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable Geospatial failure category when analysis fails."
+        }
+      },
+      "required": [
+        "status",
+        "incidentId"
+      ]
+    },
+    "SpatialProjectionRequest": {
+      "kind": "object",
+      "summary": "A request for a map-ready projection from authorized incident and resource references.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident to project."
+        },
+        "actor": {
+          "vmbluType": "TrustedActorContext",
+          "summary": "Trusted actor context used to enforce spatial information scope."
+        },
+        "specification": {
+          "vmbluType": "SpatialProjectionSpecification",
+          "summary": "Requested projection scope and presentation requirements."
+        },
+        "context": {
+          "vmbluType": "AuthorizedSpatialContext",
+          "summary": "Authorized source references to project."
+        }
+      },
+      "required": [
+        "incidentId",
+        "actor",
+        "specification",
+        "context"
+      ]
+    },
+    "SpatialProjectionResult": {
+      "kind": "object",
+      "summary": "The completed, partial, rejected, or failed result of building a spatial projection.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: completed, partial, rejected, or failed."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the projected incident."
+        },
+        "inputVersionContext": {
+          "vmbluType": "SpatialInputVersionContext",
+          "summary": "Source versions represented in the projection."
+        },
+        "projection": {
+          "vmbluType": "SpatialProjection",
+          "summary": "Map-ready projection when construction completes fully or partially."
+        },
+        "generatedAt": {
+          "vmbluType": "string",
+          "summary": "Time at which the projection was generated."
+        },
+        "degradation": {
+          "vmbluType": "SpatialDegradation",
+          "summary": "Visible limitations when the projection is partial or degraded."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable Geospatial failure category when projection construction fails."
+        }
+      },
+      "required": [
+        "status",
+        "incidentId"
+      ]
+    }
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "promptRepo": {
+      "arl": "./prompts/Root.md",
+      "pathKind": 2
+    },
+    "nodes": [
+      {
+        "kind": "group",
+        "name": "Client Access",
+        "promptRepo": {
+          "arl": "./prompts/Client-Access.md",
+          "pathKind": 2
+        },
+        "interfaces": [
+          {
+            "interface": "access",
+            "pins": [
+              {
+                "name": "access.authorized",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "TrustedInteraction"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "delivery",
+            "pins": [
+              {
+                "name": "delivery.send-response",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "OperationalResponse"
+                }
+              },
+              {
+                "name": "delivery.start-live",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "LiveDeliveryStart"
+                }
+              },
+              {
+                "name": "delivery.send-update",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "LiveDeliveryUpdate"
+                }
+              },
+              {
+                "name": "delivery.stop-live",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "LiveDeliveryStop"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "session",
+            "pins": [
+              {
+                "name": "session.invalidate",
+                "kind": "input",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SessionInvalidation"
+                }
+              }
+            ]
+          }
+        ],
+        "nodes": [
+          {
+            "kind": "group",
+            "name": "External Communications",
+            "promptRepo": {
+              "arl": "./prompts/Client Access/External-Communications.md",
+              "pathKind": 2
+            },
+            "interfaces": [
+              {
+                "interface": "incoming",
+                "pins": [
+                  {
+                    "name": "incoming.received",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ExternalInteraction"
+                    }
+                  }
+                ]
+              },
+              {
+                "interface": "connection",
+                "pins": [
+                  {
+                    "name": "connection.lifecycle",
+                    "kind": "output",
+                    "contract": {
+                      "role": "follower",
+                      "payload": "any"
+                    }
+                  }
+                ]
+              },
+              {
+                "interface": "delivery",
+                "pins": [
+                  {
+                    "name": "delivery.send-response",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ExternalResponse"
+                    }
+                  },
+                  {
+                    "name": "delivery.stop-live",
+                    "kind": "input",
+                    "contract": {
+                      "role": "follower",
+                      "payload": "SessionInvalidation"
+                    }
+                  },
+                  {
+                    "name": "delivery.send-domain-response",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "OperationalResponse"
+                    }
+                  },
+                  {
+                    "name": "delivery.start-live",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "LiveDeliveryStart"
+                    }
+                  },
+                  {
+                    "name": "delivery.send-update",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "LiveDeliveryUpdate"
+                    }
+                  },
+                  {
+                    "name": "delivery.stop-subscription",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "LiveDeliveryStop"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "group",
+            "name": "Session and Access Control",
+            "promptRepo": {
+              "arl": "./prompts/Client Access/Session-and-Access-Control.md",
+              "pathKind": 2
+            },
+            "interfaces": [
+              {
+                "interface": "incoming",
+                "pins": [
+                  {
+                    "name": "incoming.evaluate",
+                    "kind": "input",
+                    "contract": {
+                      "role": "follower",
+                      "payload": "ExternalInteraction"
+                    }
+                  }
+                ]
+              },
+              {
+                "interface": "access",
+                "pins": [
+                  {
+                    "name": "access.authorized",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "TrustedInteraction"
+                    }
+                  }
+                ]
+              },
+              {
+                "interface": "delivery",
+                "pins": [
+                  {
+                    "name": "delivery.respond",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ExternalResponse"
+                    }
+                  },
+                  {
+                    "name": "delivery.stop-live",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "SessionInvalidation"
+                    }
+                  }
+                ]
+              },
+              {
+                "interface": "session",
+                "pins": [
+                  {
+                    "name": "session.invalidate",
+                    "kind": "input",
+                    "contract": {
+                      "role": "follower",
+                      "payload": "SessionInvalidation"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "src": {
+              "pin": "incoming.received",
+              "node": "External Communications"
+            },
+            "dst": {
+              "pin": "incoming.evaluate",
+              "node": "Session and Access Control"
+            }
+          },
+          {
+            "src": {
+              "pin": "access.authorized",
+              "node": "Session and Access Control"
+            },
+            "dst": {
+              "pin": "access.authorized"
+            }
+          },
+          {
+            "src": {
+              "pin": "delivery.respond",
+              "node": "Session and Access Control"
+            },
+            "dst": {
+              "pin": "delivery.send-response",
+              "node": "External Communications"
+            }
+          },
+          {
+            "src": {
+              "pin": "delivery.stop-live",
+              "node": "Session and Access Control"
+            },
+            "dst": {
+              "pin": "delivery.stop-live",
+              "node": "External Communications"
+            }
+          },
+          {
+            "src": {
+              "pin": "delivery.send-response"
+            },
+            "dst": {
+              "pin": "delivery.send-domain-response",
+              "node": "External Communications"
+            }
+          },
+          {
+            "src": {
+              "pin": "delivery.start-live"
+            },
+            "dst": {
+              "pin": "delivery.start-live",
+              "node": "External Communications"
+            }
+          },
+          {
+            "src": {
+              "pin": "delivery.send-update"
+            },
+            "dst": {
+              "pin": "delivery.send-update",
+              "node": "External Communications"
+            }
+          },
+          {
+            "src": {
+              "pin": "delivery.stop-live"
+            },
+            "dst": {
+              "pin": "delivery.stop-subscription",
+              "node": "External Communications"
+            }
+          },
+          {
+            "src": {
+              "pin": "session.invalidate"
+            },
+            "dst": {
+              "pin": "session.invalidate",
+              "node": "Session and Access Control"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Geospatial",
+        "promptRepo": {
+          "arl": "./prompts/Geospatial.md",
+          "pathKind": 2
+        },
+        "interfaces": [
+          {
+            "interface": "spatial",
+            "pins": [
+              {
+                "name": "spatial.analyze",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "SpatialAnalysisRequest",
+                    "reply": "SpatialAnalysisResult"
+                  }
+                }
+              },
+              {
+                "name": "spatial.build-projection",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "SpatialProjectionRequest",
+                    "reply": "SpatialProjectionResult"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Operations",
+        "promptRepo": {
+          "arl": "./prompts/Operations.md",
+          "pathKind": 2
+        },
+        "interfaces": [
+          {
+            "interface": "access",
+            "pins": [
+              {
+                "name": "access.authorized",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "TrustedInteraction"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "delivery",
+            "pins": [
+              {
+                "name": "delivery.send-response",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "OperationalResponse"
+                }
+              },
+              {
+                "name": "delivery.start-live",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "LiveDeliveryStart"
+                }
+              },
+              {
+                "name": "delivery.send-update",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "LiveDeliveryUpdate"
+                }
+              },
+              {
+                "name": "delivery.stop-live",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "LiveDeliveryStop"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "operational-state",
+            "pins": [
+              {
+                "name": "operational-state.load",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "OperationalStateLoadRequest",
+                    "reply": "OperationalStateLoadResult"
+                  }
+                }
+              },
+              {
+                "name": "operational-state.commit",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "OperationalStateCommitRequest",
+                    "reply": "OperationalStateCommitResult"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "interface": "resource-state",
+            "pins": [
+              {
+                "name": "resource-state.get-view",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "ResourceStateViewRequest",
+                    "reply": "ResourceStateViewResult"
+                  }
+                }
+              },
+              {
+                "name": "resource-state.prepare-change",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "ResourceChangePreparationRequest",
+                    "reply": "ResourceChangePreparationResult"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "interface": "spatial",
+            "pins": [
+              {
+                "name": "spatial.analyze",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "SpatialAnalysisRequest",
+                    "reply": "SpatialAnalysisResult"
+                  }
+                }
+              },
+              {
+                "name": "spatial.build-projection",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "SpatialProjectionRequest",
+                    "reply": "SpatialProjectionResult"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Resource Registry",
+        "promptRepo": {
+          "arl": "./prompts/Resource-Registry.md",
+          "pathKind": 2
+        },
+        "interfaces": [
+          {
+            "interface": "resource-state",
+            "pins": [
+              {
+                "name": "resource-state.get-view",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "ResourceStateViewRequest",
+                    "reply": "ResourceStateViewResult"
+                  }
+                }
+              },
+              {
+                "name": "resource-state.prepare-change",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "ResourceChangePreparationRequest",
+                    "reply": "ResourceChangePreparationResult"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Operational Repository",
+        "promptRepo": {
+          "arl": "./prompts/Operational-Repository.md",
+          "pathKind": 2
+        },
+        "interfaces": [
+          {
+            "interface": "operational-state",
+            "pins": [
+              {
+                "name": "operational-state.load",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "OperationalStateLoadRequest",
+                    "reply": "OperationalStateLoadResult"
+                  }
+                }
+              },
+              {
+                "name": "operational-state.commit",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "OperationalStateCommitRequest",
+                    "reply": "OperationalStateCommitResult"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "src": {
+          "pin": "access.authorized",
+          "node": "Client Access"
+        },
+        "dst": {
+          "pin": "access.authorized",
+          "node": "Operations"
+        }
+      },
+      {
+        "src": {
+          "pin": "delivery.send-response",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "delivery.send-response",
+          "node": "Client Access"
+        }
+      },
+      {
+        "src": {
+          "pin": "delivery.start-live",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "delivery.start-live",
+          "node": "Client Access"
+        }
+      },
+      {
+        "src": {
+          "pin": "delivery.send-update",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "delivery.send-update",
+          "node": "Client Access"
+        }
+      },
+      {
+        "src": {
+          "pin": "delivery.stop-live",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "delivery.stop-live",
+          "node": "Client Access"
+        }
+      },
+      {
+        "src": {
+          "pin": "operational-state.load",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "operational-state.load",
+          "node": "Operational Repository"
+        }
+      },
+      {
+        "src": {
+          "pin": "operational-state.commit",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "operational-state.commit",
+          "node": "Operational Repository"
+        }
+      },
+      {
+        "src": {
+          "pin": "resource-state.get-view",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "resource-state.get-view",
+          "node": "Resource Registry"
+        }
+      },
+      {
+        "src": {
+          "pin": "resource-state.prepare-change",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "resource-state.prepare-change",
+          "node": "Resource Registry"
+        }
+      },
+      {
+        "src": {
+          "pin": "spatial.analyze",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "spatial.analyze",
+          "node": "Geospatial"
+        }
+      },
+      {
+        "src": {
+          "pin": "spatial.build-projection",
+          "node": "Operations"
+        },
+        "dst": {
+          "pin": "spatial.build-projection",
+          "node": "Geospatial"
+        }
+      }
+    ]
+  }
+}

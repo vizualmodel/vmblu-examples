@@ -1,82 +1,47 @@
-![logo](vmblu-header.png)
+![vmblu](vmblu-header.png)
 
-# Examples of vmblu apps
+# vmblu examples
 
-This repository contains **example projects** that demonstrate how to build applications with [vmblu](https://github.com/vizualmodel/vmblu).  
-Each example is a self-contained project (with its own `package.json`) and can be run independently.
+This repository contains example applications built with [vmblu](https://github.com/vizualmodel/vmblu). Each example owns its model, source code, assets, and—where applicable—its runnable build.
 
----
-## ■   Structure
+## Examples
 
-```
-vmblu-examples/
-   examples/
-      solar-system-human/     # Three.js-based solar system simulation - hand-crafed architecture
-      solar-system-LLM/       # Three.js-based solar system simulation - fully made by an LLM
-      chat/                   # Simple chat-style app
-```
+- **Chat application** — separate browser client and Node.js server models.
+- **Solar System** — an interactive Three.js simulation with a browser demo.
+- **Patient Ledger** — administration, patient client, and server models.
+- **CrisisGrid** — a command-centre web application and operational core service.
 
-## ■   Getting started
+The canonical gallery inventory is [gallery-manifest.json](./gallery-manifest.json). The vmblu.dev gallery opens these entrypoint files directly from this repository; model copies are not maintained in the website repository.
 
-### 1. Clone the repo
+## Work locally
 
 ```bash
 git clone https://github.com/vizualmodel/vmblu-examples.git
 cd vmblu-examples
-````
-
-### 2. Install dependencies
-
-If you use **npm**:
-
-```bash
 npm install
+npm run build
 ```
 
-If you use **pnpm**:
+Individual examples also contain their own README and package scripts.
+
+## Gallery and runnable demos
+
+Validate all published model entrypoints with:
 
 ```bash
-pnpm install
+npm run gallery:validate
 ```
 
-### 3. Run an example
+The Solar System browser build is published by GitHub Actions to:
 
-```bash
-# with npm
-npm run dev:ss     # solar-system
-npm run dev:chat   # chat
-npm run dev:min    # minimal
+`https://vizualmodel.github.io/vmblu-examples/solar-system/`
 
-# with pnpm
-pnpm dev:ss
-pnpm dev:chat
-pnpm dev:min
-```
+`npm run pages:build` rebuilds the Solar System and stages the Pages artifact in the ignored `_site` directory. To activate deployment, configure this repository's GitHub Pages source as **GitHub Actions**.
 
-Each example starts a local development server (default port: `5173`).
+## Adding an example
 
----
-## ■ Proposing a new example
+Add the project to its own directory, include a vmblu entrypoint (`*.blu`), and register every gallery model in `gallery-manifest.json`. If it has a static browser demo, add a `demo` entry and teach `scripts/stage-pages.mjs` which artifacts to publish.
 
-1. Create a new folder under `examples/`, e.g. `examples/my-demo/`.
-2. Add a `package.json` with `"private": true`, a name, and scripts (`dev`, `build`, …).
-3. Add `@vizualmodel/vmblu` to its dependencies:
+## License
 
-   ```bash
-   npm install @vizualmodel/vmblu
-   ```
-
-   or
-
-   ```bash
-   pnpm add @vizualmodel/vmblu
-   ```
-4. Run `npm install` (or `pnpm install`) at the root to link it into the workspace.
-5. Add a script alias in the root `package.json` for easy dev commands.
----
-
-## ■ License
-
-The examples are licensed under the [MIT License](./LICENSE.txt).
-The main [vmblu](https://github.com/vizualmodel/vmblu) repository is licensed under **Apache 2.0**.
-
+The examples are licensed under the [MIT License](./LICENSE.txt). The vmblu repository is licensed under Apache 2.0.

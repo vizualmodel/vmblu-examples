@@ -1,0 +1,36 @@
+.maplibregl-ctrl-group {
+  border: 1px solid #3a505a;
+  border-radius: 0;
+  background: #14242c;
+}
+
+.maplibregl-ctrl-group button {
+  filter: invert(1);
+}
+
+.maplibregl-popup-content {
+  border: 1px solid #4e6872;
+  border-radius: 0;
+  background: #14242c;
+  color: #d9e4e8;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.maplibregl-popup-close-button {
+  color: #d9e4e8;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #14242c;
+}
+
+.maplibregl-ctrl-attrib {
+  background: rgb(15 27 34 / 82%);
+  color: #536a74;
+  font-size: 8px;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: #718b96;
+}

@@ -1,0 +1,559 @@
+{
+  "header": {
+    "version": "0.10.0",
+    "created": "2026-07-23T11:10:16.732Z",
+    "saved": "2026-08-05T17:07:47.028Z",
+    "utc": "2026-08-05T17:07:47.028Z",
+    "style": "#00aaff"
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "rect": "x 90 y 30 w 150 h 26",
+    "view": {
+      "state": "open",
+      "rect": "x 0 y 0 w 1200 h 800",
+      "transform": "sx 1.000 sy 1.000 dx 0.000 dy 0.000"
+    },
+    "nodes": [
+      {
+        "kind": "group",
+        "name": "Application Shell",
+        "rect": "x 974 y -56 w 195 h 176",
+        "view": {
+          "state": "closed",
+          "rect": "x 540 y -117 w 921 h 665",
+          "transform": "sx 1.000 sy 1.000 dx 452.000 dy 62.000"
+        },
+        "interfaces": [
+          {
+            "interface": "(23) session",
+            "pins": [
+              "(9 L)session.establish",
+              "(10 L)session.status-changed"
+            ]
+          },
+          {
+            "interface": "(24) connection",
+            "pins": [
+              "(14 L)connection.status-changed"
+            ]
+          },
+          {
+            "interface": "(25) workspace",
+            "pins": [
+              "(12 L)workspace.open-incident",
+              "(22 R)workspace.activation-change"
+            ]
+          },
+          {
+            "interface": "(26) layout",
+            "pins": [
+              "(19 R)layout.acquire-region"
+            ]
+          }
+        ],
+        "pads": [
+          "(9 R)x 723 y 387 w 118 h 15|session.establish",
+          "(10 R)x 723 y 167 w 153 h 15|session.status-changed",
+          "(14 R)x 723 y 266 w 172 h 15|connection.status-changed",
+          "(12 R)x 723 y 122 w 161 h 15|workspace.open-incident",
+          "(22 R)x 723 y 137 w 183 h 15|workspace.activation-change",
+          "(19 R)x 723 y 87 w 142 h 15|layout.acquire-region"
+        ],
+        "nodes": [
+          {
+            "kind": "group",
+            "name": "Session",
+            "rect": "x 205 y 337 w 150 h 71",
+            "interfaces": [
+              {
+                "interface": "(7) session",
+                "pins": [
+                  "(6 R)session.status-changed",
+                  "(5 R)session.establish"
+                ]
+              }
+            ],
+            "pads": [
+              "(6 R)x 700 y 53 w 153 h 15|session.status-changed",
+              "(5 R)x 700 y 23 w 118 h 15|session.establish"
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "Workspace",
+            "rect": "x 205 y 87 w 150 h 101",
+            "interfaces": [
+              {
+                "interface": "(11) workspace",
+                "pins": [
+                  "(9 R)workspace.open-incident",
+                  "(10 R)workspace.activation-change"
+                ]
+              },
+              {
+                "interface": "(12) session",
+                "pins": [
+                  "(7 R)session.status-changed"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "group",
+            "name": "Connection",
+            "rect": "x 205 y 231 w 150 h 56",
+            "interfaces": [
+              {
+                "interface": "(5) connection",
+                "pins": [
+                  "(4 R)connection.status-changed"
+                ]
+              }
+            ],
+            "pads": [
+              "(4 R)x 700 y 23 w 172 h 15|connection.status-changed"
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "Layout",
+            "rect": "x 205 y -30 w 150 h 86",
+            "interfaces": [
+              {
+                "interface": "(9) layout",
+                "pins": [
+                  "(8 R)layout.acquire-region"
+                ]
+              },
+              {
+                "interface": "(10) workspace",
+                "pins": [
+                  "(6 R)workspace.activation-change"
+                ]
+              }
+            ]
+          }
+        ],
+        "routes": [
+          {
+            "from": "(pin 5) session.establish @ Session",
+            "to": "(pad 9) session.establish",
+            "wire": "x 184.0 y 0.0 x 184.0"
+          },
+          {
+            "from": "(pin 9) workspace.open-incident @ Workspace",
+            "to": "(pad 12) workspace.open-incident",
+            "wire": "x 184.0 y 0.0 x 184.0"
+          },
+          {
+            "from": "(pin 10) workspace.activation-change @ Workspace",
+            "to": "(pad 22) workspace.activation-change",
+            "wire": "x 184.0 y 0.0 x 184.0"
+          },
+          {
+            "from": "(pin 10) workspace.activation-change @ Workspace",
+            "to": "(pin 6) workspace.activation-change @ Layout",
+            "wire": "x 65.0 y -102.0 x -65.0"
+          },
+          {
+            "from": "(pad 10) session.status-changed",
+            "to": "(pin 6) session.status-changed @ Session",
+            "wire": "x -40.0 y 205.0 x -328.0"
+          },
+          {
+            "from": "(pad 10) session.status-changed",
+            "to": "(pin 7) session.status-changed @ Workspace",
+            "wire": "x -184.0 y 0.0 x -184.0"
+          },
+          {
+            "from": "(pad 14) connection.status-changed",
+            "to": "(pin 4) connection.status-changed @ Connection",
+            "wire": "x 20.0 y 0.0 x -388.0"
+          },
+          {
+            "from": "(pad 19) layout.acquire-region",
+            "to": "(pin 8) layout.acquire-region @ Layout",
+            "wire": "x -22.0 y -82.0 x -346.0"
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Operational Core Connection",
+        "rect": "x 319 y -56 w 240 h 206",
+        "interfaces": [
+          {
+            "interface": "(25) session",
+            "pins": [
+              "(14 R)session.establish",
+              "(15 R)session.status-changed"
+            ]
+          },
+          {
+            "interface": "(26) operational-picture",
+            "pins": [
+              "(17 R)operational-picture.load"
+            ]
+          },
+          {
+            "interface": "(27) live-updates",
+            "pins": [
+              "(19 R)live-updates.subscribe",
+              "(20 R)live-updates.received"
+            ]
+          },
+          {
+            "interface": "(28) operational-command",
+            "pins": [
+              "(22 R)operational-command.submit"
+            ]
+          },
+          {
+            "interface": "(29) connection",
+            "pins": [
+              "(24 R)connection.status-changed"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Operational Picture",
+        "rect": "x 704 y -41 w 180 h 236",
+        "interfaces": [
+          {
+            "interface": "(28) workspace",
+            "pins": [
+              "(13 R)workspace.open-incident"
+            ]
+          },
+          {
+            "interface": "(29) operational-picture",
+            "pins": [
+              "(15 L)operational-picture.load"
+            ]
+          },
+          {
+            "interface": "(30) live-updates",
+            "pins": [
+              "(17 L)live-updates.subscribe",
+              "(18 L)live-updates.received"
+            ]
+          },
+          {
+            "interface": "(31) projection",
+            "pins": [
+              "(27 R)projection.detail-request",
+              "(20 R)projection.updated"
+            ]
+          },
+          {
+            "interface": "(32) operational-command",
+            "pins": [
+              "(33 R)operational-command.committed"
+            ]
+          },
+          {
+            "interface": "(34) connection",
+            "pins": [
+              "(22 L)connection.status-changed"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Spatial Workspace",
+        "rect": "x 964 y 340 w 195 h 161",
+        "interfaces": [
+          {
+            "interface": "(17) workspace",
+            "pins": [
+              "(9 R)workspace.activation-change"
+            ]
+          },
+          {
+            "interface": "(18) projection",
+            "pins": [
+              "(12 L)projection.detail-request",
+              "(4 L)projection.updated"
+            ]
+          },
+          {
+            "interface": "(19) operational-command",
+            "pins": [
+              "(16 R)operational-command.proposal"
+            ]
+          },
+          {
+            "interface": "(20) layout",
+            "pins": [
+              "(7 R)layout.acquire-region"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Situation Workspace",
+        "rect": "x 964 y 203 w 195 h 116",
+        "interfaces": [
+          {
+            "interface": "(10) workspace",
+            "pins": [
+              "(9 R)workspace.activation-change"
+            ]
+          },
+          {
+            "interface": "(11) projection",
+            "pins": [
+              "(4 L)projection.updated"
+            ]
+          },
+          {
+            "interface": "(12) layout",
+            "pins": [
+              "(7 R)layout.acquire-region"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Action Workspace",
+        "rect": "x 964 y 675 w 195 h 176",
+        "interfaces": [
+          {
+            "interface": "(21) workspace",
+            "pins": [
+              "(10 R)workspace.activation-change"
+            ]
+          },
+          {
+            "interface": "(22) projection",
+            "pins": [
+              "(12 L)projection.updated"
+            ]
+          },
+          {
+            "interface": "(23) operational-command",
+            "pins": [
+              "(20 R)operational-command.proposal",
+              "(14 L)operational-command.submit",
+              "(24 L)operational-command.committed"
+            ]
+          },
+          {
+            "interface": "(25) layout",
+            "pins": [
+              "(16 R)layout.acquire-region"
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Talk Workspace",
+        "rect": "x 964 y 531 w 195 h 116",
+        "interfaces": [
+          {
+            "interface": "(13) workspace",
+            "pins": [
+              "(8 R)workspace.activation-change"
+            ]
+          },
+          {
+            "interface": "(14) projection",
+            "pins": [
+              "(10 L)projection.updated"
+            ]
+          },
+          {
+            "interface": "(15) layout",
+            "pins": [
+              "(12 R)layout.acquire-region"
+            ]
+          }
+        ]
+      }
+    ],
+    "cables": [
+      {
+        "start": "x 931 y 892.5",
+        "wire": "y -815.0"
+      },
+      {
+        "start": "x 1234 y -108.65000000000009",
+        "wire": "y 995.2"
+      },
+      {
+        "start": "x 628 y 892.3",
+        "wire": "y -954.9"
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 9) session.establish @ Application Shell",
+        "to": "(pin 14) session.establish @ Operational Core Connection",
+        "wire": "x -24.0 y -82.5 x -283.0 y 82.5 x -23.9 x -84.1"
+      },
+      {
+        "from": "(pin 12) workspace.open-incident @ Application Shell",
+        "to": "(pin 13) workspace.open-incident @ Operational Picture",
+        "wire": "x -70.0 y -60.0 x -20.0"
+      },
+      {
+        "from": "(pin 22) workspace.activation-change @ Application Shell",
+        "to": "(cable 1 nonselective)",
+        "wire": "x 29.5 y 0.0 x 35.5"
+      },
+      {
+        "from": "(pin 15) session.status-changed @ Operational Core Connection",
+        "to": "(pin 10) session.status-changed @ Application Shell",
+        "wire": "x 114.0 y -87.5 x 271.0 y 87.5 x 30.0"
+      },
+      {
+        "from": "(pin 20) live-updates.received @ Operational Core Connection",
+        "to": "(pin 18) live-updates.received @ Operational Picture",
+        "wire": "x 95.0 y 0.0 x 50.0"
+      },
+      {
+        "from": "(pin 24) connection.status-changed @ Operational Core Connection",
+        "to": "(cable 2 nonselective)",
+        "wire": "x 40.5 y 0.0 x 28.5"
+      },
+      {
+        "from": "(pin 15) operational-picture.load @ Operational Picture",
+        "to": "(pin 17) operational-picture.load @ Operational Core Connection",
+        "wire": "x -28.0 y 0.0 x -117.0"
+      },
+      {
+        "from": "(pin 17) live-updates.subscribe @ Operational Picture",
+        "to": "(pin 19) live-updates.subscribe @ Operational Core Connection",
+        "wire": "x -51.0 y 0.0 x -94.0"
+      },
+      {
+        "from": "(pin 20) projection.updated @ Operational Picture",
+        "to": "(cable 0 nonselective)",
+        "wire": "x 27.0 y 0.0 x 20.0"
+      },
+      {
+        "from": "(pin 12) projection.detail-request @ Spatial Workspace",
+        "to": "(cable 0 nonselective)",
+        "wire": "x -33.0"
+      },
+      {
+        "from": "(pin 16) operational-command.proposal @ Spatial Workspace",
+        "to": "(cable 1 nonselective)",
+        "wire": "x 75.0"
+      },
+      {
+        "from": "(pin 7) layout.acquire-region @ Spatial Workspace",
+        "to": "(cable 1 nonselective)",
+        "wire": "x 29.0 y 0.0 x 46.0"
+      },
+      {
+        "from": "(pin 7) layout.acquire-region @ Situation Workspace",
+        "to": "(cable 1 nonselective)",
+        "wire": "x 36.0 y 0.0 x 39.0"
+      },
+      {
+        "from": "(pin 14) operational-command.submit @ Action Workspace",
+        "to": "(cable 2 nonselective)",
+        "wire": "x -168.0 y 0.0 x -168.0"
+      },
+      {
+        "from": "(pin 24) operational-command.committed @ Action Workspace",
+        "to": "(cable 0 nonselective)",
+        "wire": "x -33.0"
+      },
+      {
+        "from": "(pin 16) layout.acquire-region @ Action Workspace",
+        "to": "(cable 1 nonselective)",
+        "wire": "x 30.5 y 0.0 x 44.5"
+      },
+      {
+        "from": "(pin 12) layout.acquire-region @ Talk Workspace",
+        "to": "(cable 1 nonselective)",
+        "wire": "x 27.0 y 0.0 x 48.0"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 4) projection.updated @ Spatial Workspace",
+        "wire": "x 13.0 y 0.0 x 20.0"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 4) projection.updated @ Situation Workspace",
+        "wire": "x 13.0 y 0.0 x 20.0"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 27) projection.detail-request @ Operational Picture",
+        "wire": "x -26.5 y 0.0 x -20.5"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 10) projection.updated @ Talk Workspace",
+        "wire": "x 10.5 y 0.0 x 22.5"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 12) projection.updated @ Action Workspace",
+        "wire": "x 10.5 y 0.0 x 22.5"
+      },
+      {
+        "from": "(cable 0 selective)",
+        "to": "(pin 33) operational-command.committed @ Operational Picture",
+        "wire": "x -47.0"
+      },
+      {
+        "from": "(cable 1 selective)",
+        "to": "(pin 19) layout.acquire-region @ Application Shell",
+        "wire": "x -35.5 y 0.0 x -29.5"
+      },
+      {
+        "from": "(cable 1 selective)",
+        "to": "(pin 9) workspace.activation-change @ Situation Workspace",
+        "wire": "x -33.0 y 0.0 x -42.0"
+      },
+      {
+        "from": "(cable 1 selective)",
+        "to": "(pin 9) workspace.activation-change @ Spatial Workspace",
+        "wire": "x -44.5 y 0.0 x -30.5"
+      },
+      {
+        "from": "(cable 1 selective)",
+        "to": "(pin 8) workspace.activation-change @ Talk Workspace",
+        "wire": "x -42.0 y 0.0 x -33.0"
+      },
+      {
+        "from": "(cable 1 selective)",
+        "to": "(pin 10) workspace.activation-change @ Action Workspace",
+        "wire": "x -44.5 y 0.0 x -30.5"
+      },
+      {
+        "from": "(cable 1 selective)",
+        "to": "(pin 20) operational-command.proposal @ Action Workspace",
+        "wire": "x -37.5 y 0.0 x -37.5"
+      },
+      {
+        "from": "(cable 2 selective)",
+        "to": "(pin 22) connection.status-changed @ Operational Picture",
+        "wire": "x 76.0"
+      },
+      {
+        "from": "(cable 2 selective)",
+        "to": "(pin 22) operational-command.submit @ Operational Core Connection",
+        "wire": "x -28.5 y 0.0 x -40.5"
+      },
+      {
+        "from": "(cable 2 nonselective)",
+        "to": "(pin 14) connection.status-changed @ Application Shell",
+        "wire": "x 55.0 y -91.5 x 235.0 y 108.5 x 56.0"
+      }
+    ]
+  }
+}

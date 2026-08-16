@@ -5,7 +5,10 @@
 
 # System files
 .vscode/
-.github/
+.github/*
+!.github/workflows/
+!.github/workflows/*.yml
+_site/
 
 # Logs
 logs

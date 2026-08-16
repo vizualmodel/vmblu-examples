@@ -11,6 +11,9 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "check": "npm run check --workspaces --if-present",
+    "gallery:validate": "node scripts/validate-gallery.mjs",
+    "pages:stage": "node scripts/stage-pages.mjs",
+    "pages:build": "npm run build --workspace solar-system && npm run gallery:validate && npm run pages:stage",
     "vm:profile": "npm run vm:profile --workspaces --if-present",
     "vm:app": "npm run vm:app --workspaces --if-present",
     "vm:capabilities": "npm run vm:capabilities --workspaces --if-present"
