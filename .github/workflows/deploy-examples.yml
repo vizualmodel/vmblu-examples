@@ -32,6 +32,11 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Install Rollup native binary for the Linux runner
+        shell: bash
+        run: |
+          ROLLUP_NATIVE_VERSION="$(node -p "require('./solar-system/node_modules/rollup/package.json').version")"
+          npm install --no-save --workspace solar-system "@rollup/rollup-linux-x64-gnu@${ROLLUP_NATIVE_VERSION}"
       - run: npm run pages:build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
