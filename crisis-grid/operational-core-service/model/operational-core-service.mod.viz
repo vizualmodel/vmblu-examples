@@ -1,0 +1,367 @@
+{
+  "header": {
+    "version": "0.10.0",
+    "created": "2026-07-23T11:10:19.955Z",
+    "saved": "2026-08-16T15:20:07.129Z",
+    "utc": "2026-08-16T15:20:07.129Z",
+    "style": "#00aaff"
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "rect": "x 90 y 30 w 150 h 26",
+    "view": {
+      "state": "open",
+      "rect": "x 0 y 0 w 1200 h 800",
+      "transform": "sx 1.000 sy 1.000 dx 0.000 dy 0.000"
+    },
+    "nodes": [
+      {
+        "kind": "group",
+        "name": "Client Access",
+        "rect": "x 258 y 58 w 195 h 161",
+        "view": {
+          "state": "closed",
+          "rect": "x 184 y 575 w 1066 h 490",
+          "transform": "sx 1.078 sy 1.078 dx 99.668 dy 673.580"
+        },
+        "interfaces": [
+          {
+            "interface": "(20) access",
+            "pins": [
+              "(10 L)access.authorized"
+            ]
+          },
+          {
+            "interface": "(21) delivery",
+            "pins": [
+              "(12 L)delivery.send-response",
+              "(13 L)delivery.start-live",
+              "(14 L)delivery.send-update",
+              "(19 L)delivery.stop-live"
+            ]
+          },
+          {
+            "interface": "(22) session",
+            "pins": [
+              "(16 L)session.invalidate"
+            ]
+          }
+        ],
+        "pads": [
+          "(10 R)x 810 y 138 w 123 h 15|access.authorized",
+          "(12 R)x 810 y 234 w 150 h 15|delivery.send-response",
+          "(13 R)x 810 y 260 w 119 h 15|delivery.start-live",
+          "(14 R)x 810 y 279 w 139 h 15|delivery.send-update",
+          "(19 R)x 810 y 302 w 118 h 15|delivery.stop-live",
+          "(16 R)x 810 y 213 w 122 h 15|session.invalidate"
+        ],
+        "nodes": [
+          {
+            "kind": "group",
+            "name": "External Communications",
+            "rect": "x 132 y 73 w 210 h 191",
+            "view": {
+              "state": "closed",
+              "rect": "x 127 y 104 w 800 h 500",
+              "transform": "sx 1.000 sy 1.000 dx 127.000 dy 124.000"
+            },
+            "interfaces": [
+              {
+                "interface": "(24) incoming",
+                "pins": [
+                  "(11 R)incoming.received"
+                ]
+              },
+              {
+                "interface": "(25) connection",
+                "pins": [
+                  "(13 R)connection.lifecycle"
+                ]
+              },
+              {
+                "interface": "(26) delivery",
+                "pins": [
+                  "(15 R)delivery.send-response",
+                  "(18 R)delivery.stop-live",
+                  "(22 R)delivery.send-domain-response",
+                  "(16 R)delivery.start-live",
+                  "(17 R)delivery.send-update",
+                  "(23 R)delivery.stop-subscription"
+                ]
+              }
+            ],
+            "pads": [
+              "(11 R)x 700 y 23 w 125 h 15|incoming.received",
+              "(13 R)x 700 y 53 w 132 h 15|connection.lifecycle",
+              "(15 R)x 700 y 83 w 150 h 15|delivery.send-response",
+              "(18 R)x 700 y 173 w 118 h 15|delivery.stop-live",
+              "(22 R)x 700 y 143 w 194 h 15|delivery.send-domain-response",
+              "(16 R)x 700 y 113 w 119 h 15|delivery.start-live",
+              "(17 R)x 700 y 143 w 139 h 15|delivery.send-update",
+              "(23 R)x 700 y 233 w 164 h 15|delivery.stop-subscription"
+            ]
+          },
+          {
+            "kind": "group",
+            "name": "Session and Access Control",
+            "rect": "x 525 y 73 w 225 h 161",
+            "interfaces": [
+              {
+                "interface": "(19) incoming",
+                "pins": [
+                  "(11 L)incoming.evaluate"
+                ]
+              },
+              {
+                "interface": "(20) access",
+                "pins": [
+                  "(13 R)access.authorized"
+                ]
+              },
+              {
+                "interface": "(21) delivery",
+                "pins": [
+                  "(15 L)delivery.respond",
+                  "(16 L)delivery.stop-live"
+                ]
+              },
+              {
+                "interface": "(22) session",
+                "pins": [
+                  "(18 R)session.invalidate"
+                ]
+              }
+            ],
+            "pads": [
+              "(11 R)x 700 y 23 w 126 h 15|incoming.evaluate",
+              "(13 R)x 700 y 53 w 123 h 15|access.authorized",
+              "(15 R)x 700 y 83 w 116 h 15|delivery.respond",
+              "(16 R)x 700 y 113 w 118 h 15|delivery.stop-live",
+              "(18 R)x 700 y 143 w 122 h 15|session.invalidate"
+            ]
+          }
+        ],
+        "routes": [
+          {
+            "from": "(pin 11) incoming.received @ External Communications",
+            "to": "(pin 11) incoming.evaluate @ Session and Access Control",
+            "wire": "x 90.5 y 0.0 x 92.5"
+          },
+          {
+            "from": "(pin 13) access.authorized @ Session and Access Control",
+            "to": "(pad 10) access.authorized",
+            "wire": "x 38.1 y 0.0 x 21.9"
+          },
+          {
+            "from": "(pin 15) delivery.respond @ Session and Access Control",
+            "to": "(pin 15) delivery.send-response @ External Communications",
+            "wire": "x -72.4 y 0.0 x -110.6"
+          },
+          {
+            "from": "(pin 16) delivery.stop-live @ Session and Access Control",
+            "to": "(pin 18) delivery.stop-live @ External Communications",
+            "wire": "x -112.4 y 0.0 x -70.6"
+          },
+          {
+            "from": "(pad 12) delivery.send-response",
+            "to": "(pin 22) delivery.send-domain-response @ External Communications",
+            "wire": "x -396.5 y -36.0 x -71.5"
+          },
+          {
+            "from": "(pad 13) delivery.start-live",
+            "to": "(pin 16) delivery.start-live @ External Communications",
+            "wire": "x -409.1 y -47.0 x -58.9"
+          },
+          {
+            "from": "(pad 14) delivery.send-update",
+            "to": "(pin 17) delivery.send-update @ External Communications",
+            "wire": "x -419.5 y -51.0 x -48.5"
+          },
+          {
+            "from": "(pad 19) delivery.stop-live",
+            "to": "(pin 23) delivery.stop-subscription @ External Communications",
+            "wire": "x -429.7 y -59.0 x -38.3"
+          },
+          {
+            "from": "(pad 16) session.invalidate",
+            "to": "(pin 18) session.invalidate @ Session and Access Control",
+            "wire": "x -27.2 y 0.0 x -32.8"
+          }
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Geospatial",
+        "rect": "x 258 y 499 w 195 h 71",
+        "interfaces": [
+          {
+            "interface": "(7) spatial",
+            "pins": [
+              "(5 L)spatial.analyze",
+              "(6 L)spatial.build-projection"
+            ]
+          }
+        ],
+        "pads": [
+          "(5 R)x 700 y 23 w 107 h 15|spatial.analyze",
+          "(6 R)x 700 y 53 w 150 h 15|spatial.build-projection"
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Operations",
+        "rect": "x -51 y 58 w 180 h 266",
+        "view": {
+          "state": "closed",
+          "rect": "x 33 y 244 w 800 h 500",
+          "transform": "sx 1.000 sy 1.000 dx 33.000 dy 264.000"
+        },
+        "interfaces": [
+          {
+            "interface": "(33) access",
+            "pins": [
+              "(9 R)access.authorized"
+            ]
+          },
+          {
+            "interface": "(34) delivery",
+            "pins": [
+              "(11 R)delivery.send-response",
+              "(12 R)delivery.start-live",
+              "(13 R)delivery.send-update",
+              "(14 R)delivery.stop-live"
+            ]
+          },
+          {
+            "interface": "(35) operational-state",
+            "pins": [
+              "(18 R)operational-state.load",
+              "(19 R)operational-state.commit"
+            ]
+          },
+          {
+            "interface": "(36) resource-state",
+            "pins": [
+              "(24 R)resource-state.get-view",
+              "(25 R)resource-state.prepare-change"
+            ]
+          },
+          {
+            "interface": "(37) spatial",
+            "pins": [
+              "(31 R)spatial.analyze",
+              "(32 R)spatial.build-projection"
+            ]
+          }
+        ],
+        "pads": [
+          "(9 R)x 700 y 23 w 123 h 15|access.authorized",
+          "(11 R)x 700 y 53 w 150 h 15|delivery.send-response",
+          "(12 R)x 700 y 83 w 119 h 15|delivery.start-live",
+          "(13 R)x 700 y 113 w 139 h 15|delivery.send-update",
+          "(14 R)x 700 y 143 w 118 h 15|delivery.stop-live",
+          "(18 R)x 700 y 173 w 145 h 15|operational-state.load",
+          "(19 R)x 700 y 203 w 162 h 15|operational-state.commit",
+          "(24 R)x 700 y 233 w 154 h 15|resource-state.get-view",
+          "(25 R)x 700 y 263 w 193 h 15|resource-state.prepare-change",
+          "(31 R)x 700 y 293 w 107 h 15|spatial.analyze",
+          "(32 R)x 700 y 323 w 150 h 15|spatial.build-projection"
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Resource Registry",
+        "rect": "x 258 y 382 w 195 h 71",
+        "interfaces": [
+          {
+            "interface": "(7) resource-state",
+            "pins": [
+              "(5 L)resource-state.get-view",
+              "(6 L)resource-state.prepare-change"
+            ]
+          }
+        ],
+        "pads": [
+          "(5 R)x 700 y 23 w 154 h 15|resource-state.get-view",
+          "(6 R)x 700 y 53 w 193 h 15|resource-state.prepare-change"
+        ]
+      },
+      {
+        "kind": "group",
+        "name": "Operational Repository",
+        "rect": "x 258 y 265 w 195 h 71",
+        "interfaces": [
+          {
+            "interface": "(7) operational-state",
+            "pins": [
+              "(5 L)operational-state.load",
+              "(6 L)operational-state.commit"
+            ]
+          }
+        ],
+        "pads": [
+          "(5 R)x 700 y 23 w 145 h 15|operational-state.load",
+          "(6 R)x 700 y 53 w 162 h 15|operational-state.commit"
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "from": "(pin 10) access.authorized @ Client Access",
+        "to": "(pin 9) access.authorized @ Operations",
+        "wire": "x -47.5 y 0.0 x -81.5"
+      },
+      {
+        "from": "(pin 11) delivery.send-response @ Operations",
+        "to": "(pin 12) delivery.send-response @ Client Access",
+        "wire": "x 81.5 y 0.0 x 47.5"
+      },
+      {
+        "from": "(pin 12) delivery.start-live @ Operations",
+        "to": "(pin 13) delivery.start-live @ Client Access",
+        "wire": "x 81.5 y 0.0 x 47.5"
+      },
+      {
+        "from": "(pin 13) delivery.send-update @ Operations",
+        "to": "(pin 14) delivery.send-update @ Client Access",
+        "wire": "x 81.5 y 0.0 x 47.5"
+      },
+      {
+        "from": "(pin 14) delivery.stop-live @ Operations",
+        "to": "(pin 19) delivery.stop-live @ Client Access",
+        "wire": "x 81.5 y 0.0 x 47.5"
+      },
+      {
+        "from": "(pin 18) operational-state.load @ Operations",
+        "to": "(pin 5) operational-state.load @ Operational Repository",
+        "wire": "x 81.0 y 102.0 x 48.0"
+      },
+      {
+        "from": "(pin 19) operational-state.commit @ Operations",
+        "to": "(pin 6) operational-state.commit @ Operational Repository",
+        "wire": "x 74.0 y 102.0 x 55.0"
+      },
+      {
+        "from": "(pin 24) resource-state.get-view @ Operations",
+        "to": "(pin 5) resource-state.get-view @ Resource Registry",
+        "wire": "x 55.0 y 174.0 x 74.0"
+      },
+      {
+        "from": "(pin 25) resource-state.prepare-change @ Operations",
+        "to": "(pin 6) resource-state.prepare-change @ Resource Registry",
+        "wire": "x 46.0 y 174.0 x 83.0"
+      },
+      {
+        "from": "(pin 31) spatial.analyze @ Operations",
+        "to": "(pin 5) spatial.analyze @ Geospatial",
+        "wire": "x 35.0 y 246.0 x 94.0"
+      },
+      {
+        "from": "(pin 32) spatial.build-projection @ Operations",
+        "to": "(pin 6) spatial.build-projection @ Geospatial",
+        "wire": "x 25.0 y 246.0 x 104.0"
+      }
+    ]
+  }
+}

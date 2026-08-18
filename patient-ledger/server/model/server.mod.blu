@@ -12,30 +12,12 @@
     }
   },
   "factories": [
-    {
-      "path": "../nodes/transport.js",
-      "function": "Transport"
-    },
-    {
-      "path": "../nodes/authentication.js",
-      "function": "Authentication"
-    },
-    {
-      "path": "../nodes/patient-data-policy.js",
-      "function": "PatientDataPolicy"
-    },
-    {
-      "path": "../nodes/admin.js",
-      "function": "Admin"
-    },
-    {
-      "path": "../nodes/data-center.js",
-      "function": "DataCenter"
-    },
-    {
-      "path": "../nodes/event-recorder.js",
-      "function": "EventRecorder"
-    }
+    "../nodes/transport.js",
+    "../nodes/authentication.js",
+    "../nodes/patient-data-policy.js",
+    "../nodes/admin.js",
+    "../nodes/data-center.js",
+    "../nodes/event-recorder.js"
   ],
   "types": {
     "AnyPayload": {

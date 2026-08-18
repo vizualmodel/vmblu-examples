@@ -1,0 +1,1790 @@
+{
+  "header": {
+    "version": "0.10.0",
+    "created": "2026-07-23T11:10:16.732Z",
+    "saved": "2026-08-05T17:07:47.028Z",
+    "utc": "2026-08-05T17:07:47.028Z",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-base",
+    "teams": {
+      "default": {
+        "color": "#2c7be5"
+      },
+      "workspace": {
+        "color": "#564d38"
+      }
+    }
+  },
+  "factories": [
+    "../nodes/application-shell/workspace/index.js",
+    "../nodes/application-shell/layout/index.js",
+    "../nodes/operational-core-connection/index.js",
+    "../nodes/operational-picture/index.js",
+    "../nodes/spatial-workspace/index.js",
+    "../nodes/situation-workspace/index.js",
+    "../nodes/action-workspace/index.js",
+    "../nodes/talk-workspace/index.js"
+  ],
+  "types": {
+    "StringList": {
+      "kind": "array",
+      "summary": "An ordered collection of strings.",
+      "items": {
+        "vmbluType": "string"
+      }
+    },
+    "AuthenticationMaterial": {
+      "kind": "primitive",
+      "summary": "Opaque credentials or identity assertion supplied for session establishment and retained only as long as authentication requires."
+    },
+    "BrowserSessionContext": {
+      "kind": "object",
+      "summary": "Minimal non-secret context that the browser uses for the active session.",
+      "fields": {
+        "sessionId": {
+          "vmbluType": "string",
+          "summary": "Non-secret identity of the established session."
+        },
+        "actorId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the signed-in operator."
+        },
+        "roles": {
+          "vmbluType": "StringList",
+          "summary": "Roles used for the browser's presentation choices."
+        },
+        "expiresAt": {
+          "vmbluType": "string",
+          "summary": "Current session expiry boundary."
+        }
+      },
+      "required": [
+        "sessionId",
+        "actorId",
+        "roles",
+        "expiresAt"
+      ]
+    },
+    "SessionEstablishmentRequest": {
+      "kind": "object",
+      "summary": "A browser request to establish an authenticated command-centre session.",
+      "fields": {
+        "authentication": {
+          "vmbluType": "AuthenticationMaterial",
+          "summary": "Opaque authentication material supplied by the operator or identity flow."
+        }
+      },
+      "required": [
+        "authentication"
+      ]
+    },
+    "SessionEstablishmentResult": {
+      "kind": "object",
+      "summary": "The result of a command-centre sign-in attempt.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Result category: established, rejected, or unavailable."
+        },
+        "session": {
+          "vmbluType": "BrowserSessionContext",
+          "summary": "Non-secret signed-in context when the session is established."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Simple explanation when the session is rejected or unavailable."
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "SessionStatusChange": {
+      "kind": "object",
+      "summary": "Notification that an established browser session has ended.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Session state; currently ended."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Reason the session ended: expired, invalidated, or signed-out."
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ]
+    },
+    "IncidentOpenRequest": {
+      "kind": "object",
+      "summary": "A request from the application shell to open one incident workspace.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident to open."
+        }
+      },
+      "required": [
+        "incidentId"
+      ]
+    },
+    "OperationalSpatialFeatures": {
+      "kind": "primitive",
+      "summary": "Map-ready GeoJSON feature collection whose features retain operational kind, status, detail, and provenance."
+    },
+    "OperationalTask": {
+      "kind": "object",
+      "summary": "A task created by a committed operational decision.",
+      "fields": {
+        "taskId": {
+          "vmbluType": "string"
+        },
+        "title": {
+          "vmbluType": "string"
+        },
+        "status": {
+          "vmbluType": "string"
+        },
+        "owner": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "taskId",
+        "title",
+        "status",
+        "owner"
+      ]
+    },
+    "OperationalTaskList": {
+      "kind": "array",
+      "summary": "Tasks visible in the authorized command-centre projection.",
+      "items": {
+        "vmbluType": "OperationalTask"
+      }
+    },
+    "AuditRecord": {
+      "kind": "object",
+      "summary": "Attributable evidence of a consequential operational action.",
+      "fields": {
+        "auditId": {
+          "vmbluType": "string"
+        },
+        "action": {
+          "vmbluType": "string"
+        },
+        "actorId": {
+          "vmbluType": "string"
+        },
+        "reason": {
+          "vmbluType": "string"
+        },
+        "recordedAt": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "auditId",
+        "action",
+        "actorId",
+        "reason",
+        "recordedAt"
+      ]
+    },
+    "AuditRecordList": {
+      "kind": "array",
+      "summary": "Recent audit evidence authorized for the current operator.",
+      "items": {
+        "vmbluType": "AuditRecord"
+      }
+    },
+    "SituationSummary": {
+      "kind": "object",
+      "summary": "Small incident-wide summary required by the first Situation Dashboard slice.",
+      "fields": {
+        "headline": {
+          "vmbluType": "string",
+          "summary": "Current concise operational assessment."
+        },
+        "severity": {
+          "vmbluType": "string",
+          "summary": "Current visible incident severity."
+        },
+        "phase": {
+          "vmbluType": "string",
+          "summary": "Current response phase."
+        },
+        "observedAt": {
+          "vmbluType": "string",
+          "summary": "Time represented by this summary."
+        },
+        "activeUnitCount": {
+          "vmbluType": "number",
+          "summary": "Number of active response units represented."
+        },
+        "closedRouteCount": {
+          "vmbluType": "number",
+          "summary": "Number of closed routes represented."
+        },
+        "proposedZoneCount": {
+          "vmbluType": "number",
+          "summary": "Number of proposed operational zones awaiting review."
+        },
+        "approvedZoneCount": {
+          "vmbluType": "number",
+          "summary": "Number of approved operational zones."
+        }
+      },
+      "required": [
+        "headline",
+        "severity",
+        "phase",
+        "observedAt",
+        "activeUnitCount",
+        "closedRouteCount",
+        "proposedZoneCount",
+        "approvedZoneCount"
+      ]
+    },
+    "OperationalPicture": {
+      "kind": "object",
+      "summary": "The minimal coherent incident snapshot used by the first shared-projection implementation slice.",
+      "fields": {
+        "incidentTitle": {
+          "vmbluType": "string",
+          "summary": "Operator-facing incident title."
+        },
+        "situation": {
+          "vmbluType": "SituationSummary",
+          "summary": "Incident-wide summary for non-map situational presentation."
+        },
+        "tasks": {
+          "vmbluType": "OperationalTaskList",
+          "summary": "Current tasks needed by the demonstrated governed-action slice."
+        },
+        "auditTrail": {
+          "vmbluType": "AuditRecordList",
+          "summary": "Recent attributable evidence for consequential changes."
+        },
+        "spatialFeatures": {
+          "vmbluType": "OperationalSpatialFeatures",
+          "summary": "Operational features rendered by Spatial Workspace."
+        }
+      },
+      "required": [
+        "incidentTitle",
+        "situation",
+        "tasks",
+        "auditTrail",
+        "spatialFeatures"
+      ]
+    },
+    "OperationalPictureDelta": {
+      "kind": "primitive",
+      "summary": "Opaque ordered change to the authorized command-centre projection."
+    },
+    "ProjectionDegradation": {
+      "kind": "primitive",
+      "summary": "Opaque description of stale, partial, uncertain, disconnected, or otherwise degraded parts of the command-centre projection."
+    },
+    "SpatialArea": {
+      "kind": "primitive",
+      "summary": "Opaque geographic area used to request or identify spatial coverage without prescribing a geometry representation."
+    },
+    "ProjectionScope": {
+      "kind": "primitive",
+      "summary": "Opaque identification of the records, spatial coverage, layers, or time range affected by an update or invalidation."
+    },
+    "OperationalPictureRequest": {
+      "kind": "object",
+      "summary": "A request for an authorized incident picture; an initial load needs only the incident identity, while optional scope fields support later detail loads.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident to retrieve."
+        },
+        "spatialArea": {
+          "vmbluType": "SpatialArea",
+          "summary": "Geographic area for a scoped detail load; absent for an incident-wide load."
+        },
+        "requestedLayers": {
+          "vmbluType": "StringList",
+          "summary": "Operational, resource, and geospatial layers requested for a scoped detail load."
+        },
+        "detailLevel": {
+          "vmbluType": "string",
+          "summary": "Requested semantic level of spatial detail."
+        },
+        "effectiveAt": {
+          "vmbluType": "string",
+          "summary": "Observation or forecast time for which detail is requested."
+        },
+        "currentVersion": {
+          "vmbluType": "string",
+          "summary": "Projection version already represented in the browser."
+        }
+      },
+      "required": [
+        "incidentId"
+      ]
+    },
+    "OperationalPictureResult": {
+      "kind": "object",
+      "summary": "The available, not-found, rejected, or unavailable result of loading an operational picture.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Result category: available, not-found, rejected, or unavailable."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the requested incident."
+        },
+        "version": {
+          "vmbluType": "string",
+          "summary": "Authoritative operational version represented by the picture."
+        },
+        "sequence": {
+          "vmbluType": "string",
+          "summary": "Live-update sequence from which subscription can continue."
+        },
+        "picture": {
+          "vmbluType": "OperationalPicture",
+          "summary": "Coherent authorized picture when available."
+        },
+        "warnings": {
+          "vmbluType": "ProjectionDegradation",
+          "summary": "Missing, stale, uncertain, or otherwise degraded parts of an available picture."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Simple explanation when the picture is not found, rejected, or unavailable."
+        }
+      },
+      "required": [
+        "status",
+        "incidentId"
+      ]
+    },
+    "ProjectionDetailRequest": {
+      "kind": "object",
+      "summary": "A Spatial Workspace request to make additional authorized detail available in the coherent browser projection.",
+      "fields": {
+        "requestId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the detail request."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident being viewed."
+        },
+        "spatialArea": {
+          "vmbluType": "SpatialArea",
+          "summary": "Geographic area for which additional detail is required."
+        },
+        "requestedLayers": {
+          "vmbluType": "StringList",
+          "summary": "Requested operational, resource, and geospatial layers."
+        },
+        "detailLevel": {
+          "vmbluType": "string",
+          "summary": "Requested semantic level of detail."
+        },
+        "effectiveAt": {
+          "vmbluType": "string",
+          "summary": "Observation or forecast time for which detail is requested."
+        },
+        "currentVersion": {
+          "vmbluType": "string",
+          "summary": "Projection version on which the request is based."
+        }
+      },
+      "required": [
+        "requestId",
+        "incidentId",
+        "spatialArea",
+        "requestedLayers",
+        "detailLevel"
+      ]
+    },
+    "ProjectionDetailResult": {
+      "kind": "object",
+      "summary": "The available, accepted, rejected, or failed result of requesting additional projection detail.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: available, accepted, rejected, or failed."
+        },
+        "requestId": {
+          "vmbluType": "string",
+          "summary": "Identity of the detail request."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident being viewed."
+        },
+        "projectionVersion": {
+          "vmbluType": "string",
+          "summary": "Projection version already satisfying the request when detail is available."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable explanation when the request is rejected or fails."
+        }
+      },
+      "required": [
+        "status",
+        "requestId",
+        "incidentId"
+      ]
+    },
+    "LiveSubscriptionRequest": {
+      "kind": "object",
+      "summary": "A request to start or resume live updates for one incident.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident to follow."
+        },
+        "afterSequence": {
+          "vmbluType": "string",
+          "summary": "Last update sequence already represented in the browser."
+        }
+      },
+      "required": [
+        "incidentId",
+        "afterSequence"
+      ]
+    },
+    "LiveSubscriptionResult": {
+      "kind": "object",
+      "summary": "The active, rejected, unavailable, or reload-required result of requesting live incident updates.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Result category: active, rejected, unavailable, or reload-required."
+        },
+        "subscriptionId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the requested subscription."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the subscribed incident."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Simple explanation when live delivery is rejected, unavailable, or requires a reload."
+        }
+      },
+      "required": [
+        "status",
+        "subscriptionId",
+        "incidentId"
+      ]
+    },
+    "ClientOperationalUpdate": {
+      "kind": "object",
+      "summary": "An ordered authorized operational update received for an active browser subscription.",
+      "fields": {
+        "subscriptionId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the receiving subscription."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the affected incident."
+        },
+        "kind": {
+          "vmbluType": "string",
+          "summary": "Delivery form: delta or invalidation."
+        },
+        "sequence": {
+          "vmbluType": "string",
+          "summary": "Monotonic cursor used for ordering and resumption."
+        },
+        "version": {
+          "vmbluType": "string",
+          "summary": "Authoritative operational version resulting from or affected by this update."
+        },
+        "affectedScope": {
+          "vmbluType": "ProjectionScope",
+          "summary": "Records, spatial coverage, layers, or time range affected by the update."
+        },
+        "change": {
+          "vmbluType": "OperationalPictureDelta",
+          "summary": "Authorized change to apply when updateKind is delta."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Simple explanation of why affected buffered data must be reloaded."
+        }
+      },
+      "required": [
+        "subscriptionId",
+        "incidentId",
+        "sequence",
+        "version",
+        "kind"
+      ]
+    },
+    "CommandCentreProjection": {
+      "kind": "object",
+      "summary": "The current authorized browser projection distributed to command-centre workspaces.",
+      "fields": {
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the represented incident."
+        },
+        "version": {
+          "vmbluType": "string",
+          "summary": "Authoritative operational version represented in the projection."
+        },
+        "sequence": {
+          "vmbluType": "string",
+          "summary": "Last live-update sequence represented in the projection."
+        },
+        "source": {
+          "vmbluType": "string",
+          "summary": "Stable projection source: initial, live, resynchronized, or degraded."
+        },
+        "picture": {
+          "vmbluType": "OperationalPicture",
+          "summary": "Current authorized command-centre picture."
+        },
+        "degradation": {
+          "vmbluType": "ProjectionDegradation",
+          "summary": "Visible limitations affecting the current projection."
+        }
+      },
+      "required": [
+        "incidentId",
+        "source",
+        "picture"
+      ]
+    },
+    "OperationalCommand": {
+      "kind": "primitive",
+      "summary": "Opaque explicit command, proposal, approval, or other governed operational action prepared by the command centre."
+    },
+    "OperationalCommandProposal": {
+      "kind": "primitive",
+      "summary": "A non-authoritative proposed operational command, including the originating workspace context needed for review by Action Workspace."
+    },
+    "OperationalCommandOutcome": {
+      "kind": "primitive",
+      "summary": "Opaque authoritative outcome of a submitted operational command."
+    },
+    "OperationalCommandRequest": {
+      "kind": "object",
+      "summary": "An explicit governed operational action submitted by the command centre.",
+      "fields": {
+        "operationId": {
+          "vmbluType": "string",
+          "summary": "Stable identity reused for every retry of the same logical operation."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the incident to change."
+        },
+        "expectedVersion": {
+          "vmbluType": "string",
+          "summary": "Operational version on which the operator's action was based."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Operator-provided reason where the action requires one."
+        },
+        "command": {
+          "vmbluType": "OperationalCommand",
+          "summary": "Explicit command, proposal, or approval to submit."
+        }
+      },
+      "required": [
+        "operationId",
+        "incidentId",
+        "expectedVersion",
+        "command"
+      ]
+    },
+    "OperationalCommandResult": {
+      "kind": "object",
+      "summary": "The committed, rejected, conflict, unavailable, or uncertain result of a submitted operational command.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Result category: committed, rejected, conflict, unavailable, or uncertain."
+        },
+        "operationId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the logical operation."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the affected incident."
+        },
+        "version": {
+          "vmbluType": "string",
+          "summary": "Resulting authoritative version when committed, or current authoritative version when the expectation conflicts."
+        },
+        "outcome": {
+          "vmbluType": "OperationalCommandOutcome",
+          "summary": "Authoritative outcome when the operation committed or was already committed."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Simple explanation when the command is rejected, conflicts, is unavailable, or remains uncertain."
+        }
+      },
+      "required": [
+        "status",
+        "operationId",
+        "incidentId"
+      ]
+    },
+    "WorkspaceActivationChange": {
+      "kind": "object",
+      "summary": "An Application Shell directive changing whether one visual workspace is active.",
+      "fields": {
+        "workspaceId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the workspace whose activation state changes."
+        },
+        "state": {
+          "vmbluType": "string",
+          "summary": "New workspace state: active or inactive."
+        },
+        "reason": {
+          "vmbluType": "string",
+          "summary": "Stable presentation-policy reason for the activation change."
+        },
+        "incidentId": {
+          "vmbluType": "string",
+          "summary": "Incident to which this activation applies, when an incident is active."
+        },
+        "changedAt": {
+          "vmbluType": "string",
+          "summary": "Time at which the Shell changed the workspace activation state."
+        }
+      },
+      "required": [
+        "workspaceId",
+        "state",
+        "reason",
+        "changedAt"
+      ]
+    },
+    "LayoutRegionRequest": {
+      "kind": "object",
+      "summary": "A visual workspace request for one Shell-owned screen region.",
+      "fields": {
+        "workspaceId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the workspace requesting screen space."
+        },
+        "regionRole": {
+          "vmbluType": "string",
+          "summary": "Semantic role of the requested region, such as spatial, situation, or actions."
+        }
+      },
+      "required": [
+        "workspaceId",
+        "regionRole"
+      ]
+    },
+    "LayoutRegionAllocation": {
+      "kind": "object",
+      "summary": "The allocated or unavailable result of requesting a Shell-owned screen region.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable result category: allocated or unavailable."
+        },
+        "workspaceId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the requesting workspace."
+        },
+        "regionRole": {
+          "vmbluType": "string",
+          "summary": "Semantic role of the requested region."
+        },
+        "regionId": {
+          "vmbluType": "string",
+          "summary": "Stable identity of the allocated layout region."
+        },
+        "mountId": {
+          "vmbluType": "string",
+          "summary": "Serializable browser element identity that the workspace view resolves before mounting."
+        },
+        "layoutMode": {
+          "vmbluType": "string",
+          "summary": "Current layout mode that may affect how the workspace presents itself."
+        },
+        "failureCategory": {
+          "vmbluType": "string",
+          "summary": "Stable explanation when no region is available."
+        }
+      },
+      "required": [
+        "status",
+        "workspaceId",
+        "regionRole"
+      ]
+    },
+    "ConnectionStatus": {
+      "kind": "object",
+      "summary": "Current browser connection and synchronization condition for the operational core.",
+      "fields": {
+        "status": {
+          "vmbluType": "string",
+          "summary": "Stable connection state: connected, reconnecting, degraded, or disconnected."
+        },
+        "changedAt": {
+          "vmbluType": "string",
+          "summary": "Time at which the connection state changed."
+        },
+        "detail": {
+          "vmbluType": "string",
+          "summary": "Non-sensitive explanation suitable for operator presentation."
+        }
+      },
+      "required": [
+        "status",
+        "changedAt"
+      ]
+    }
+  },
+  "root": {
+    "kind": "group",
+    "name": "Root",
+    "promptRepo": {
+      "arl": "./prompts/Root.md",
+      "pathKind": 2
+    },
+    "nodes": [
+      {
+        "kind": "group",
+        "name": "Application Shell",
+        "promptRepo": {
+          "arl": "./prompts/Application-Shell.md",
+          "pathKind": 2
+        },
+        "interfaces": [
+          {
+            "interface": "session",
+            "pins": [
+              {
+                "name": "session.establish",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "SessionEstablishmentRequest",
+                    "reply": "SessionEstablishmentResult"
+                  }
+                }
+              },
+              {
+                "name": "session.status-changed",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "SessionStatusChange"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "connection",
+            "pins": [
+              {
+                "name": "connection.status-changed",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ConnectionStatus"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "workspace",
+            "pins": [
+              {
+                "name": "workspace.open-incident",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "IncidentOpenRequest"
+                }
+              },
+              {
+                "name": "workspace.activation-change",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "WorkspaceActivationChange"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "layout",
+            "pins": [
+              {
+                "name": "layout.acquire-region",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "LayoutRegionRequest",
+                    "reply": "LayoutRegionAllocation"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "nodes": [
+          {
+            "kind": "group",
+            "name": "Session",
+            "promptRepo": {
+              "arl": "./prompts/Application Shell/Session.md",
+              "pathKind": 2
+            },
+            "interfaces": [
+              {
+                "interface": "session",
+                "pins": [
+                  {
+                    "name": "session.status-changed",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "SessionStatusChange"
+                    }
+                  },
+                  {
+                    "name": "session.establish",
+                    "kind": "request",
+                    "contract": {
+                      "role": "owner",
+                      "payload": {
+                        "request": "SessionEstablishmentRequest",
+                        "reply": "SessionEstablishmentResult"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "Workspace",
+            "promptRepo": {
+              "arl": "./prompts/Application Shell/Workspace.md",
+              "pathKind": 2
+            },
+            "factory": {
+              "path": "../nodes/application-shell/workspace/index.js",
+              "function": "createWorkspaceNode"
+            },
+            "interfaces": [
+              {
+                "interface": "workspace",
+                "pins": [
+                  {
+                    "name": "workspace.open-incident",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "IncidentOpenRequest"
+                    }
+                  },
+                  {
+                    "name": "workspace.activation-change",
+                    "kind": "output",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "WorkspaceActivationChange"
+                    }
+                  }
+                ]
+              },
+              {
+                "interface": "session",
+                "pins": [
+                  {
+                    "name": "session.status-changed",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "SessionStatusChange"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "group",
+            "name": "Connection",
+            "promptRepo": {
+              "arl": "./prompts/Application Shell/Connection.md",
+              "pathKind": 2
+            },
+            "interfaces": [
+              {
+                "interface": "connection",
+                "pins": [
+                  {
+                    "name": "connection.status-changed",
+                    "kind": "input",
+                    "contract": {
+                      "role": "owner",
+                      "payload": "ConnectionStatus"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "source",
+            "name": "Layout",
+            "promptRepo": {
+              "arl": "./prompts/Application Shell/Layout.md",
+              "pathKind": 2
+            },
+            "factory": {
+              "path": "../nodes/application-shell/layout/index.js",
+              "function": "createLayoutNode"
+            },
+            "interfaces": [
+              {
+                "interface": "layout",
+                "pins": [
+                  {
+                    "name": "layout.acquire-region",
+                    "kind": "reply",
+                    "contract": {
+                      "role": "owner",
+                      "payload": {
+                        "request": "LayoutRegionRequest",
+                        "reply": "LayoutRegionAllocation"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "interface": "workspace",
+                "pins": [
+                  {
+                    "name": "workspace.activation-change",
+                    "kind": "input",
+                    "contract": {
+                      "role": "follower",
+                      "payload": "WorkspaceActivationChange"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "src": {
+              "pin": "session.establish",
+              "node": "Session"
+            },
+            "dst": {
+              "pin": "session.establish"
+            }
+          },
+          {
+            "src": {
+              "pin": "workspace.open-incident",
+              "node": "Workspace"
+            },
+            "dst": {
+              "pin": "workspace.open-incident"
+            }
+          },
+          {
+            "src": {
+              "pin": "workspace.activation-change",
+              "node": "Workspace"
+            },
+            "dst": [
+              {
+                "pin": "workspace.activation-change"
+              },
+              {
+                "pin": "workspace.activation-change",
+                "node": "Layout"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "session.status-changed"
+            },
+            "dst": [
+              {
+                "pin": "session.status-changed",
+                "node": "Session"
+              },
+              {
+                "pin": "session.status-changed",
+                "node": "Workspace"
+              }
+            ]
+          },
+          {
+            "src": {
+              "pin": "connection.status-changed"
+            },
+            "dst": {
+              "pin": "connection.status-changed",
+              "node": "Connection"
+            }
+          },
+          {
+            "src": {
+              "pin": "layout.acquire-region"
+            },
+            "dst": {
+              "pin": "layout.acquire-region",
+              "node": "Layout"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Operational Core Connection",
+        "promptRepo": {
+          "arl": "./prompts/Operational-Core-Connection.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/operational-core-connection/index.js",
+          "function": "createOperationalCoreConnectionNode"
+        },
+        "interfaces": [
+          {
+            "interface": "session",
+            "pins": [
+              {
+                "name": "session.establish",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "SessionEstablishmentRequest",
+                    "reply": "SessionEstablishmentResult"
+                  }
+                }
+              },
+              {
+                "name": "session.status-changed",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "SessionStatusChange"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "operational-picture",
+            "pins": [
+              {
+                "name": "operational-picture.load",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "OperationalPictureRequest",
+                    "reply": "OperationalPictureResult"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "interface": "live-updates",
+            "pins": [
+              {
+                "name": "live-updates.subscribe",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "LiveSubscriptionRequest",
+                    "reply": "LiveSubscriptionResult"
+                  }
+                }
+              },
+              {
+                "name": "live-updates.received",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ClientOperationalUpdate"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "operational-command",
+            "pins": [
+              {
+                "name": "operational-command.submit",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "OperationalCommandRequest",
+                    "reply": "OperationalCommandResult"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "interface": "connection",
+            "pins": [
+              {
+                "name": "connection.status-changed",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "ConnectionStatus"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Operational Picture",
+        "promptRepo": {
+          "arl": "./prompts/Operational-Picture.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/operational-picture/index.js",
+          "function": "createOperationalPictureNode"
+        },
+        "interfaces": [
+          {
+            "interface": "workspace",
+            "pins": [
+              {
+                "name": "workspace.open-incident",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "IncidentOpenRequest"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "operational-picture",
+            "pins": [
+              {
+                "name": "operational-picture.load",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "OperationalPictureRequest",
+                    "reply": "OperationalPictureResult"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "interface": "live-updates",
+            "pins": [
+              {
+                "name": "live-updates.subscribe",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "LiveSubscriptionRequest",
+                    "reply": "LiveSubscriptionResult"
+                  }
+                }
+              },
+              {
+                "name": "live-updates.received",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ClientOperationalUpdate"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "projection",
+            "pins": [
+              {
+                "name": "projection.detail-request",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "ProjectionDetailRequest",
+                    "reply": "ProjectionDetailResult"
+                  }
+                }
+              },
+              {
+                "name": "projection.updated",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "CommandCentreProjection"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "operational-command",
+            "pins": [
+              {
+                "name": "operational-command.committed",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "OperationalCommandResult"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "connection",
+            "pins": [
+              {
+                "name": "connection.status-changed",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "ConnectionStatus"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Spatial Workspace",
+        "team": "workspace",
+        "promptRepo": {
+          "arl": "./prompts/Spatial-Workspace.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/spatial-workspace/index.js",
+          "function": "createSpatialWorkspaceNode"
+        },
+        "interfaces": [
+          {
+            "interface": "workspace",
+            "pins": [
+              {
+                "name": "workspace.activation-change",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "WorkspaceActivationChange"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "projection",
+            "pins": [
+              {
+                "name": "projection.detail-request",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "ProjectionDetailRequest",
+                    "reply": "ProjectionDetailResult"
+                  }
+                }
+              },
+              {
+                "name": "projection.updated",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "CommandCentreProjection"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "operational-command",
+            "pins": [
+              {
+                "name": "operational-command.proposal",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "OperationalCommandProposal"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "layout",
+            "pins": [
+              {
+                "name": "layout.acquire-region",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "LayoutRegionRequest",
+                    "reply": "LayoutRegionAllocation"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Situation Workspace",
+        "team": "workspace",
+        "promptRepo": {
+          "arl": "./prompts/Situation-Workspace.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/situation-workspace/index.js",
+          "function": "createSituationWorkspaceNode"
+        },
+        "interfaces": [
+          {
+            "interface": "workspace",
+            "pins": [
+              {
+                "name": "workspace.activation-change",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "WorkspaceActivationChange"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "projection",
+            "pins": [
+              {
+                "name": "projection.updated",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "CommandCentreProjection"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "layout",
+            "pins": [
+              {
+                "name": "layout.acquire-region",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "LayoutRegionRequest",
+                    "reply": "LayoutRegionAllocation"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Action Workspace",
+        "team": "workspace",
+        "promptRepo": {
+          "arl": "./prompts/Action-Workspace.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/action-workspace/index.js",
+          "function": "createActionWorkspaceNode"
+        },
+        "interfaces": [
+          {
+            "interface": "workspace",
+            "pins": [
+              {
+                "name": "workspace.activation-change",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "WorkspaceActivationChange"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "projection",
+            "pins": [
+              {
+                "name": "projection.updated",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "CommandCentreProjection"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "operational-command",
+            "pins": [
+              {
+                "name": "operational-command.proposal",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "OperationalCommandProposal"
+                }
+              },
+              {
+                "name": "operational-command.submit",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "OperationalCommandRequest",
+                    "reply": "OperationalCommandResult"
+                  }
+                }
+              },
+              {
+                "name": "operational-command.committed",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "OperationalCommandResult"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "layout",
+            "pins": [
+              {
+                "name": "layout.acquire-region",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "LayoutRegionRequest",
+                    "reply": "LayoutRegionAllocation"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "source",
+        "name": "Talk Workspace",
+        "team": "workspace",
+        "promptRepo": {
+          "arl": "./prompts/Talk-Workspace.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/talk-workspace/index.js",
+          "function": "createTalkWorkspaceNode"
+        },
+        "interfaces": [
+          {
+            "interface": "workspace",
+            "pins": [
+              {
+                "name": "workspace.activation-change",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "WorkspaceActivationChange"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "projection",
+            "pins": [
+              {
+                "name": "projection.updated",
+                "kind": "input",
+                "contract": {
+                  "role": "follower",
+                  "payload": "CommandCentreProjection"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "layout",
+            "pins": [
+              {
+                "name": "layout.acquire-region",
+                "kind": "request",
+                "contract": {
+                  "role": "follower",
+                  "payload": {
+                    "request": "LayoutRegionRequest",
+                    "reply": "LayoutRegionAllocation"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "src": {
+          "pin": "session.establish",
+          "node": "Application Shell"
+        },
+        "dst": {
+          "pin": "session.establish",
+          "node": "Operational Core Connection"
+        }
+      },
+      {
+        "src": {
+          "pin": "workspace.open-incident",
+          "node": "Application Shell"
+        },
+        "dst": {
+          "pin": "workspace.open-incident",
+          "node": "Operational Picture"
+        }
+      },
+      {
+        "src": {
+          "pin": "workspace.activation-change",
+          "node": "Application Shell"
+        },
+        "dst": [
+          {
+            "pin": "workspace.activation-change",
+            "node": "Situation Workspace"
+          },
+          {
+            "pin": "workspace.activation-change",
+            "node": "Spatial Workspace"
+          },
+          {
+            "pin": "workspace.activation-change",
+            "node": "Talk Workspace"
+          },
+          {
+            "pin": "workspace.activation-change",
+            "node": "Action Workspace"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "session.status-changed",
+          "node": "Operational Core Connection"
+        },
+        "dst": {
+          "pin": "session.status-changed",
+          "node": "Application Shell"
+        }
+      },
+      {
+        "src": {
+          "pin": "live-updates.received",
+          "node": "Operational Core Connection"
+        },
+        "dst": {
+          "pin": "live-updates.received",
+          "node": "Operational Picture"
+        }
+      },
+      {
+        "src": {
+          "pin": "connection.status-changed",
+          "node": "Operational Core Connection"
+        },
+        "dst": [
+          {
+            "pin": "connection.status-changed",
+            "node": "Operational Picture"
+          },
+          {
+            "pin": "connection.status-changed",
+            "node": "Application Shell"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "operational-picture.load",
+          "node": "Operational Picture"
+        },
+        "dst": {
+          "pin": "operational-picture.load",
+          "node": "Operational Core Connection"
+        }
+      },
+      {
+        "src": {
+          "pin": "live-updates.subscribe",
+          "node": "Operational Picture"
+        },
+        "dst": {
+          "pin": "live-updates.subscribe",
+          "node": "Operational Core Connection"
+        }
+      },
+      {
+        "src": {
+          "pin": "projection.updated",
+          "node": "Operational Picture"
+        },
+        "dst": [
+          {
+            "pin": "projection.updated",
+            "node": "Spatial Workspace"
+          },
+          {
+            "pin": "projection.updated",
+            "node": "Situation Workspace"
+          },
+          {
+            "pin": "projection.updated",
+            "node": "Talk Workspace"
+          },
+          {
+            "pin": "projection.updated",
+            "node": "Action Workspace"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "projection.detail-request",
+          "node": "Spatial Workspace"
+        },
+        "dst": {
+          "pin": "projection.detail-request",
+          "node": "Operational Picture"
+        }
+      },
+      {
+        "src": {
+          "pin": "operational-command.proposal",
+          "node": "Spatial Workspace"
+        },
+        "dst": {
+          "pin": "operational-command.proposal",
+          "node": "Action Workspace"
+        }
+      },
+      {
+        "src": {
+          "pin": "layout.acquire-region",
+          "node": "Spatial Workspace"
+        },
+        "dst": {
+          "pin": "layout.acquire-region",
+          "node": "Application Shell"
+        }
+      },
+      {
+        "src": {
+          "pin": "layout.acquire-region",
+          "node": "Situation Workspace"
+        },
+        "dst": {
+          "pin": "layout.acquire-region",
+          "node": "Application Shell"
+        }
+      },
+      {
+        "src": {
+          "pin": "operational-command.submit",
+          "node": "Action Workspace"
+        },
+        "dst": [
+          {
+            "pin": "operational-command.submit",
+            "node": "Operational Core Connection"
+          },
+          {
+            "pin": "connection.status-changed",
+            "node": "Application Shell"
+          }
+        ]
+      },
+      {
+        "src": {
+          "pin": "operational-command.committed",
+          "node": "Action Workspace"
+        },
+        "dst": {
+          "pin": "operational-command.committed",
+          "node": "Operational Picture"
+        }
+      },
+      {
+        "src": {
+          "pin": "layout.acquire-region",
+          "node": "Action Workspace"
+        },
+        "dst": {
+          "pin": "layout.acquire-region",
+          "node": "Application Shell"
+        }
+      },
+      {
+        "src": {
+          "pin": "layout.acquire-region",
+          "node": "Talk Workspace"
+        },
+        "dst": {
+          "pin": "layout.acquire-region",
+          "node": "Application Shell"
+        }
+      }
+    ]
+  }
+}
