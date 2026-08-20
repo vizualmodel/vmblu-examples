@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "0.9.4",
-  "cliVersion": "0.5.2",
+  "schemaVersion": "1.10.0",
+  "cliVersion": "1.10.0",
   "createdBy": "@vizualmodel/vmblu-cli",
-  "defaultEntrypoint": "main.blu"
+  "defaultEntrypoint": "solar-system.blu"
 }

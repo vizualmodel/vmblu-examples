@@ -1,6 +1,19 @@
 {
-  "version": "0.5.2",
-  "generatedAt": "2026-05-19T13:34:51.572Z",
+  "version": "1.10.0",
+  "provenance": {
+    "generated": true,
+    "artifact": "source-profile",
+    "compatibilityFamily": "1.10",
+    "schemaVersion": "1.10.0",
+    "generator": {
+      "name": "@vizualmodel/vmblu-cli",
+      "version": "1.10.0"
+    },
+    "source": {
+      "model": "chat-server.mod.blu",
+      "hash": "fnv1a64:125743e9c4c180c3"
+    }
+  },
   "entries": [
     {
       "node": "chat state",

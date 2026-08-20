@@ -144,7 +144,7 @@ or operational actions.
 ### Acceptance
 
 - The model, visualization, runtime, CLI-generated source profile, and generated
-  application belong to the vmblu 0.10 compatibility family.
+  application belong to the vmblu 1.10 compatibility family.
 - `vmblu verify` reports current generated artifacts and canonical factory
   entries.
 - The production bundle builds successfully.

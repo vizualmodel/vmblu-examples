@@ -74,7 +74,7 @@ and Situation. Both views visibly identify the source as synthetic.
   duplicate returns the original committed result.
 - The running implementation uses Svelte components with TypeScript for views
   and JavaScript factory adapters. Model, generated artifacts, runtime, and
-  tooling follow the vmblu 0.10 compatibility family.
+  tooling follow the vmblu 1.10 compatibility family.
 - The first projection path is explicitly labelled as a synthetic local OCS
   mock and does not imply production connectivity or operational authority.
 - UI implementation proceeds through vmblu-owned source nodes. Svelte

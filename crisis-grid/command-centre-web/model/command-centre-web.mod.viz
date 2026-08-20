@@ -1,9 +1,9 @@
 {
   "header": {
-    "version": "0.10.0",
+    "version": "1.10.0",
     "created": "2026-07-23T11:10:16.732Z",
     "saved": "2026-08-05T17:07:47.028Z",
-    "utc": "2026-08-05T17:07:47.028Z",
+    "utc": "2026-08-20T08:48:55.730Z",
     "style": "#00aaff"
   },
   "root": {
@@ -224,39 +224,39 @@
         "rect": "x 704 y -41 w 180 h 236",
         "interfaces": [
           {
-            "interface": "(28) workspace",
+            "interface": "(34) workspace",
             "pins": [
               "(13 R)workspace.open-incident"
             ]
           },
           {
-            "interface": "(29) operational-picture",
+            "interface": "(35) operational-picture",
             "pins": [
               "(15 L)operational-picture.load"
             ]
           },
           {
-            "interface": "(30) live-updates",
+            "interface": "(36) live-updates",
             "pins": [
               "(17 L)live-updates.subscribe",
               "(18 L)live-updates.received"
             ]
           },
           {
-            "interface": "(31) projection",
+            "interface": "(37) projection",
             "pins": [
               "(27 R)projection.detail-request",
               "(20 R)projection.updated"
             ]
           },
           {
-            "interface": "(32) operational-command",
+            "interface": "(38) operational-command",
             "pins": [
               "(33 R)operational-command.committed"
             ]
           },
           {
-            "interface": "(34) connection",
+            "interface": "(39) connection",
             "pins": [
               "(22 L)connection.status-changed"
             ]
@@ -326,19 +326,19 @@
         "rect": "x 964 y 675 w 195 h 176",
         "interfaces": [
           {
-            "interface": "(21) workspace",
+            "interface": "(25) workspace",
             "pins": [
               "(10 R)workspace.activation-change"
             ]
           },
           {
-            "interface": "(22) projection",
+            "interface": "(26) projection",
             "pins": [
               "(12 L)projection.updated"
             ]
           },
           {
-            "interface": "(23) operational-command",
+            "interface": "(27) operational-command",
             "pins": [
               "(20 R)operational-command.proposal",
               "(14 L)operational-command.submit",
@@ -346,7 +346,7 @@
             ]
           },
           {
-            "interface": "(25) layout",
+            "interface": "(28) layout",
             "pins": [
               "(16 R)layout.acquire-region"
             ]

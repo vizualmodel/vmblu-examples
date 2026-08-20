@@ -1,9 +1,9 @@
 {
   "header": {
-    "version": "0.9.5",
+    "version": "1.10.0",
     "created": "2026-02-26T14:11:29.381Z",
-    "saved": "2026-02-26T14:11:29.381Z",
-    "utc": "2026-02-26T14:11:29.381Z",
+    "saved": "2026-08-20T08:48:56.014Z",
+    "utc": "2026-08-20T08:48:56.014Z",
     "runtime": "@vizualmodel/vmblu-runtime/rt-browser-agent",
     "agent": {
       "schema": "https://vmblu.dev/schemas/agents.v1.json",
@@ -46,50 +46,17 @@
     }
   },
   "factories": [
-    {
-      "path": "../nodes/simulation-clock.js",
-      "function": "createSimulationClock"
-    },
-    {
-      "path": "../nodes/command-router.js",
-      "function": "createCommandRouter"
-    },
-    {
-      "path": "../nodes/rendering/screen-layout.js",
-      "function": "createScreenLayout"
-    },
-    {
-      "path": "../nodes/rendering/renderer.js",
-      "function": "createRenderer"
-    },
-    {
-      "path": "../nodes/rendering/animator.js",
-      "function": "createAnimator"
-    },
-    {
-      "path": "../nodes/rendering/camera-manager.js",
-      "function": "createCameraManager"
-    },
-    {
-      "path": "../nodes/solar-system/ephemeris-engine.js",
-      "function": "createEphemerisEngine"
-    },
-    {
-      "path": "../nodes/solar-system/body-visuals.js",
-      "function": "createBodyVisuals"
-    },
-    {
-      "path": "../nodes/solar-system/celestial-sphere.js",
-      "function": "createCelestialSphere"
-    },
-    {
-      "path": "../nodes/charts/distance-chart.js",
-      "function": "createDistanceChart"
-    },
-    {
-      "path": "../nodes/user-interface/icon-menu.js",
-      "function": "createIconMenu"
-    }
+    "../nodes/simulation-clock.js",
+    "../nodes/command-router.js",
+    "../nodes/rendering/screen-layout.js",
+    "../nodes/rendering/renderer.js",
+    "../nodes/rendering/animator.js",
+    "../nodes/rendering/camera-manager.js",
+    "../nodes/solar-system/ephemeris-engine.js",
+    "../nodes/solar-system/body-visuals.js",
+    "../nodes/solar-system/celestial-sphere.js",
+    "../nodes/charts/distance-chart.js",
+    "../nodes/user-interface/icon-menu.js"
   ],
   "types": {
     "ClockConfig": {

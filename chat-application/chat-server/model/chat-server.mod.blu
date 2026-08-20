@@ -1,20 +1,14 @@
 {
   "header": {
-    "version": "0.9.3",
+    "version": "1.10.0",
     "created": "2026-02-11T11:09:28.414Z",
-    "saved": "2026-02-11T11:25:00.000Z",
-    "utc": "2026-02-11T11:25:00.000Z",
+    "saved": "2026-08-20T08:48:55.681Z",
+    "utc": "2026-08-20T08:48:55.681Z",
     "runtime": "@vizualmodel/vmblu-runtime/rt-base"
   },
   "factories": [
-    {
-      "path": "../nodes/ws-gateway.js",
-      "function": "createWsGatewayNode"
-    },
-    {
-      "path": "../nodes/chat-state.js",
-      "function": "createChatStateNode"
-    }
+    "../nodes/ws-gateway.js",
+    "../nodes/chat-state.js"
   ],
   "types": {
     "LoginRequest": {

@@ -1,32 +1,17 @@
 {
   "header": {
-    "version": "0.9.7",
+    "version": "1.10.0",
     "created": "2026-06-07T15:32:34.587Z",
-    "saved": "2026-06-18T00:00:00.000Z",
-    "utc": "2026-06-18T00:00:00.000Z",
+    "saved": "2026-08-20T08:48:55.822Z",
+    "utc": "2026-08-20T08:48:55.822Z",
     "runtime": "@vizualmodel/vmblu-runtime/rt-base"
   },
   "factories": [
-    {
-      "path": "../nodes/page-layout.js",
-      "function": "PageLayout"
-    },
-    {
-      "path": "../nodes/server-gateway.js",
-      "function": "ServerGateway"
-    },
-    {
-      "path": "../nodes/admin-controller.js",
-      "function": "AdminController"
-    },
-    {
-      "path": "../nodes/login.js",
-      "function": "Login"
-    },
-    {
-      "path": "../nodes/admin-data.js",
-      "function": "AdminData"
-    }
+    "../nodes/page-layout.js",
+    "../nodes/server-gateway.js",
+    "../nodes/admin-controller.js",
+    "../nodes/login.js",
+    "../nodes/admin-data.js"
   ],
   "types": {
     "AnyPayload": {
