@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // Model: Root
-// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.10","schemaVersion":"1.10.0","generator":{"name":"@vizualmodel/vmblu-core","version":"1.10.0"},"source":{"model":"chat-client.mod.blu","hash":"fnv1a64:0385ba60c0101c0a"}}
+// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.11","schemaVersion":"1.11.0","generator":{"name":"@vizualmodel/vmblu-core","version":"1.11.0"},"source":{"model":"chat-client.mod.blu","hash":"fnv1a64:b4f51bdc23aec04d"}}
 // ------------------------------------------------------------------
 
 // import the runtime code
@@ -21,19 +21,19 @@ const nodeList = [
 	//_________________________________________________LOGIN POPUP
 	{
 	name: "login popup",
-	uid: "stcy",
+	uid: "fFZB",
 	factory: createLoginPopupNode,
 	inputs: [
 		"=> ui.get-view"
 		],
 	outputs: [
-		"auth.login-submitted -> auth.login-submitted @ client controller (rjEk)"
+		"auth.login-submitted -> auth.login-submitted @ client controller (PnLf)"
 		]
 	},
 	//_____________________________________________MESSAGE HISTORY
 	{
 	name: "message history",
-	uid: "gNmF",
+	uid: "lFED",
 	factory: createMessageHistoryNode,
 	inputs: [
 		"-> chat.connection-state",
@@ -43,26 +43,26 @@ const nodeList = [
 		"=> ui.get-view"
 		],
 	outputs: [
-		"auth.logout-request -> auth.logout-request @ client controller (rjEk)"
+		"auth.logout-request -> auth.logout-request @ client controller (PnLf)"
 		]
 	},
 	//____________________________________________MESSAGE COMPOSER
 	{
 	name: "message composer",
-	uid: "zKuu",
+	uid: "mfYL",
 	factory: createMessageComposerNode,
 	inputs: [
 		"-> chat.connection-state",
 		"=> ui.get-view"
 		],
 	outputs: [
-		"chat.send-message -> chat.send-message @ client controller (rjEk)"
+		"chat.send-message -> chat.send-message @ client controller (PnLf)"
 		]
 	},
 	//___________________________________________CLIENT CONTROLLER
 	{
 	name: "client controller",
-	uid: "rjEk",
+	uid: "PnLf",
 	factory: createClientControllerNode,
 	inputs: [
 		"-> auth.connected",
@@ -74,24 +74,24 @@ const nodeList = [
 		"-> net.connection-state"
 		],
 	outputs: [
-		"auth.connect-request -> auth.connect-request @ ws transport (Wfpz)",
-		"auth.disconnect-request -> auth.disconnect-request @ ws transport (Wfpz)",
-		"chat.outgoing-message -> chat.outgoing-message @ ws transport (Wfpz)",
+		"auth.connect-request -> auth.connect-request @ ws transport (SofQ)",
+		"auth.disconnect-request -> auth.disconnect-request @ ws transport (SofQ)",
+		"chat.outgoing-message -> chat.outgoing-message @ ws transport (SofQ)",
 		`net.connection-state -> [ 
-			"chat.connection-state @ message history (gNmF)",
-			"chat.connection-state @ message composer (zKuu)" ]`,
-		"history.message-list -> chat.message-list @ message history (gNmF)",
-		"history.append-message -> chat.append-message @ message history (gNmF)",
-		"history.current-user -> chat.current-user @ message history (gNmF)",
-		"ui.get-history-view => ui.get-view @ message history (gNmF)",
-		"ui.get-login-view => ui.get-view @ login popup (stcy)",
-		"ui.get-composer-view => ui.get-view @ message composer (zKuu)"
+			"chat.connection-state @ message history (lFED)",
+			"chat.connection-state @ message composer (mfYL)" ]`,
+		"history.message-list -> chat.message-list @ message history (lFED)",
+		"history.append-message -> chat.append-message @ message history (lFED)",
+		"history.current-user -> chat.current-user @ message history (lFED)",
+		"ui.get-history-view => ui.get-view @ message history (lFED)",
+		"ui.get-login-view => ui.get-view @ login popup (fFZB)",
+		"ui.get-composer-view => ui.get-view @ message composer (mfYL)"
 		]
 	},
 	//________________________________________________WS TRANSPORT
 	{
 	name: "ws transport",
-	uid: "Wfpz",
+	uid: "SofQ",
 	factory: createWsTransportNode,
 	inputs: [
 		"-> auth.connect-request",
@@ -99,17 +99,17 @@ const nodeList = [
 		"-> chat.outgoing-message"
 		],
 	outputs: [
-		"auth.connected -> auth.connected @ client controller (rjEk)",
-		"chat.history-received -> chat.history-received @ client controller (rjEk)",
-		"chat.incoming-message -> chat.incoming-message @ client controller (rjEk)",
-		"net.connection-state -> net.connection-state @ client controller (rjEk)"
+		"auth.connected -> auth.connected @ client controller (PnLf)",
+		"chat.history-received -> chat.history-received @ client controller (PnLf)",
+		"chat.incoming-message -> chat.incoming-message @ client controller (PnLf)",
+		"net.connection-state -> net.connection-state @ client controller (PnLf)"
 		]
 	},
 ]
 
 // Runtime options
 const runtimeOptions = {
-    vmblu: {"compatibilityFamily":"1.10","generatorVersion":"1.10.0","schemaVersion":"1.10.0"}
+    vmblu: {"compatibilityFamily":"1.11","generatorVersion":"1.11.0","schemaVersion":"1.11.0"}
 }
 
 // prepare the runtime

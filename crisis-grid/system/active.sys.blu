@@ -1,0 +1,60 @@
+{
+  "header": {
+    "version": "1.11.0",
+    "name": "CrisisGrid",
+    "description": "Command-centre browser application connected to the local Operational Core Service."
+  },
+  "nodes": [
+    {
+      "id": "command-centre-web",
+      "kind": "application",
+      "name": "Command Centre Web",
+      "vmblu": true,
+      "description": "Browser application for reviewing the operational picture and submitting governed commands.",
+      "position": {"x": 160, "y": 180},
+      "references": [
+        {"kind": "model", "label": "Open application", "target": "../command-centre-web/command-centre-web.blu"},
+        {"kind": "build", "label": "Build browser application", "target": "../command-centre-web/package.json", "command": "npm run build", "workingDirectory": "../command-centre-web"},
+        {"kind": "source", "label": "Operational Core connection", "target": "../command-centre-web/nodes/operational-core-connection/index.js"}
+      ],
+      "endpoints": [
+        {"id": "operational-core-http", "name": "Operational Core API", "remarks": "Local HTTP client for session establishment, canonical incident pictures, and governed commands.", "role": "client"}
+      ]
+    },
+    {
+      "id": "operational-core-service",
+      "kind": "application",
+      "name": "Operational Core Service",
+      "vmblu": true,
+      "description": "Local service that owns the synthetic canonical incident state, command decisions, tasks, and audit evidence.",
+      "position": {"x": 720, "y": 180},
+      "references": [
+        {"kind": "model", "label": "Open application", "target": "../operational-core-service/operational-core-service.blu"},
+        {"kind": "build", "label": "Check service source", "target": "../operational-core-service/package.json", "command": "npm run build", "workingDirectory": "../operational-core-service"},
+        {"kind": "test", "label": "Run service tests", "target": "../operational-core-service/package.json", "command": "npm test", "workingDirectory": "../operational-core-service"},
+        {"kind": "operations", "label": "Start local service", "target": "../operational-core-service/package.json", "command": "npm start", "workingDirectory": "../operational-core-service"}
+      ],
+      "endpoints": [
+        {"id": "operational-core-http", "name": "Operational Core API", "remarks": "HTTP server on 127.0.0.1:4310 for health, sessions, incident pictures, and governed commands.", "role": "server"}
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "command-centre-to-operational-core",
+      "remarks": "Authenticated demo sessions, canonical picture reads, and governed command submissions.",
+      "from": {"node": "command-centre-web", "endpoint": "operational-core-http"},
+      "to": {"node": "operational-core-service", "endpoint": "operational-core-http"},
+      "transport": "http",
+      "references": [
+        {"kind": "test", "label": "HTTP contract tests", "target": "../operational-core-service/test/http-contract.test.js"}
+      ]
+    }
+  ],
+  "references": [
+    {"kind": "documentation", "label": "CrisisGrid overview", "target": "../README.md"},
+    {"kind": "documentation", "label": "Architecture principles", "target": "../docs/architecture-principles.md"},
+    {"kind": "documentation", "label": "Conceptual architecture flows", "target": "../docs/conceptual-architecture-flows.md"}
+  ],
+  "view": {"offset": {"x": 0, "y": 0}, "zoom": 1}
+}

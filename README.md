@@ -8,7 +8,6 @@ This repository contains example applications built with [vmblu](https://github.
 
 - **Chat application** — separate browser client and Node.js server models.
 - **Solar System** — an interactive Three.js simulation with a browser demo.
-- **Patient Ledger** — administration, patient client, and server models.
 - **CrisisGrid** — a command-centre web application and operational core service.
 
 The canonical gallery inventory is [gallery-manifest.json](./gallery-manifest.json). The vmblu.dev gallery opens these entrypoint files directly from this repository; model copies are not maintained in the website repository.

@@ -1,0 +1,146 @@
+{
+  "header": {
+    "version": "1.11.0",
+    "name": "Chat application",
+    "description": "Browser chat client and Node.js WebSocket server.",
+    "created": "2026-08-25T06:59:30.857Z",
+    "saved": "2026-08-28T14:28:51.427Z",
+    "utc": "2026-08-28T14:28:51.427Z"
+  },
+  "nodes": [
+    {
+      "id": "chat-client",
+      "kind": "application",
+      "name": "Chat client",
+      "vmblu": true,
+      "description": "Browser application for login, message composition, and message history.",
+      "position": {
+        "x": 519,
+        "y": 138.33331298828125
+      },
+      "references": [
+        {
+          "kind": "model",
+          "label": "Open application",
+          "target": "../chat-client/chat-client.blu"
+        },
+        {
+          "kind": "documentation",
+          "label": "Tutorial prompt",
+          "target": "prompt.md"
+        },
+        {
+          "kind": "build",
+          "label": "Client package",
+          "target": "../chat-client/package.json",
+          "command": "npm run build",
+          "workingDirectory": "../chat-client"
+        },
+        {
+          "kind": "source",
+          "label": "WebSocket transport",
+          "target": "../chat-client/nodes/ws-transport.js"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "chat-websocket",
+          "name": "Chat connection",
+          "remarks": "WebSocket session initiated by the browser client.",
+          "role": "client",
+          "protocol": "chat.protocol.json"
+        }
+      ]
+    },
+    {
+      "id": "chat-server",
+      "kind": "application",
+      "name": "Chat server",
+      "vmblu": true,
+      "description": "Node.js service that accepts clients and maintains chat state in memory.",
+      "position": {
+        "x": 1181.3334045410156,
+        "y": 140
+      },
+      "references": [
+        {
+          "kind": "model",
+          "label": "Open application",
+          "target": "../chat-server/chat-server.blu"
+        },
+        {
+          "kind": "documentation",
+          "label": "Tutorial prompt",
+          "target": "prompt.md"
+        },
+        {
+          "kind": "build",
+          "label": "Server package",
+          "target": "../chat-server/package.json",
+          "command": "npm run check",
+          "workingDirectory": "../chat-server"
+        },
+        {
+          "kind": "source",
+          "label": "WebSocket gateway",
+          "target": "../chat-server/nodes/ws-gateway.js"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "chat-websocket",
+          "name": "Chat service",
+          "remarks": "WebSocket service listening on port 8080.",
+          "role": "server",
+          "protocol": "chat.protocol.json"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "realtime-chat",
+      "remarks": "Login, history delivery, and live chat messages over one WebSocket session.",
+      "from": {
+        "node": "chat-client",
+        "endpoint": "chat-websocket"
+      },
+      "to": {
+        "node": "chat-server",
+        "endpoint": "chat-websocket"
+      },
+      "transport": "websocket",
+      "references": [
+        {
+          "kind": "source",
+          "label": "Client WebSocket transport",
+          "target": "../chat-client/nodes/ws-transport.js"
+        },
+        {
+          "kind": "source",
+          "label": "Server WebSocket gateway",
+          "target": "../chat-server/nodes/ws-gateway.js"
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "kind": "prompt",
+      "label": "Application prompt",
+      "target": "prompt.md"
+    },
+    {
+      "kind": "operations",
+      "label": "Run client and server",
+      "target": "run.sh"
+    }
+  ],
+  "view": {
+    "offset": {
+      "x": 0,
+      "y": 0
+    },
+    "zoom": 1
+  }
+}
