@@ -2,6 +2,13 @@ import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// Build the static GitHub Pages staging directory for runnable examples.
+// Runnable demos are selected from gallery-manifest.json.
+// The existing repository-local _site directory is safely replaced.
+// Each demo's HTML, JavaScript bundle, and assets are copied into place.
+// A small index page links to every staged demo.
+// The generated .nojekyll file lets GitHub Pages serve the files directly.
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const target = path.join(root, "_site");
 if (path.dirname(target) !== root || path.basename(target) !== "_site") {

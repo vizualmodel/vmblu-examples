@@ -25,15 +25,6 @@
       }
     },
     {
-      "id": "patient-ledger",
-      "title": "Patient Ledger",
-      "models": [
-        { "title": "Administration", "entrypoint": "patient-ledger/admin/admin.blu" },
-        { "title": "Patient client", "entrypoint": "patient-ledger/client/client.blu" },
-        { "title": "Server", "entrypoint": "patient-ledger/server/server.blu" }
-      ]
-    },
-    {
       "id": "crisis-grid",
       "title": "CrisisGrid",
       "models": [

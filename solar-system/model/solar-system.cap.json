@@ -4,15 +4,15 @@
   "provenance": {
     "generated": true,
     "artifact": "capabilities",
-    "compatibilityFamily": "1.10",
-    "schemaVersion": "1.10.0",
+    "compatibilityFamily": "1.11",
+    "schemaVersion": "1.11.0",
     "generator": {
       "name": "@vizualmodel/vmblu-core",
-      "version": "1.10.0"
+      "version": "1.11.0"
     },
     "source": {
       "model": "solar-system.mod.blu",
-      "hash": "fnv1a64:875e32470bdf9c0c"
+      "hash": "fnv1a64:b9a7b9e3a992d70b"
     }
   },
   "application": {

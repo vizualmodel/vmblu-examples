@@ -1,0 +1,193 @@
+{
+  "header": {
+    "version": "1.11.0",
+    "name": "Solar system with OpenAI",
+    "description": "Browser solar-system application using a local LLM bridge to reach the OpenAI API.",
+    "created": "2026-08-27T20:00:00.000Z",
+    "saved": "2026-08-28T07:14:54.215Z",
+    "utc": "2026-08-28T07:14:54.215Z"
+  },
+  "nodes": [
+    {
+      "id": "solar-system",
+      "kind": "application",
+      "name": "Solar system",
+      "vmblu": true,
+      "description": "Browser visualization whose operator agent can control the camera through the configured OpenAI-compatible provider adapter.",
+      "position": {
+        "x": 180,
+        "y": 180
+      },
+      "references": [
+        {
+          "kind": "model",
+          "label": "Open application",
+          "target": "../solar-system.blu"
+        },
+        {
+          "kind": "model",
+          "label": "Application model and agent configuration",
+          "target": "../model/solar-system.mod.blu"
+        },
+        {
+          "kind": "build",
+          "label": "Application package",
+          "target": "../package.json",
+          "command": "npm run build",
+          "workingDirectory": ".."
+        },
+        {
+          "kind": "operations",
+          "label": "Start browser application",
+          "target": "../package.json",
+          "command": "npm run dev",
+          "workingDirectory": ".."
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "llm-api",
+          "name": "LLM provider adapter",
+          "remarks": "Browser-side OpenAI chat adapter configured with the bridge base URL http://127.0.0.1:8080/v1.",
+          "role": "client"
+        }
+      ]
+    },
+    {
+      "id": "local-llm-bridge",
+      "kind": "application",
+      "name": "Local LLM bridge",
+      "vmblu": false,
+      "description": "Loopback-only Node.js proxy that validates the browser origin and allowed API paths, reads OPENAI_API_KEY locally, and adds provider authentication upstream.",
+      "position": {
+        "x": 650,
+        "y": 180
+      },
+      "references": [
+        {
+          "kind": "documentation",
+          "label": "Bridge documentation",
+          "target": "../.vmblu/llm-bridge/README.md"
+        },
+        {
+          "kind": "deployment",
+          "label": "Bridge configuration",
+          "target": "../.vmblu/llm-bridge/config.json"
+        },
+        {
+          "kind": "source",
+          "label": "Bridge proxy",
+          "target": "../.vmblu/llm-bridge/proxy.js"
+        },
+        {
+          "kind": "operations",
+          "label": "Start local LLM bridge",
+          "target": "../package.json",
+          "command": "npm run llm-bridge",
+          "workingDirectory": ".."
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "browser-api",
+          "name": "OpenAI-compatible local API",
+          "remarks": "HTTP server on 127.0.0.1:8080; the runtime uses POST /v1/chat/completions and the bridge also exposes GET /health.",
+          "role": "server"
+        },
+        {
+          "id": "openai-upstream",
+          "name": "OpenAI upstream client",
+          "remarks": "Forwards allowlisted requests and supplies the bearer token from OPENAI_API_KEY.",
+          "role": "client"
+        }
+      ]
+    },
+    {
+      "id": "openai",
+      "kind": "application",
+      "name": "OpenAI",
+      "vmblu": false,
+      "description": "Hosted model provider used by the solar-system operator agent.",
+      "position": {
+        "x": 1230.6666259765625,
+        "y": 212
+      },
+      "references": [
+        {
+          "kind": "documentation",
+          "label": "OpenAI API documentation",
+          "target": "https://developers.openai.com/api/reference/overview"
+        },
+        {
+          "kind": "documentation",
+          "label": "Chat Completions reference",
+          "target": "https://developers.openai.com/api/reference/resources/chat"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "chat-completions",
+          "name": "Chat Completions API",
+          "remarks": "Hosted POST /v1/chat/completions endpoint at https://api.openai.com.",
+          "role": "server"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "browser-to-bridge",
+      "remarks": "OpenAI-compatible chat requests and responses between the browser runtime and the loopback bridge.",
+      "from": {
+        "node": "solar-system",
+        "endpoint": "llm-api"
+      },
+      "to": {
+        "node": "local-llm-bridge",
+        "endpoint": "browser-api"
+      },
+      "transport": "http (loopback)",
+      "references": [
+        {
+          "kind": "deployment",
+          "label": "Public bridge base URL",
+          "target": "../.vmblu/llm-bridge/config.json"
+        }
+      ]
+    },
+    {
+      "id": "bridge-to-openai",
+      "remarks": "Authenticated OpenAI API requests and responses; credentials remain in the bridge process environment and are not stored in this system document.",
+      "from": {
+        "node": "local-llm-bridge",
+        "endpoint": "openai-upstream"
+      },
+      "to": {
+        "node": "openai",
+        "endpoint": "chat-completions"
+      },
+      "transport": "https",
+      "references": [
+        {
+          "kind": "source",
+          "label": "Authenticated upstream proxy",
+          "target": "../.vmblu/llm-bridge/proxy.js"
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "kind": "documentation",
+      "label": "Local bridge setup",
+      "target": "../.vmblu/llm-bridge/README.md"
+    }
+  ],
+  "view": {
+    "offset": {
+      "x": 0,
+      "y": 0
+    },
+    "zoom": 1
+  }
+}

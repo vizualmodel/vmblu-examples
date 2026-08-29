@@ -8,6 +8,7 @@ on:
       - "gallery-manifest.json"
       - "scripts/stage-pages.mjs"
       - "scripts/validate-gallery.mjs"
+      - "scripts/validate-systems.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/deploy-examples.yml"

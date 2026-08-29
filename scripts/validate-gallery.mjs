@@ -2,6 +2,13 @@ import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// Validate the examples declared in gallery-manifest.json.
+// Every example must have an identifier and at least one model entrypoint.
+// Entrypoints must stay inside the repository and contain valid vmblu metadata.
+// Referenced model and optional visualization files must exist.
+// Runnable demos must also provide their HTML, bundle, and asset directory.
+// All discovered problems are collected and reported in a single run.
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = path.join(root, "gallery-manifest.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));

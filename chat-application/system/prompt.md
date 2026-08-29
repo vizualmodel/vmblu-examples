@@ -48,5 +48,5 @@ npm run check
 To run both projects together:
 
 ```bash
-bash examples/chat-application/run.sh
+bash examples/chat-application/system/run.sh
 ```

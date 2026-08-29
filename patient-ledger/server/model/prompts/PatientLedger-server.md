@@ -1,7 +1,0 @@
-# PatientLedger server
-
-## Node
-
-
-
-## Pins

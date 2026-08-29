@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // Model: Root
-// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.10","schemaVersion":"1.10.0","generator":{"name":"@vizualmodel/vmblu-core","version":"1.10.0"},"source":{"model":"chat-server.mod.blu","hash":"fnv1a64:125743e9c4c180c3"}}
+// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.11","schemaVersion":"1.11.0","generator":{"name":"@vizualmodel/vmblu-core","version":"1.11.0"},"source":{"model":"chat-server.mod.blu","hash":"fnv1a64:2297676d38a62b08"}}
 // ------------------------------------------------------------------
 
 // import the runtime code
@@ -18,7 +18,7 @@ const nodeList = [
 	//__________________________________________________WS GATEWAY
 	{
 	name: "ws gateway",
-	uid: "VEsB",
+	uid: "hrrC",
 	factory: createWsGatewayNode,
 	inputs: [
 		"-> auth.login-result",
@@ -26,15 +26,15 @@ const nodeList = [
 		"-> chat.message-deliver"
 		],
 	outputs: [
-		"auth.login-received -> auth.login-received @ chat state (HnmB)",
-		"chat.message-received -> chat.message-received @ chat state (HnmB)",
-		"session.user-disconnected -> session.user-disconnected @ chat state (HnmB)"
+		"auth.login-received -> auth.login-received @ chat state (xtUb)",
+		"chat.message-received -> chat.message-received @ chat state (xtUb)",
+		"session.user-disconnected -> session.user-disconnected @ chat state (xtUb)"
 		]
 	},
 	//__________________________________________________CHAT STATE
 	{
 	name: "chat state",
-	uid: "HnmB",
+	uid: "xtUb",
 	factory: createChatStateNode,
 	inputs: [
 		"-> auth.login-received",
@@ -42,16 +42,16 @@ const nodeList = [
 		"-> session.user-disconnected"
 		],
 	outputs: [
-		"auth.login-result -> auth.login-result @ ws gateway (VEsB)",
-		"chat.history-deliver -> chat.history-deliver @ ws gateway (VEsB)",
-		"chat.message-deliver -> chat.message-deliver @ ws gateway (VEsB)"
+		"auth.login-result -> auth.login-result @ ws gateway (hrrC)",
+		"chat.history-deliver -> chat.history-deliver @ ws gateway (hrrC)",
+		"chat.message-deliver -> chat.message-deliver @ ws gateway (hrrC)"
 		]
 	},
 ]
 
 // Runtime options
 const runtimeOptions = {
-    vmblu: {"compatibilityFamily":"1.10","generatorVersion":"1.10.0","schemaVersion":"1.10.0"}
+    vmblu: {"compatibilityFamily":"1.11","generatorVersion":"1.11.0","schemaVersion":"1.11.0"}
 }
 
 // prepare the runtime

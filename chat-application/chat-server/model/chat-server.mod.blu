@@ -1,9 +1,9 @@
 {
   "header": {
-    "version": "1.10.0",
+    "version": "1.11.0",
     "created": "2026-02-11T11:09:28.414Z",
-    "saved": "2026-08-20T08:48:55.681Z",
-    "utc": "2026-08-20T08:48:55.681Z",
+    "saved": "2026-08-29T08:35:50.788Z",
+    "utc": "2026-08-29T08:35:50.788Z",
     "runtime": "@vizualmodel/vmblu-runtime/rt-base"
   },
   "factories": [
