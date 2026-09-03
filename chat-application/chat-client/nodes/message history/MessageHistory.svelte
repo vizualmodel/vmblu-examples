@@ -31,7 +31,7 @@
   {/each}
 </section>
 <div class="footer">
-  <span class={`state {$connectionStateStore}`}>{$connectionStateStore}</span>
+  <span class={`state ${$connectionStateStore}`}>{$connectionStateStore}</span>
   <button class="logout" on:click={() => dispatch("logout")}>Logout</button>
 </div>
 

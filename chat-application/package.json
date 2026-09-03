@@ -1,0 +1,14 @@
+{
+  "name": "vmblu-chat-application",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node run.mjs",
+    "client": "npm --prefix chat-client run dev -- --host 127.0.0.1",
+    "server": "npm --prefix chat-server run start",
+    "bridge": "npm --prefix chat-client run llm-bridge",
+    "test:model": "npm --prefix chat-client run test:model && npm --prefix chat-server run test:model",
+    "check": "npm --prefix chat-server run check && npm --prefix chat-client run build && npm run test:model"
+  }
+}

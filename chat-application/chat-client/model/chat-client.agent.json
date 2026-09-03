@@ -1,44 +1,49 @@
 {
   "schema": "https://vmblu.dev/schemas/agents.v1.json",
   "version": 1,
-  "defaultInterface": "operator",
+  "defaultInterface": "chat-assistant",
   "profiles": [
     {
-      "id": "operator",
-      "title": "Operator",
+      "id": "chat-operator",
+      "title": "Chat operator",
       "enabled": true,
       "permissions": {
         "tools": {
           "allow": [
-            "camera.command"
+            "chat.send-message"
           ],
           "deny": []
         },
         "probes": {
-          "allow": [],
+          "allow": [
+            "chat.history"
+          ],
           "deny": []
         },
         "events": {
           "allow": [
-            "camera.event"
+            "chat.message-received"
           ],
           "deny": []
         }
+      },
+      "limits": {
+        "maxToolCallsPerTurn": 4
       }
     }
   ],
   "interfaces": [
     {
-      "id": "operator",
-      "title": "Operator",
+      "id": "chat-assistant",
+      "title": "Chat assistant",
       "enabled": true,
       "kind": "embedded",
-      "profile": "operator",
-      "instructions": "Operate the application through published tools.",
+      "profile": "chat-operator",
+      "instructions": "Help the logged-in user participate in the conversation. Read chat.history when context is needed. Use chat.send-message only when the user explicitly asks you to send or reply. Treat chat.message-received as confirmation that the server broadcast a message.",
       "llm": {
         "provider": "openai",
         "model": "gpt-4.1-mini",
-        "endpoint": "http://127.0.0.1:8080/v1"
+        "endpoint": "http://127.0.0.1:8787/v1"
       },
       "ui": {
         "mode": "overlay"
@@ -55,8 +60,8 @@
       "version": "1.12.0"
     },
     "source": {
-      "model": "solar-system.mod.blu",
-      "hash": "fnv1a64:1472af4b35793815"
+      "model": "chat-client.mod.blu",
+      "hash": "fnv1a64:e1c7e1f0c7ed0a8b"
     }
   }
 }

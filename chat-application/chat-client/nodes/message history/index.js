@@ -1,6 +1,6 @@
 import MessageHistory from "./MessageHistory.svelte";
 import { mount } from "svelte";
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 
 /**
  * @node message history
@@ -71,6 +71,16 @@ class MessageHistoryNode {
       slot: "history",
       element: this.element,
     });
+  }
+
+  probe(name, args) {
+    void args;
+    if (name !== "chat.history") {
+      throw new Error(`Unknown probe: ${name}`);
+    }
+    return {
+      messages: [...get(this.messagesStore)],
+    };
   }
 }
 

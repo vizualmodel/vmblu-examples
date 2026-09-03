@@ -42,6 +42,12 @@ Handles new messages coming from the server.
 
 Handles a message typed by the current user.
 
+### agent.send-message
+
+Accepts a message requested by the operating agent only when a user is logged
+in, queues it through the normal outbound chat flow and replies with an
+explicit acceptance result.
+
 ### net.connection-state
 
 Broadcasts connection status to UI-facing nodes.

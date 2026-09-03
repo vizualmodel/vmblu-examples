@@ -4,15 +4,15 @@
   "provenance": {
     "generated": true,
     "artifact": "capabilities",
-    "compatibilityFamily": "1.11",
-    "schemaVersion": "1.11.0",
+    "compatibilityFamily": "1.12",
+    "schemaVersion": "1.12.0",
     "generator": {
       "name": "@vizualmodel/vmblu-core",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "source": {
       "model": "chat-server.mod.blu",
-      "hash": "fnv1a64:2297676d38a62b08"
+      "hash": "fnv1a64:ce602ba174f7eced"
     }
   },
   "application": {

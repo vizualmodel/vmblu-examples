@@ -1,0 +1,274 @@
+{
+  "$schema": "https://vmblu.dev/context/1.12.0/model-test.schema.json",
+  "kind": "vmblu.model-test",
+  "version": 1,
+  "schemaVersion": "1.12.0",
+  "source": {
+    "model": "model/chat-client.mod.blu",
+    "spec": "tests/nodes/message-history.md",
+    "specHash": "fnv1a64:1dbc6e9bebdb9591",
+    "contractHash": "fnv1a64:1a95a3848fe8adc2"
+  },
+  "target": {
+    "scope": "node",
+    "name": "message history",
+    "path": [
+      "message history"
+    ]
+  },
+  "host": "browser",
+  "scenarios": [
+    {
+      "id": "replaces-the-displayed-history",
+      "title": "Replaces the displayed history",
+      "purpose": "verify that a history response becomes the complete ordered message list.",
+      "actions": [
+        {
+          "kind": "mount",
+          "pin": "ui.get-view"
+        },
+        {
+          "kind": "send",
+          "pin": "chat.message-list",
+          "message": {
+            "messages": [
+              {
+                "id": "m1",
+                "userId": "u1",
+                "userName": "Alice",
+                "text": "Hello",
+                "sentAt": "2026-08-31T10:00:00Z"
+              },
+              {
+                "id": "m2",
+                "userId": "u2",
+                "userName": "Bob",
+                "text": "Hi",
+                "sentAt": "2026-08-31T10:01:00Z"
+              }
+            ]
+          }
+        }
+      ],
+      "expect": [
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".msg"
+          },
+          "count": 2,
+          "text": [
+            "Alice",
+            "Bob"
+          ]
+        },
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".text"
+          },
+          "count": 2,
+          "text": [
+            "Hello",
+            "Hi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appends-a-new-message",
+      "title": "Appends a new message",
+      "purpose": "verify that a live message is added without replacing existing history.",
+      "actions": [
+        {
+          "kind": "mount",
+          "pin": "ui.get-view"
+        },
+        {
+          "kind": "send",
+          "pin": "chat.message-list",
+          "message": {
+            "messages": [
+              {
+                "id": "m1",
+                "userId": "u1",
+                "userName": "Alice",
+                "text": "Existing message",
+                "sentAt": "2026-08-31T10:00:00Z"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "chat.append-message",
+          "message": {
+            "id": "m2",
+            "userId": "u2",
+            "userName": "Bob",
+            "text": "A new message",
+            "sentAt": "2026-08-31T10:01:00Z"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".msg"
+          },
+          "count": 2
+        },
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".text"
+          },
+          "count": 2,
+          "text": [
+            "Existing message",
+            "A new message"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clears-messages-after-disconnection",
+      "title": "Clears messages after disconnection",
+      "purpose": "avoid showing stale history after the chat connection is lost.",
+      "actions": [
+        {
+          "kind": "mount",
+          "pin": "ui.get-view"
+        },
+        {
+          "kind": "send",
+          "pin": "chat.message-list",
+          "message": {
+            "messages": [
+              {
+                "id": "m1",
+                "userId": "u1",
+                "userName": "Alice",
+                "text": "Stale message",
+                "sentAt": "2026-08-31T10:00:00Z"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "chat.connection-state",
+          "message": "disconnected"
+        }
+      ],
+      "expect": [
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".msg"
+          },
+          "count": 0
+        },
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".empty"
+          },
+          "count": 1,
+          "text": "No messages yet."
+        },
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".state"
+          },
+          "count": 1,
+          "text": "disconnected",
+          "class": "disconnected"
+        }
+      ]
+    },
+    {
+      "id": "marks-messages-from-the-current-user",
+      "title": "Marks messages from the current user",
+      "purpose": "distinguish the current user's messages from messages sent by others.",
+      "actions": [
+        {
+          "kind": "mount",
+          "pin": "ui.get-view"
+        },
+        {
+          "kind": "send",
+          "pin": "chat.message-list",
+          "message": {
+            "messages": [
+              {
+                "id": "m1",
+                "userId": "u1",
+                "userName": "Alice",
+                "text": "Other message",
+                "sentAt": "2026-08-31T10:00:00Z"
+              },
+              {
+                "id": "m2",
+                "userId": "u2",
+                "userName": "Bob",
+                "text": "My message",
+                "sentAt": "2026-08-31T10:01:00Z"
+              }
+            ]
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "chat.current-user",
+          "message": "u2"
+        }
+      ],
+      "expect": [
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".msg.other"
+          },
+          "count": 1,
+          "text": "Other message"
+        },
+        {
+          "kind": "view",
+          "locator": {
+            "css": ".msg.mine"
+          },
+          "count": 1,
+          "text": "My message"
+        }
+      ]
+    },
+    {
+      "id": "requests-logout",
+      "title": "Requests logout",
+      "purpose": "verify that the history view exposes the user's logout action.",
+      "actions": [
+        {
+          "kind": "mount",
+          "pin": "ui.get-view"
+        },
+        {
+          "kind": "click",
+          "locator": {
+            "role": "button",
+            "name": "Logout"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "kind": "send",
+          "pin": "auth.logout-request",
+          "message": {}
+        }
+      ]
+    }
+  ]
+}
