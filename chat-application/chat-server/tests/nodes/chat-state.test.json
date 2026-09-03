@@ -1,0 +1,115 @@
+{
+  "$schema": "https://vmblu.dev/context/1.12.0/model-test.schema.json",
+  "kind": "vmblu.model-test",
+  "version": 1,
+  "schemaVersion": "1.12.0",
+  "source": {
+    "model": "model/chat-server.mod.blu",
+    "spec": "tests/nodes/chat-state.md",
+    "specHash": "fnv1a64:937b00f233e9e484",
+    "contractHash": "fnv1a64:f14d13e714b0628e"
+  },
+  "target": {
+    "scope": "node",
+    "name": "chat state",
+    "path": [
+      "chat state"
+    ]
+  },
+  "host": "node",
+  "scenarios": [
+    {
+      "id": "accepts-a-user-login",
+      "title": "Accepts a user login",
+      "purpose": "verify that a valid login receives a stable identity and the current empty history.",
+      "actions": [
+        {
+          "kind": "send",
+          "pin": "auth.login-received",
+          "message": {
+            "connectionId": "connection-1",
+            "userName": "Alice"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "kind": "send",
+          "pin": "auth.login-result",
+          "message": {
+            "connectionId": "connection-1",
+            "userId": "u-1",
+            "userName": "Alice"
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "chat.history-deliver",
+          "message": {
+            "connectionId": "connection-1",
+            "messages": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "allocates-a-distinct-identity-for-each-login",
+      "title": "Allocates a distinct identity for each login",
+      "purpose": "verify that consecutive connections do not share a user identity.",
+      "actions": [
+        {
+          "kind": "send",
+          "pin": "auth.login-received",
+          "message": {
+            "connectionId": "connection-1",
+            "userName": "Alice"
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "auth.login-received",
+          "message": {
+            "connectionId": "connection-2",
+            "userName": "Bob"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "kind": "send",
+          "pin": "auth.login-result",
+          "message": {
+            "connectionId": "connection-1",
+            "userId": "u-1",
+            "userName": "Alice"
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "chat.history-deliver",
+          "message": {
+            "connectionId": "connection-1",
+            "messages": []
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "auth.login-result",
+          "message": {
+            "connectionId": "connection-2",
+            "userId": "u-2",
+            "userName": "Bob"
+          }
+        },
+        {
+          "kind": "send",
+          "pin": "chat.history-deliver",
+          "message": {
+            "connectionId": "connection-2",
+            "messages": []
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 
 ## Node
 
+Owns the displayed message collection and exposes a read-only `chat.history`
+probe so a permitted operating agent can inspect the same history as the user.
 
 
 ## Pins
@@ -29,3 +31,7 @@ Sets the current user so own messages can be aligned right.
 ### ui.get-view
 
 Returns the UI element managed by this node.
+
+## Agent capability
+
+`chat.history` returns the currently displayed messages without changing state.

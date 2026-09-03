@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // Model: Root
-// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.11","schemaVersion":"1.11.0","generator":{"name":"@vizualmodel/vmblu-core","version":"1.11.0"},"source":{"model":"command-centre-web.mod.blu","hash":"fnv1a64:c3c6bcd2c5e228b1"}}
+// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.12","schemaVersion":"1.12.0","generator":{"name":"@vizualmodel/vmblu-core","version":"1.12.0"},"source":{"model":"command-centre-web.mod.blu","hash":"fnv1a64:130711fb276f895b"}}
 // ------------------------------------------------------------------
 
 // import the runtime code
@@ -24,25 +24,25 @@ const nodeList = [
 	//___________________________________________________WORKSPACE
 	{
 	name: "Workspace",
-	uid: "DFKp",
+	uid: "vaTN",
 	factory: createWorkspaceNode,
 	inputs: [
 		"-> session.status-changed"
 		],
 	outputs: [
-		"workspace.open-incident -> workspace.open-incident @ Operational Picture (rDwx)",
+		"workspace.open-incident -> workspace.open-incident @ Operational Picture (ClCX)",
 		`workspace.activation-change -> [ 
-			"workspace.activation-change @ Situation Workspace (DJrP)",
-			"workspace.activation-change @ Spatial Workspace (TrVA)",
-			"workspace.activation-change @ Talk Workspace (CSsD)",
-			"workspace.activation-change @ Action Workspace (yQkS)",
-			"workspace.activation-change @ Layout (XIUS)" ]`
+			"workspace.activation-change @ Situation Workspace (ZLjN)",
+			"workspace.activation-change @ Spatial Workspace (ZeGh)",
+			"workspace.activation-change @ Talk Workspace (xtoB)",
+			"workspace.activation-change @ Action Workspace (bCaj)",
+			"workspace.activation-change @ Layout (NtqX)" ]`
 		]
 	},
 	//______________________________________________________LAYOUT
 	{
 	name: "Layout",
-	uid: "XIUS",
+	uid: "NtqX",
 	factory: createLayoutNode,
 	inputs: [
 		"=> layout.acquire-region",
@@ -53,7 +53,7 @@ const nodeList = [
 	//_________________________________OPERATIONAL CORE CONNECTION
 	{
 	name: "Operational Core Connection",
-	uid: "kzMO",
+	uid: "oaVW",
 	factory: createOperationalCoreConnectionNode,
 	inputs: [
 		"=> session.establish",
@@ -62,15 +62,15 @@ const nodeList = [
 		"=> operational-command.submit"
 		],
 	outputs: [
-		"session.status-changed -> session.status-changed @ Workspace (DFKp)",
-		"live-updates.received -> live-updates.received @ Operational Picture (rDwx)",
-		"connection.status-changed -> connection.status-changed @ Operational Picture (rDwx)"
+		"session.status-changed -> session.status-changed @ Workspace (vaTN)",
+		"live-updates.received -> live-updates.received @ Operational Picture (ClCX)",
+		"connection.status-changed -> connection.status-changed @ Operational Picture (ClCX)"
 		]
 	},
 	//_________________________________________OPERATIONAL PICTURE
 	{
 	name: "Operational Picture",
-	uid: "rDwx",
+	uid: "ClCX",
 	factory: createOperationalPictureNode,
 	inputs: [
 		"-> workspace.open-incident",
@@ -80,47 +80,47 @@ const nodeList = [
 		"-> connection.status-changed"
 		],
 	outputs: [
-		"operational-picture.load => operational-picture.load @ Operational Core Connection (kzMO)",
-		"live-updates.subscribe => live-updates.subscribe @ Operational Core Connection (kzMO)",
+		"operational-picture.load => operational-picture.load @ Operational Core Connection (oaVW)",
+		"live-updates.subscribe => live-updates.subscribe @ Operational Core Connection (oaVW)",
 		`projection.updated -> [ 
-			"projection.updated @ Spatial Workspace (TrVA)",
-			"projection.updated @ Situation Workspace (DJrP)",
-			"projection.updated @ Talk Workspace (CSsD)",
-			"projection.updated @ Action Workspace (yQkS)" ]`
+			"projection.updated @ Spatial Workspace (ZeGh)",
+			"projection.updated @ Situation Workspace (ZLjN)",
+			"projection.updated @ Talk Workspace (xtoB)",
+			"projection.updated @ Action Workspace (bCaj)" ]`
 		]
 	},
 	//___________________________________________SPATIAL WORKSPACE
 	{
 	name: "Spatial Workspace",
-	uid: "TrVA",
+	uid: "ZeGh",
 	factory: createSpatialWorkspaceNode,
 	inputs: [
 		"-> workspace.activation-change",
 		"-> projection.updated"
 		],
 	outputs: [
-		"projection.detail-request => projection.detail-request @ Operational Picture (rDwx)",
-		"operational-command.proposal -> operational-command.proposal @ Action Workspace (yQkS)",
-		"layout.acquire-region => layout.acquire-region @ Layout (XIUS)"
+		"projection.detail-request => projection.detail-request @ Operational Picture (ClCX)",
+		"operational-command.proposal -> operational-command.proposal @ Action Workspace (bCaj)",
+		"layout.acquire-region => layout.acquire-region @ Layout (NtqX)"
 		]
 	},
 	//_________________________________________SITUATION WORKSPACE
 	{
 	name: "Situation Workspace",
-	uid: "DJrP",
+	uid: "ZLjN",
 	factory: createSituationWorkspaceNode,
 	inputs: [
 		"-> workspace.activation-change",
 		"-> projection.updated"
 		],
 	outputs: [
-		"layout.acquire-region => layout.acquire-region @ Layout (XIUS)"
+		"layout.acquire-region => layout.acquire-region @ Layout (NtqX)"
 		]
 	},
 	//____________________________________________ACTION WORKSPACE
 	{
 	name: "Action Workspace",
-	uid: "yQkS",
+	uid: "bCaj",
 	factory: createActionWorkspaceNode,
 	inputs: [
 		"-> workspace.activation-change",
@@ -128,29 +128,29 @@ const nodeList = [
 		"-> operational-command.proposal"
 		],
 	outputs: [
-		"operational-command.submit => operational-command.submit @ Operational Core Connection (kzMO)",
-		"operational-command.committed -> operational-command.committed @ Operational Picture (rDwx)",
-		"layout.acquire-region => layout.acquire-region @ Layout (XIUS)"
+		"operational-command.submit => operational-command.submit @ Operational Core Connection (oaVW)",
+		"operational-command.committed -> operational-command.committed @ Operational Picture (ClCX)",
+		"layout.acquire-region => layout.acquire-region @ Layout (NtqX)"
 		]
 	},
 	//______________________________________________TALK WORKSPACE
 	{
 	name: "Talk Workspace",
-	uid: "CSsD",
+	uid: "xtoB",
 	factory: createTalkWorkspaceNode,
 	inputs: [
 		"-> workspace.activation-change",
 		"-> projection.updated"
 		],
 	outputs: [
-		"layout.acquire-region => layout.acquire-region @ Layout (XIUS)"
+		"layout.acquire-region => layout.acquire-region @ Layout (NtqX)"
 		]
 	},
 ]
 
 // Runtime options
 const runtimeOptions = {
-    vmblu: {"compatibilityFamily":"1.11","generatorVersion":"1.11.0","schemaVersion":"1.11.0"}
+    vmblu: {"compatibilityFamily":"1.12","generatorVersion":"1.12.0","schemaVersion":"1.12.0"}
 }
 
 // prepare the runtime

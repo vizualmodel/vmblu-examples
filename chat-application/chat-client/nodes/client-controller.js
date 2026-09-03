@@ -212,6 +212,27 @@ class ClientControllerNode {
   }
 
   /**
+   * @param {{ text: string }} payload
+   */
+  onAgentSendMessage(payload) {
+    const text = (payload?.text || "").trim();
+    if (!this.loggedIn || !this.currentUserId) {
+      this.tx.reply({ accepted: false, status: "not-connected", text });
+      return;
+    }
+    if (!text) {
+      this.tx.reply({ accepted: false, status: "empty-message", text: "" });
+      return;
+    }
+
+    this.tx.send("chat.outgoing-message", {
+      userId: this.currentUserId,
+      text,
+    });
+    this.tx.reply({ accepted: true, status: "queued", text });
+  }
+
+  /**
    * @param {string} payload
    */
   onNetConnectionState(payload) {

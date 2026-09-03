@@ -1,17 +1,17 @@
 {
-  "version": "1.11.0",
+  "version": "1.12.0",
   "provenance": {
     "generated": true,
     "artifact": "source-profile",
-    "compatibilityFamily": "1.11",
-    "schemaVersion": "1.11.0",
+    "compatibilityFamily": "1.12",
+    "schemaVersion": "1.12.0",
     "generator": {
       "name": "@vizualmodel/vmblu-cli",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "source": {
       "model": "chat-client.mod.blu",
-      "hash": "fnv1a64:b4f51bdc23aec04d"
+      "hash": "fnv1a64:e1c7e1f0c7ed0a8b"
     }
   },
   "entries": [
@@ -115,10 +115,26 @@
           ]
         },
         {
+          "pin": "agent.send-message",
+          "handler": "onAgentSendMessage",
+          "file": "../nodes/client-controller.js",
+          "line": 217,
+          "summary": "",
+          "returns": "",
+          "examples": [],
+          "params": [
+            {
+              "name": "payload",
+              "type": "{ text: string }",
+              "description": ""
+            }
+          ]
+        },
+        {
           "pin": "net.connection-state",
           "handler": "onNetConnectionState",
           "file": "../nodes/client-controller.js",
-          "line": 217,
+          "line": 238,
           "summary": "",
           "returns": "",
           "examples": [],
@@ -208,14 +224,19 @@
           "line": 208
         },
         {
+          "pin": "chat.outgoing-message",
+          "file": "../nodes/client-controller.js",
+          "line": 228
+        },
+        {
           "pin": "net.connection-state",
           "file": "../nodes/client-controller.js",
-          "line": 219
+          "line": 240
         },
         {
           "pin": "history.current-user",
           "file": "../nodes/client-controller.js",
-          "line": 226
+          "line": 247
         }
       ]
     },

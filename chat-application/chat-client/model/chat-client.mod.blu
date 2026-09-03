@@ -1,22 +1,75 @@
 {
   "header": {
-    "version": "1.11.0",
+    "version": "1.12.0",
     "created": "2026-02-11T11:09:28.315Z",
     "saved": "2026-08-29T08:35:50.666Z",
     "utc": "2026-08-29T08:35:50.666Z",
-    "runtime": "@vizualmodel/vmblu-runtime/rt-base",
+    "runtime": "@vizualmodel/vmblu-runtime/rt-browser-agent",
     "teams": {
       "default": {
         "color": "#0066ff"
       }
+    },
+    "agent": {
+      "schema": "https://vmblu.dev/schemas/agents.v1.json",
+      "version": 1,
+      "defaultInterface": "chat-assistant",
+      "profiles": [
+        {
+          "id": "chat-operator",
+          "title": "Chat operator",
+          "enabled": true,
+          "permissions": {
+            "tools": {
+              "allow": [
+                "chat.send-message"
+              ],
+              "deny": []
+            },
+            "probes": {
+              "allow": [
+                "chat.history"
+              ],
+              "deny": []
+            },
+            "events": {
+              "allow": [
+                "chat.message-received"
+              ],
+              "deny": []
+            }
+          },
+          "limits": {
+            "maxToolCallsPerTurn": 4
+          }
+        }
+      ],
+      "interfaces": [
+        {
+          "id": "chat-assistant",
+          "title": "Chat assistant",
+          "enabled": true,
+          "kind": "embedded",
+          "profile": "chat-operator",
+          "instructions": "Help the logged-in user participate in the conversation. Read chat.history when context is needed. Use chat.send-message only when the user explicitly asks you to send or reply. Treat chat.message-received as confirmation that the server broadcast a message.",
+          "llm": {
+            "provider": "openai",
+            "model": "gpt-4.1-mini",
+            "endpoint": "http://127.0.0.1:8787/v1"
+          },
+          "ui": {
+            "mode": "overlay"
+          }
+        }
+      ]
     }
   },
   "factories": [
-    "../nodes/login popup/index.js",
     "../nodes/message history/index.js",
     "../nodes/message composer/index.js",
     "../nodes/client-controller.js",
-    "../nodes/ws-transport.js"
+    "../nodes/ws-transport.js",
+    "../nodes/login popup/index.js"
   ],
   "types": {
     "UserName": {
@@ -110,6 +163,38 @@
         "text"
       ]
     },
+    "AgentSendMessage": {
+      "kind": "object",
+      "summary": "A chat message requested by the operating agent.",
+      "fields": {
+        "text": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "text"
+      ]
+    },
+    "AgentSendResult": {
+      "kind": "object",
+      "summary": "Whether an agent-requested message was accepted by the client.",
+      "fields": {
+        "accepted": {
+          "vmbluType": "boolean"
+        },
+        "status": {
+          "vmbluType": "string"
+        },
+        "text": {
+          "vmbluType": "string"
+        }
+      },
+      "required": [
+        "accepted",
+        "status",
+        "text"
+      ]
+    },
     "UiView": {
       "kind": "object",
       "summary": "A UI view element exposed by a node.",
@@ -137,58 +222,56 @@
     "nodes": [
       {
         "kind": "source",
-        "name": "login popup",
-        "promptRepo": {
-          "arl": "./prompts/login-popup.md",
-          "pathKind": 2
-        },
-        "factory": {
-          "path": "../nodes/login popup/index.js",
-          "function": "createLoginPopupNode"
-        },
-        "interfaces": [
-          {
-            "interface": "auth",
-            "pins": [
-              {
-                "name": "auth.login-submitted",
-                "kind": "output",
-                "contract": {
-                  "role": "owner",
-                  "payload": "UserName"
-                }
-              }
-            ]
-          },
-          {
-            "interface": "ui",
-            "pins": [
-              {
-                "name": "ui.get-view",
-                "kind": "reply",
-                "contract": {
-                  "role": "owner",
-                  "payload": {
-                    "request": "any",
-                    "reply": "UiView"
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "kind": "source",
         "name": "message history",
+        "team": "default",
         "promptRepo": {
           "arl": "./prompts/message-history.md",
+          "pathKind": 2
+        },
+        "testRepo": {
+          "arl": "../tests/nodes/message-history.md",
           "pathKind": 2
         },
         "factory": {
           "path": "../nodes/message history/index.js",
           "function": "createMessageHistoryNode"
         },
+        "probes": [
+          {
+            "enabled": true,
+            "id": "chat.history",
+            "name": "chat.history",
+            "title": "Chat history",
+            "description": "Returns the messages currently visible in the chat history.",
+            "kind": "state",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "userId": { "type": "string" },
+                      "userName": { "type": "string" },
+                      "text": { "type": "string" },
+                      "sentAt": { "type": "string" }
+                    },
+                    "required": ["id", "userId", "userName", "text", "sentAt"]
+                  }
+                }
+              },
+              "required": ["messages"]
+            },
+            "binding": {
+              "kind": "method",
+              "name": "chat.history",
+              "node": "message history",
+              "ref": "chat.history@message history"
+            }
+          }
+        ],
         "interfaces": [
           {
             "interface": "auth",
@@ -404,6 +487,29 @@
             ]
           },
           {
+            "interface": "agent",
+            "pins": [
+              {
+                "name": "agent.send-message",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "AgentSendMessage",
+                    "reply": "AgentSendResult"
+                  }
+                },
+                "tool": {
+                  "enabled": true,
+                  "id": "chat.send-message",
+                  "risk": "low",
+                  "approval": "never",
+                  "effects": []
+                }
+              }
+            ]
+          },
+          {
             "interface": "net",
             "pins": [
               {
@@ -559,6 +665,10 @@
                 "contract": {
                   "role": "owner",
                   "payload": "ChatMessage"
+                },
+                "event": {
+                  "enabled": true,
+                  "id": "chat.message-received"
                 }
               }
             ]
@@ -577,19 +687,52 @@
             ]
           }
         ]
+      },
+      {
+        "kind": "source",
+        "name": "login popup",
+        "promptRepo": {
+          "arl": "./prompts/login-popup.md",
+          "pathKind": 2
+        },
+        "factory": {
+          "path": "../nodes/login popup/index.js",
+          "function": "createLoginPopupNode"
+        },
+        "interfaces": [
+          {
+            "interface": "auth",
+            "pins": [
+              {
+                "name": "auth.login-submitted",
+                "kind": "output",
+                "contract": {
+                  "role": "owner",
+                  "payload": "UserName"
+                }
+              }
+            ]
+          },
+          {
+            "interface": "ui",
+            "pins": [
+              {
+                "name": "ui.get-view",
+                "kind": "reply",
+                "contract": {
+                  "role": "owner",
+                  "payload": {
+                    "request": "any",
+                    "reply": "UiView"
+                  }
+                }
+              }
+            ]
+          }
+        ]
       }
     ],
     "connections": [
-      {
-        "src": {
-          "pin": "auth.login-submitted",
-          "node": "login popup"
-        },
-        "dst": {
-          "pin": "auth.login-submitted",
-          "node": "client controller"
-        }
-      },
       {
         "src": {
           "pin": "auth.logout-request",
@@ -753,6 +896,16 @@
         },
         "dst": {
           "pin": "net.connection-state",
+          "node": "client controller"
+        }
+      },
+      {
+        "src": {
+          "pin": "auth.login-submitted",
+          "node": "login popup"
+        },
+        "dst": {
+          "pin": "auth.login-submitted",
           "node": "client controller"
         }
       }

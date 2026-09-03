@@ -1,11 +1,11 @@
 {
   "header": {
-    "version": "1.11.0",
+    "version": "1.12.0",
     "name": "Chat application",
-    "description": "Browser chat client and Node.js WebSocket server.",
+    "description": "Agent-enabled browser chat client, Node.js WebSocket server, and local LLM bridge.",
     "created": "2026-08-25T06:59:30.857Z",
-    "saved": "2026-08-28T14:28:51.427Z",
-    "utc": "2026-08-28T14:28:51.427Z"
+    "saved": "2026-09-02T17:14:16.968Z",
+    "utc": "2026-09-02T17:14:16.968Z"
   },
   "nodes": [
     {
@@ -15,8 +15,8 @@
       "vmblu": true,
       "description": "Browser application for login, message composition, and message history.",
       "position": {
-        "x": 519,
-        "y": 138.33331298828125
+        "x": 72.3333740234375,
+        "y": 491.00001525878906
       },
       "references": [
         {
@@ -25,8 +25,8 @@
           "target": "../chat-client/chat-client.blu"
         },
         {
-          "kind": "documentation",
-          "label": "Tutorial prompt",
+          "kind": "prompt",
+          "label": "Application prompt",
           "target": "prompt.md"
         },
         {
@@ -40,6 +40,18 @@
           "kind": "source",
           "label": "WebSocket transport",
           "target": "../chat-client/nodes/ws-transport.js"
+        },
+        {
+          "kind": "test",
+          "label": "Message history model test",
+          "target": "../chat-client/tests/nodes/message-history.md",
+          "command": "npm run test:model",
+          "workingDirectory": "../chat-client"
+        },
+        {
+          "kind": "other",
+          "label": "Agent capabilities",
+          "target": "../chat-client/model/chat-client.cap.json"
         }
       ],
       "endpoints": [
@@ -49,6 +61,12 @@
           "remarks": "WebSocket session initiated by the browser client.",
           "role": "client",
           "protocol": "chat.protocol.json"
+        },
+        {
+          "id": "agent-llm",
+          "name": "Embedded agent LLM",
+          "remarks": "The browser overlay sends model requests through the loopback bridge on port 8787.",
+          "role": "client"
         }
       ]
     },
@@ -59,8 +77,8 @@
       "vmblu": true,
       "description": "Node.js service that accepts clients and maintains chat state in memory.",
       "position": {
-        "x": 1181.3334045410156,
-        "y": 140
+        "x": 818.0000305175781,
+        "y": 309.6666564941406
       },
       "references": [
         {
@@ -69,8 +87,8 @@
           "target": "../chat-server/chat-server.blu"
         },
         {
-          "kind": "documentation",
-          "label": "Tutorial prompt",
+          "kind": "prompt",
+          "label": "Application prompt",
           "target": "prompt.md"
         },
         {
@@ -84,6 +102,13 @@
           "kind": "source",
           "label": "WebSocket gateway",
           "target": "../chat-server/nodes/ws-gateway.js"
+        },
+        {
+          "kind": "test",
+          "label": "Chat state model test",
+          "target": "../chat-server/tests/nodes/chat-state.md",
+          "command": "npm run test:model",
+          "workingDirectory": "../chat-server"
         }
       ],
       "endpoints": [
@@ -93,6 +118,77 @@
           "remarks": "WebSocket service listening on port 8080.",
           "role": "server",
           "protocol": "chat.protocol.json"
+        }
+      ]
+    },
+    {
+      "id": "local-llm-bridge",
+      "kind": "application",
+      "name": "Local LLM bridge",
+      "vmblu": false,
+      "description": "Loopback proxy that keeps the provider API key out of browser code.",
+      "position": {
+        "x": 828.33349609375,
+        "y": 532
+      },
+      "references": [
+        {
+          "kind": "documentation",
+          "label": "Bridge instructions",
+          "target": "../chat-client/.vmblu/llm-bridge/README.md"
+        },
+        {
+          "kind": "other",
+          "label": "Bridge configuration",
+          "target": "../chat-client/.vmblu/llm-bridge/config.json"
+        },
+        {
+          "kind": "operations",
+          "label": "Start bridge",
+          "target": "../chat-client/package.json",
+          "command": "npm run llm-bridge",
+          "workingDirectory": "../chat-client"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "browser-api",
+          "name": "Browser API",
+          "remarks": "OpenAI-compatible loopback endpoint at http://127.0.0.1:8787/v1.",
+          "role": "server"
+        },
+        {
+          "id": "provider-api",
+          "name": "Provider API",
+          "remarks": "Allowlisted provider requests with the local API key attached.",
+          "role": "client"
+        }
+      ]
+    },
+    {
+      "id": "model-provider",
+      "kind": "application",
+      "name": "Model provider",
+      "vmblu": false,
+      "description": "Hosted OpenAI API used by the embedded chat assistant.",
+      "position": {
+        "x": 1263.546795654297,
+        "y": 528.0833129882812
+      },
+      "references": [
+        {
+          "kind": "documentation",
+          "label": "API documentation",
+          "target": "https://platform.openai.com/docs/api-reference/responses"
+        }
+      ],
+      "endpoints": [
+        {
+          "id": "responses-api",
+          "name": "Responses API",
+          "remarks": "Hosted model inference endpoint.",
+          "role": "server",
+          "protocol": "https://platform.openai.com/docs/api-reference/responses"
         }
       ]
     }
@@ -122,6 +218,32 @@
           "target": "../chat-server/nodes/ws-gateway.js"
         }
       ]
+    },
+    {
+      "id": "agent-to-bridge",
+      "remarks": "The embedded browser agent sends model requests without receiving the provider key.",
+      "from": {
+        "node": "chat-client",
+        "endpoint": "agent-llm"
+      },
+      "to": {
+        "node": "local-llm-bridge",
+        "endpoint": "browser-api"
+      },
+      "transport": "http"
+    },
+    {
+      "id": "bridge-to-provider",
+      "remarks": "The local bridge forwards only allowlisted API paths and adds the key server-side.",
+      "from": {
+        "node": "local-llm-bridge",
+        "endpoint": "provider-api"
+      },
+      "to": {
+        "node": "model-provider",
+        "endpoint": "responses-api"
+      },
+      "transport": "https"
     }
   ],
   "references": [
@@ -132,8 +254,10 @@
     },
     {
       "kind": "operations",
-      "label": "Run client and server",
-      "target": "run.sh"
+      "label": "Run the complete tutorial system",
+      "target": "../README.md",
+      "command": "npm run dev",
+      "workingDirectory": ".."
     }
   ],
   "view": {

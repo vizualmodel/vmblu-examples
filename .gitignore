@@ -23,4 +23,9 @@ logs
 # chat-application
 **/node_modules
 **/dist
+**/.env
+**/.env.local
+
+# vmblu test execution reports
+**/tests/**/*.result.json
 

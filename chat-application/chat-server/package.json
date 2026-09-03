@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@vizualmodel/vmblu-runtime": ">=1.11.0 <1.12.0",
+    "@vizualmodel/vmblu-runtime": ">=1.12.0 <1.13.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@vizualmodel/vmblu-cli": ">=1.11.0 <1.12.0",
+    "@vizualmodel/vmblu-cli": ">=1.12.0 <1.13.0",
     "typescript": "^5.9.3"
   },
   "scripts": {
@@ -16,6 +16,7 @@
     "vm:profile": "vmblu profile chat-server.blu",
     "vm:app": "vmblu make-app chat-server.blu",
     "vm:capabilities": "vmblu make-capabilities chat-server.blu",
+    "test:model": "vmblu make-test node chat-server.blu --node \"chat state\" && vmblu run-test node chat-server.blu --node \"chat state\"",
     "start": "node model/chat-server.app.js",
     "check": "node --check model/chat-server.app.js && node --check nodes/ws-gateway.js && node --check nodes/chat-state.js"
   }

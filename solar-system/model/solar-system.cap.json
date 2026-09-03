@@ -4,15 +4,15 @@
   "provenance": {
     "generated": true,
     "artifact": "capabilities",
-    "compatibilityFamily": "1.11",
-    "schemaVersion": "1.11.0",
+    "compatibilityFamily": "1.12",
+    "schemaVersion": "1.12.0",
     "generator": {
       "name": "@vizualmodel/vmblu-core",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "source": {
       "model": "solar-system.mod.blu",
-      "hash": "fnv1a64:b9a7b9e3a992d70b"
+      "hash": "fnv1a64:1472af4b35793815"
     }
   },
   "application": {
@@ -22,15 +22,28 @@
   },
   "tools": [
     {
-      "id": "camera.command @ CameraManager",
+      "id": "camera.command",
       "title": "Camera Command",
-      "description": "Receives a camera placement or movement command.",
+      "description": "Send camera.command to CameraManager.",
       "input": {
         "node": "CameraManager",
         "pin": "camera.command",
         "ref": "camera.command@CameraManager",
         "payload": "CameraCommand",
-        "schema": {}
+        "schema": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "params": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        }
       },
       "effects": [],
       "risk": "low",
@@ -40,15 +53,37 @@
   "probes": [],
   "events": [
     {
-      "id": "camera.event @ CameraManager",
+      "id": "camera.event",
       "title": "Camera Event",
-      "description": "Emits semantic camera changes for agent observation.",
+      "description": "Observed when CameraManager emits camera.event.",
       "source": {
         "node": "CameraManager",
         "pin": "camera.event",
         "ref": "camera.event@CameraManager"
       },
-      "schema": {}
+      "schema": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "cameraId": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "followBodyId": {
+            "type": "object"
+          },
+          "targetBodyId": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      }
     }
   ],
   "policies": {

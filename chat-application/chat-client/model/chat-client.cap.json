@@ -4,15 +4,15 @@
   "provenance": {
     "generated": true,
     "artifact": "capabilities",
-    "compatibilityFamily": "1.11",
-    "schemaVersion": "1.11.0",
+    "compatibilityFamily": "1.12",
+    "schemaVersion": "1.12.0",
     "generator": {
       "name": "@vizualmodel/vmblu-core",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     "source": {
       "model": "chat-client.mod.blu",
-      "hash": "fnv1a64:b4f51bdc23aec04d"
+      "hash": "fnv1a64:e1c7e1f0c7ed0a8b"
     }
   },
   "application": {
@@ -20,9 +20,149 @@
     "title": "Root",
     "description": "Root application."
   },
-  "tools": [],
-  "probes": [],
-  "events": [],
+  "tools": [
+    {
+      "id": "chat.send-message",
+      "title": "Agent Send Message",
+      "description": "Send agent.send-message to client controller.",
+      "input": {
+        "node": "client controller",
+        "pin": "agent.send-message",
+        "ref": "agent.send-message@client controller",
+        "payload": "AgentSendMessage",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "description": "A chat message requested by the operating agent."
+        }
+      },
+      "effects": [],
+      "risk": "low",
+      "approval": "never",
+      "output": {
+        "payload": "AgentSendResult",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "accepted": {
+              "type": "boolean"
+            },
+            "status": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "accepted",
+            "status",
+            "text"
+          ],
+          "description": "Whether an agent-requested message was accepted by the client."
+        }
+      }
+    }
+  ],
+  "probes": [
+    {
+      "id": "chat.history",
+      "title": "Chat history",
+      "description": "Returns the messages currently visible in the chat history.",
+      "kind": "state",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "userName": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "sentAt": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "userId",
+                "userName",
+                "text",
+                "sentAt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "messages"
+        ]
+      },
+      "binding": {
+        "kind": "method",
+        "name": "chat.history",
+        "node": "message history",
+        "ref": "chat.history@message history"
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "chat.message-received",
+      "title": "Chat Incoming Message",
+      "description": "Observed when ws transport emits chat.incoming-message.",
+      "source": {
+        "node": "ws transport",
+        "pin": "chat.incoming-message",
+        "ref": "chat.incoming-message@ws transport"
+      },
+      "schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "sentAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "userName",
+          "text",
+          "sentAt"
+        ],
+        "description": "One chat message shown in the client."
+      }
+    }
+  ],
   "policies": {
     "defaultApproval": "never"
   },

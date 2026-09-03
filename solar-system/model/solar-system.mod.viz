@@ -1,7 +1,9 @@
 {
   "header": {
-    "version": "1.11.0",
-    "utc": "2026-08-29T08:35:50.578Z",
+    "version": "1.12.0",
+    "created": "2026-02-26T14:11:29.381Z",
+    "saved": "2026-09-01T17:18:53.370Z",
+    "utc": "2026-09-01T17:18:53.370Z",
     "style": "#00aaff"
   },
   "root": {
@@ -76,8 +78,8 @@
         "rect": "x 751 y 30 w 150 h 221",
         "view": {
           "state": "closed",
-          "rect": "x 166 y 183 w 1109 h 562",
-          "transform": "sx 1.000 sy 1.000 dx 76.000 dy 305.000"
+          "rect": "x 40 y 773 w 1109 h 562",
+          "transform": "sx 1.000 sy 1.000 dx 2.000 dy 908.000"
         },
         "interfaces": [
           {
@@ -115,9 +117,9 @@
           }
         ],
         "pads": [
-          "(17 R)x 1020 y 6 w 95 h 15|scene.updates",
+          "(17 R)x 1056 y 6 w 95 h 15|scene.updates",
           "(18 R)x 1020 y 178 w 113 h 15|scene.animatables",
-          "(19 R)x 1020 y 198 w 111 h 15|scene.body-poses",
+          "(19 R)x 1021 y 216 w 111 h 15|scene.body-poses",
           "(24 R)x 1020 y 65 w 105 h 15|render.command",
           "(21 R)x 1021 y 281 w 110 h 15|camera.command",
           "(22 R)x 1023 y 341 w 92 h 15|camera.active",
@@ -196,7 +198,7 @@
             "wire": "x -113.0 y 231.0 x -364.0"
           },
           {
-            "start": "x 1020 y 13.5",
+            "start": "x 1059 y -27.5",
             "wire": "x -359.0"
           },
           {
@@ -204,30 +206,30 @@
             "wire": "x 690.0"
           },
           {
-            "start": "x 1020 y 205.5",
-            "wire": "x -667.0 y -89.0 x -34.0"
+            "start": "x 319 y 116.5",
+            "wire": "x 34.0 y 107.0 x 586.0"
           }
         ],
         "routes": [
           {
             "from": "(pin 8) layout.state @ ScreenLayout",
             "to": "(cable 0 endpoint nonselective)",
-            "wire": "y 0.0"
+            "wire": "x 25.0 y 0.0 x -25.0"
           },
           {
             "from": "(pin 10) anim.scene-patches @ Animator",
             "to": "(cable 1 nonselective)",
-            "wire": "x 59.0 y -121.5 x 339.0 y 63.5"
+            "wire": "x 59.0 y -121.5 x 378.0 y 22.5"
           },
           {
             "from": "(pin 10) camera.active @ CameraManager",
             "to": "(cable 2 endpoint nonselective)",
-            "wire": "y 0.0"
+            "wire": "x 35.0 y 0.0 x -35.0"
           },
           {
-            "from": "(cable 1 endpoint nonselective)",
+            "from": "(cable 1 nonselective)",
             "to": "(pad 17) scene.updates",
-            "wire": "y 0.0"
+            "wire": "y 41.0 x 65.5"
           },
           {
             "from": "(pad 18) scene.animatables",
@@ -237,12 +239,12 @@
           {
             "from": "(cable 3 endpoint nonselective)",
             "to": "(pad 19) scene.body-poses",
-            "wire": "y 0.0"
+            "wire": "x 0.1 x 81.9"
           },
           {
             "from": "(pad 24) render.command",
             "to": "(pin 6) layout.command @ ScreenLayout",
-            "wire": "x -60.0"
+            "wire": "x -30.5 y 0.0 x -29.5"
           },
           {
             "from": "(pad 21) camera.command",
@@ -257,12 +259,12 @@
           {
             "from": "(pad 26) overlay.chart",
             "to": "(pin 7) layout.chart-overlay @ ScreenLayout",
-            "wire": "x -60.0"
+            "wire": "x -30.5 y 0.0 x -29.5"
           },
           {
             "from": "(cable 0 endpoint nonselective)",
             "to": "(pin 9) camera.layout @ CameraManager",
-            "wire": "y 0.0"
+            "wire": "x 25.0 y 0.0 x -25.0"
           },
           {
             "from": "(cable 0 nonselective)",
@@ -270,14 +272,14 @@
             "wire": "y -74.0 x -79.0"
           },
           {
-            "from": "(cable 1 endpoint nonselective)",
+            "from": "(cable 1 nonselective)",
             "to": "(pin 6) render.scene-patches @ Renderer",
-            "wire": "y 0.0"
+            "wire": "y 41.0 x -68.5"
           },
           {
             "from": "(pad 22) camera.active",
             "to": "(cable 2 endpoint nonselective)",
-            "wire": "y 0.0"
+            "wire": "x 25.0 y 0.0 x -25.0"
           },
           {
             "from": "(cable 2 nonselective)",
@@ -287,12 +289,12 @@
           {
             "from": "(cable 3 endpoint nonselective)",
             "to": "(pin 9) anim.body-poses @ Animator",
-            "wire": "y 0.0"
+            "wire": "x 25.0 y 0.0 x -25.0"
           },
           {
             "from": "(cable 3 nonselective)",
             "to": "(pin 8) camera.body-poses @ CameraManager",
-            "wire": "y 113.0 x -548.0"
+            "wire": "y 95.0 x -548.0"
           }
         ]
       },
@@ -302,8 +304,8 @@
         "rect": "x 390 y 411 w 150 h 191",
         "view": {
           "state": "closed",
-          "rect": "x 96 y 716 w 948 h 434",
-          "transform": "sx 1.000 sy 1.000 dx -224.305 dy 814.039"
+          "rect": "x 50 y 555 w 948 h 434",
+          "transform": "sx 1.000 sy 1.000 dx -270.305 dy 653.039"
         },
         "interfaces": [
           {
@@ -341,7 +343,7 @@
           "(20 R)x 1079 y 113 w 113 h 15|scene.animatables",
           "(21 R)x 1079 y 176 w 111 h 15|scene.body-poses",
           "(22 R)x 1079 y 191 w 117 h 15|scene.body-catalog",
-          "(15 R)x 1079 y -18 w 63 h 15|sim.tick"
+          "(15 R)x 1079 y -18 w 70 h 15|sim.tick"
         ],
         "nodes": [
           {
@@ -494,7 +496,7 @@
         "pads": [
           "(8 R)x 488 y 65 w 99 h 15|chart.command",
           "(9 R)x 488 y 110 w 87 h 15|chart.overlay",
-          "(11 R)x 488 y 80 w 100 h 15|sim.body-poses",
+          "(11 R)x 488 y 80 w 112 h 15|sim.body-poses",
           "(12 R)x 488 y 95 w 63 h 15|sim.tick"
         ],
         "nodes": [
@@ -572,12 +574,12 @@
         "floating": true
       },
       {
-        "start": "x 219 y 497.5",
-        "wire": "x 46.0 y 156.5 x 451.0 y -446.5 x 35.0"
+        "start": "x 265 y 497.5",
+        "wire": "y 156.5 x 451.0 y -446.5"
       },
       {
-        "start": "x 751 y 177.5",
-        "wire": "x -65.0 y 118.5 x -377.0 y -178.5 x -83.0"
+        "start": "x 687 y 177.5",
+        "wire": "y 142.7 x -378.0 y -202.7"
       }
     ],
     "routes": [
@@ -589,7 +591,7 @@
       {
         "from": "(pin 9) clock.tick @ SimulationClock",
         "to": "(cable 1 endpoint nonselective)",
-        "wire": "y 0.0"
+        "wire": "x 25.0 y 0.0 x 21.0"
       },
       {
         "from": "(pin 32) ui.panel @ CommandRouter",
@@ -629,7 +631,7 @@
       {
         "from": "(pin 22) camera.active @ Rendering",
         "to": "(cable 2 endpoint nonselective)",
-        "wire": "y 0.0"
+        "wire": "x -45.0 y 0.0 x -19.0"
       },
       {
         "from": "(pin 19) scene.updates @ SolarSystem",
@@ -674,7 +676,7 @@
       {
         "from": "(cable 1 endpoint nonselective)",
         "to": "(pin 15) sim.tick @ Rendering",
-        "wire": "y 0.0"
+        "wire": "x 25.0 y 0.0 x 10.0"
       },
       {
         "from": "(cable 1 nonselective)",
@@ -689,12 +691,12 @@
       {
         "from": "(cable 2 endpoint nonselective)",
         "to": "(pin 10) camera.state @ IconMenu",
-        "wire": "y 0.0"
+        "wire": "x -25.0 y 0.0 x -58.0"
       },
       {
         "from": "(cable 2 nonselective)",
         "to": "(pin 17) camera.state @ SolarSystem",
-        "wire": "y 187.5 x -22.0"
+        "wire": "y 163.3 x -22.0"
       }
     ]
   }

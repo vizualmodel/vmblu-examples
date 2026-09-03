@@ -21,7 +21,7 @@
     "vm:capabilities": "npm run vm:capabilities --workspaces --if-present"
   },
   "devDependencies": {
-    "@vizualmodel/vmblu-cli": ">=1.11.0 <1.12.0",
+    "@vizualmodel/vmblu-cli": ">=1.12.0 <1.13.0",
     "ajv": "^8.18.0"
   }
 }
