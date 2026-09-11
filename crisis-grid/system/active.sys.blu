@@ -1,6 +1,6 @@
 {
   "header": {
-    "version": "1.12.0",
+    "version": "1.12.1",
     "name": "CrisisGrid",
     "description": "Command-centre browser application connected to the local Operational Core Service."
   },

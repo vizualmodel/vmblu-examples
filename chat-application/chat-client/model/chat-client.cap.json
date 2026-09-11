@@ -5,14 +5,14 @@
     "generated": true,
     "artifact": "capabilities",
     "compatibilityFamily": "1.12",
-    "schemaVersion": "1.12.0",
+    "schemaVersion": "1.12.1",
     "generator": {
       "name": "@vizualmodel/vmblu-core",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "source": {
       "model": "chat-client.mod.blu",
-      "hash": "fnv1a64:e1c7e1f0c7ed0a8b"
+      "hash": "fnv1a64:3acac2090d6536b6"
     }
   },
   "application": {

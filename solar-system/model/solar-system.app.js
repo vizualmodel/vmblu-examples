@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // Model: Root
-// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.12","schemaVersion":"1.12.0","generator":{"name":"@vizualmodel/vmblu-core","version":"1.12.0"},"source":{"model":"solar-system.mod.blu","hash":"fnv1a64:1472af4b35793815"}}
+// @vmblu-generated {"generated":true,"artifact":"application","compatibilityFamily":"1.12","schemaVersion":"1.12.1","generator":{"name":"@vizualmodel/vmblu-core","version":"1.12.1"},"source":{"model":"solar-system.mod.blu","hash":"fnv1a64:e7aa5d2b6f667f8e"}}
 // ------------------------------------------------------------------
 
 // import the runtime code
@@ -29,18 +29,18 @@ const nodeList = [
 	//_____________________________________________SIMULATIONCLOCK
 	{
 	name: "SimulationClock",
-	uid: "gCkm",
+	uid: "ThsU",
 	factory: createSimulationClock,
 	inputs: [
 		"-> clock.configure",
 		"-> clock.control"
 		],
 	outputs: [
-		"clock.state -> sim.state @ IconMenu (yvmr)",
+		"clock.state -> sim.state @ IconMenu (JoRo)",
 		`clock.tick -> [ 
-			"anim.tick @ Animator (Shom)",
-			"sim.tick @ EphemerisEngine (OwKg)",
-			"chart.tick @ DistanceChart (kbHb)" ]`
+			"anim.tick @ Animator (OVaX)",
+			"sim.tick @ EphemerisEngine (lqOn)",
+			"chart.tick @ DistanceChart (ayXq)" ]`
 		],
 	sx:	{
 		    "tickMs": 50,
@@ -52,28 +52,28 @@ const nodeList = [
 	//_______________________________________________COMMANDROUTER
 	{
 	name: "CommandRouter",
-	uid: "acPE",
+	uid: "jrEH",
 	factory: createCommandRouter,
 	inputs: [
 		"-> ui.command"
 		],
 	outputs: [
-		"ui.panel -> ui.panel @ IconMenu (yvmr)",
-		"render.view -> layout.command @ ScreenLayout (xiYZ)",
-		"render.camera -> camera.command @ CameraManager (aEGT)",
-		"chart.command -> chart.command @ DistanceChart (kbHb)",
+		"ui.panel -> ui.panel @ IconMenu (JoRo)",
+		"render.view -> layout.command @ ScreenLayout (VHIw)",
+		"render.camera -> camera.command @ CameraManager (wudi)",
+		"chart.command -> chart.command @ DistanceChart (ayXq)",
 		`solar.command -> [ 
-			"solar.command @ EphemerisEngine (OwKg)",
-			"scene.command @ BodyVisuals (ufZN)",
-			"sky.command @ CelestialSphere (WOCG)" ]`,
-		"clock.config -> clock.configure @ SimulationClock (gCkm)",
-		"clock.control -> clock.control @ SimulationClock (gCkm)"
+			"solar.command @ EphemerisEngine (lqOn)",
+			"scene.command @ BodyVisuals (dvnI)",
+			"sky.command @ CelestialSphere (XXdA)" ]`,
+		"clock.config -> clock.configure @ SimulationClock (ThsU)",
+		"clock.control -> clock.control @ SimulationClock (ThsU)"
 		]
 	},
 	//________________________________________________SCREENLAYOUT
 	{
 	name: "ScreenLayout",
-	uid: "xiYZ",
+	uid: "VHIw",
 	factory: createScreenLayout,
 	inputs: [
 		"-> layout.command",
@@ -81,8 +81,8 @@ const nodeList = [
 		],
 	outputs: [
 		`layout.state -> [ 
-			"camera.layout @ CameraManager (aEGT)",
-			"render.layout @ Renderer (cLtB)" ]`
+			"camera.layout @ CameraManager (wudi)",
+			"render.layout @ Renderer (cJxN)" ]`
 		],
 	sx:	{
 		    "ambientIntensity": 7,
@@ -94,7 +94,7 @@ const nodeList = [
 	//____________________________________________________RENDERER
 	{
 	name: "Renderer",
-	uid: "cLtB",
+	uid: "cJxN",
 	factory: createRenderer,
 	inputs: [
 		"-> render.scene-patches",
@@ -106,7 +106,7 @@ const nodeList = [
 	//____________________________________________________ANIMATOR
 	{
 	name: "Animator",
-	uid: "Shom",
+	uid: "OVaX",
 	factory: createAnimator,
 	inputs: [
 		"-> anim.tick",
@@ -114,13 +114,13 @@ const nodeList = [
 		"-> anim.body-poses"
 		],
 	outputs: [
-		"anim.scene-patches -> render.scene-patches @ Renderer (cLtB)"
+		"anim.scene-patches -> render.scene-patches @ Renderer (cJxN)"
 		]
 	},
 	//_______________________________________________CAMERAMANAGER
 	{
 	name: "CameraManager",
-	uid: "aEGT",
+	uid: "wudi",
 	factory: createCameraManager,
 	inputs: [
 		"-> camera.command",
@@ -130,10 +130,10 @@ const nodeList = [
 	outputs: [
 		"ol/ -> ()",
 		`camera.active -> [ 
-			"camera.state @ IconMenu (yvmr)",
-			"scene.camera @ BodyVisuals (ufZN)",
-			"sky.camera @ CelestialSphere (WOCG)",
-			"render.camera @ Renderer (cLtB)" ]`,
+			"camera.state @ IconMenu (JoRo)",
+			"scene.camera @ BodyVisuals (dvnI)",
+			"sky.camera @ CelestialSphere (XXdA)",
+			"render.camera @ Renderer (cJxN)" ]`,
 		"camera.event -> ()"
 		],
 	sx:	{
@@ -179,7 +179,7 @@ const nodeList = [
 	//_____________________________________________EPHEMERISENGINE
 	{
 	name: "EphemerisEngine",
-	uid: "OwKg",
+	uid: "lqOn",
 	factory: createEphemerisEngine,
 	inputs: [
 		"-> sim.tick",
@@ -187,16 +187,16 @@ const nodeList = [
 		],
 	outputs: [
 		`orb.body-poses -> [ 
-			"scene.body-poses @ BodyVisuals (ufZN)",
-			"anim.body-poses @ Animator (Shom)",
-			"camera.body-poses @ CameraManager (aEGT)" ]`,
+			"scene.body-poses @ BodyVisuals (dvnI)",
+			"anim.body-poses @ Animator (OVaX)",
+			"camera.body-poses @ CameraManager (wudi)" ]`,
 		"orb.body-catalog -> ()"
 		]
 	},
 	//_________________________________________________BODYVISUALS
 	{
 	name: "BodyVisuals",
-	uid: "ufZN",
+	uid: "dvnI",
 	factory: createBodyVisuals,
 	inputs: [
 		"-> scene.body-poses",
@@ -204,8 +204,8 @@ const nodeList = [
 		"-> scene.camera"
 		],
 	outputs: [
-		"scene.updates -> render.scene-patches @ Renderer (cLtB)",
-		"scene.animatables -> anim.registry @ Animator (Shom)"
+		"scene.updates -> render.scene-patches @ Renderer (cJxN)",
+		"scene.animatables -> anim.registry @ Animator (OVaX)"
 		],
 	sx:	{
 		    "visualScale": 1500,
@@ -218,14 +218,14 @@ const nodeList = [
 	//_____________________________________________CELESTIALSPHERE
 	{
 	name: "CelestialSphere",
-	uid: "WOCG",
+	uid: "XXdA",
 	factory: createCelestialSphere,
 	inputs: [
 		"-> sky.command",
 		"-> sky.camera"
 		],
 	outputs: [
-		"sky.scene-updates -> render.scene-patches @ Renderer (cLtB)"
+		"sky.scene-updates -> render.scene-patches @ Renderer (cJxN)"
 		],
 	sx:	{
 		    "radius": 2500,
@@ -238,7 +238,7 @@ const nodeList = [
 	//_______________________________________________DISTANCECHART
 	{
 	name: "DistanceChart",
-	uid: "kbHb",
+	uid: "ayXq",
 	factory: createDistanceChart,
 	inputs: [
 		"-> chart.command",
@@ -246,7 +246,7 @@ const nodeList = [
 		"-> chart.tick"
 		],
 	outputs: [
-		"chart.overlay -> layout.chart-overlay @ ScreenLayout (xiYZ)"
+		"chart.overlay -> layout.chart-overlay @ ScreenLayout (VHIw)"
 		],
 	sx:	{
 		    "width": 420
@@ -255,7 +255,7 @@ const nodeList = [
 	//____________________________________________________ICONMENU
 	{
 	name: "IconMenu",
-	uid: "yvmr",
+	uid: "JoRo",
 	factory: createIconMenu,
 	inputs: [
 		"-> ui.panel",
@@ -263,7 +263,7 @@ const nodeList = [
 		"-> sim.state"
 		],
 	outputs: [
-		"ui.command -> ui.command @ CommandRouter (acPE)"
+		"ui.command -> ui.command @ CommandRouter (jrEH)"
 		],
 	sx:	{
 		    "baseAmbientIntensity": 7,
@@ -284,7 +284,7 @@ const nodeList = [
 
 // Runtime options
 const runtimeOptions = {
-    vmblu: {"compatibilityFamily":"1.12","generatorVersion":"1.12.0","schemaVersion":"1.12.0"},
+    vmblu: {"compatibilityFamily":"1.12","generatorVersion":"1.12.1","schemaVersion":"1.12.1"},
     capabilities,
     agent
 }

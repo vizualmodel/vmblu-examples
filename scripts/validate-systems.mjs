@@ -4,14 +4,14 @@ import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
 
 // Validate every gallery example's system/active.sys.blu document.
-// The validator uses the sysblu schema shipped with vmblu CLI 1.12.0.
+// The validator uses the sysblu schema shipped with vmblu CLI 1.12.1.
 // It also checks node and endpoint uniqueness and connection references.
 // Local model, protocol, source, build, and documentation targets must exist.
 // References may not escape the vmblu-examples repository.
 // Every model listed in the gallery manifest must appear in its active system.
 // All discovered problems are collected and reported in a single run.
 
-const schemaVersion = "1.12.0";
+const schemaVersion = "1.12.1";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifest = JSON.parse(await readFile(path.join(root, "gallery-manifest.json"), "utf8"));
 const schema = JSON.parse(
