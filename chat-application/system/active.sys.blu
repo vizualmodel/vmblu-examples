@@ -1,6 +1,6 @@
 {
   "header": {
-    "version": "1.12.0",
+    "version": "1.12.1",
     "name": "Chat application",
     "description": "Agent-enabled browser chat client, Node.js WebSocket server, and local LLM bridge.",
     "created": "2026-08-25T06:59:30.857Z",

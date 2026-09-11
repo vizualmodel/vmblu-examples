@@ -5,14 +5,14 @@
     "generated": true,
     "artifact": "capabilities",
     "compatibilityFamily": "1.12",
-    "schemaVersion": "1.12.0",
+    "schemaVersion": "1.12.1",
     "generator": {
       "name": "@vizualmodel/vmblu-core",
-      "version": "1.12.0"
+      "version": "1.12.1"
     },
     "source": {
       "model": "command-centre-web.mod.blu",
-      "hash": "fnv1a64:130711fb276f895b"
+      "hash": "fnv1a64:24d42c67d2ba8560"
     }
   },
   "application": {

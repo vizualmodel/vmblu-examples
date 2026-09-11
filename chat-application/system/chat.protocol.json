@@ -1,6 +1,6 @@
 {
   "header": {
-    "version": "1.12.0",
+    "version": "1.12.1",
     "name": "Chat",
     "description": "Login, history delivery, and live chat messages between the browser client and chat server."
   },

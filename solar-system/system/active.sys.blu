@@ -1,6 +1,6 @@
 {
   "header": {
-    "version": "1.12.0",
+    "version": "1.12.1",
     "name": "Solar system with OpenAI",
     "description": "Browser solar-system application using a local LLM bridge to reach the OpenAI API.",
     "created": "2026-08-27T20:00:00.000Z",
