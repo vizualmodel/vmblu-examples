@@ -28,13 +28,13 @@ deployment design.
 Use two terminals:
 
 ```powershell
-cd C:\dev\vmblu-examples\crisis-grid\operational-core-service
+cd C:\dev\vmblu-tutorials\crisis-grid\operational-core-service
 npm.cmd install
 npm.cmd start
 ```
 
 ```powershell
-cd C:\dev\vmblu-examples\crisis-grid\command-centre-web
+cd C:\dev\vmblu-tutorials\crisis-grid\command-centre-web
 npm.cmd install
 npm.cmd run dev
 ```

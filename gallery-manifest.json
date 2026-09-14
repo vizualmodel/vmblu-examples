@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "repository": "vizualmodel/vmblu-examples",
+  "repository": "vizualmodel/vmblu-tutorials",
   "ref": "main",
-  "rawBase": "https://raw.githubusercontent.com/vizualmodel/vmblu-examples/main/",
-  "pagesBase": "https://vizualmodel.github.io/vmblu-examples/",
+  "rawBase": "https://raw.githubusercontent.com/vizualmodel/vmblu-tutorials/main/",
+  "pagesBase": "https://vizualmodel.github.io/vmblu-tutorials/",
   "examples": [
     {
       "id": "chat-application",

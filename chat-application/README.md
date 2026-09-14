@@ -3,7 +3,7 @@
 This vmblu 1.12 example combines a Svelte browser client, a Node.js WebSocket
 server, formal node tests, a Sysblu system map and an embedded operating agent.
 
-Install dependencies from the `vmblu-examples` repository root:
+Install dependencies from the `vmblu-tutorials` repository root:
 
 ```bash
 npm install
